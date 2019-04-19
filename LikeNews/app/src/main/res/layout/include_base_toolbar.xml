@@ -16,7 +16,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        android:id="@+id/ivBack"
+        android:id="@+id/barLeft"
         android:layout_width="25dp"
         android:layout_height="25dp"
         tools:src="@mipmap/icon_left"

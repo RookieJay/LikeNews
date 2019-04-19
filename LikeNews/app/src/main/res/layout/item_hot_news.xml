@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:padding="10dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:id="@+id/rlNews">
+
+    <ImageView
+        android:id="@+id/ivNewsImg"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@drawable/ic_drawable_icon_signal_fill"
+        android:background="@color/colorPrimary"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/tvNewsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ivNewsImg"
+        android:layout_toEndOf="@+id/ivNewsImg"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_alignTop="@+id/ivNewsImg"
+        android:textColor="@color/black"
+        tools:text="@string/app_name"
+        android:maxLines="2"
+        android:textSize="18sp"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tvNewsSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tvNewsTitle"
+        android:layout_alignStart="@id/tvNewsTitle"
+        tools:text="@string/hint_news_source"
+        android:textSize="12sp"
+        android:layout_alignBottom="@id/ivNewsImg"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tvReviewCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/hint_news_review_count"
+        android:layout_toEndOf="@+id/tvNewsSource"
+        android:layout_toRightOf="@+id/tvNewsSource"
+        android:layout_alignBottom="@id/ivNewsImg"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tvNewsTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/hint_news_time"
+        android:layout_toEndOf="@+id/tvReviewCount"
+        android:layout_toRightOf="@+id/tvReviewCount"
+        android:layout_alignBottom="@id/ivNewsImg"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:textSize="12sp"/>
+
+</RelativeLayout>

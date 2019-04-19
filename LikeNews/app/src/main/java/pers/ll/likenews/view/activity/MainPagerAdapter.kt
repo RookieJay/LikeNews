@@ -1,11 +1,11 @@
-package pers.ll.likenews.view
+package pers.ll.likenews.view.activity
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
 
-class MainPagerAdapter(fm: FragmentManager, fragmentList: Array<Fragment>?) : FragmentPagerAdapter(fm) {
+class MainPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     private var fragmentList = arrayListOf<Fragment>()
     private lateinit var fm: FragmentManager

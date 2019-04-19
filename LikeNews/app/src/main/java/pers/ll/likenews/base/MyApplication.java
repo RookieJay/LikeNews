@@ -1,6 +1,7 @@
 package pers.ll.likenews.base;
 
 import android.app.Application;
+import pers.ll.likenews.utils.AppUtils;
 
 /**
  * 自定义Application，初始化一些全局数据

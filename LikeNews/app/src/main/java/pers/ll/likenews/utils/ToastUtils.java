@@ -1,4 +1,4 @@
-package pers.ll.likenews.base;
+package pers.ll.likenews.utils;
 
 import android.os.Handler;
 import android.os.Looper;

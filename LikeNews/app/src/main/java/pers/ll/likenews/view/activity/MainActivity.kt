@@ -5,14 +5,12 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
-import pers.ll.likenews.view.MainPagerAdapter
 import pers.ll.likenews.view.fragment.HomeFragment
 import pers.ll.likenews.view.fragment.NewsFragment
 import pers.ll.likenews.view.fragment.PersonalFragment
@@ -76,8 +74,8 @@ class MainActivity : AppCompatActivity() {
         initToolbar()
         initNavigation()
         viewPager.setCurrentItem(0, true)
-
-        adapter = MainPagerAdapter()
+        viewPager.offscreenPageLimit = 3
+        adapter = MainPagerAdapter(supportFragmentManager)
         initData()
         viewPager.adapter = adapter
     }
@@ -94,7 +92,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-        barTitle.text = resources.getString(R.string.title_home)
+//        barTitle.text = resources.getString(R.string.title_home)
     }
 
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) = beginTransaction().func().commit()

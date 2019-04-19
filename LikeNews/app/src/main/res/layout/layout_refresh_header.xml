@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/gray"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_gravity="bottom"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:src="@mipmap/icon_arrow_up"/>
+
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:indeterminateDrawable="@drawable/drawable_progress"
+            android:visibility="invisible"
+            tools:visibility="visible"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_text"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="下拉刷新"
+            android:textColor="#fff"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="13sp"
+            android:text="第一次刷新"
+            android:textColor="#fff"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,11 +1,14 @@
 package pers.ll.likenews.base
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import pers.ll.likenews.utils.ToastUtils
 import java.lang.Exception
 
 abstract class BaseFragment : Fragment() {
@@ -15,15 +18,26 @@ abstract class BaseFragment : Fragment() {
     private var isInitView = false
     protected var mRootView : View? = null
     private var isVisibleToUser = false
+    protected lateinit var mContext : Context
+    private lateinit var mActivity : Activity
 
+    override fun getContext() : Context {
+        return MyApplication.getInstance()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        mContext = this.context
+    }
 
     /**
      * 初始化布局
      */
-    abstract fun initLayoutId() : Int
+    protected abstract fun setContentView() : Int
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val layoutId = initLayoutId()
+        Log.d(TAG, "onCreateView")
+        val layoutId = setContentView()
         if (layoutId == 0) {
             throw Exception("初始化界面失败，如果您不希望使用layoutId，请重写onCreateView()方法实现您自己的view")
         }
@@ -31,14 +45,21 @@ abstract class BaseFragment : Fragment() {
         return mRootView
     }
 
+    /**
+     * 让布局中的view与fragment中的变量建立起映射
+     */
+    protected abstract fun initView()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initView()
         isInitView = true
-        lazyLoad()
+        canLoadData()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d(TAG, "启动")
+        Log.d(TAG, "onActivityCreated")
+
     }
 
     /**
@@ -54,7 +75,7 @@ abstract class BaseFragment : Fragment() {
         print("setUserVisibleHint$isVisibleToUser")
         if (isVisibleToUser) {
             this.isVisibleToUser = true
-            lazyLoad()
+            canLoadData()
             mHaveLoadData = true
         } else{
             this.isVisibleToUser = false
@@ -64,11 +85,12 @@ abstract class BaseFragment : Fragment() {
     /**
      * 检查是否可以开始加载数据
      */
-    private fun lazyLoad() {
-        Log.d(TAG, "懒加载")
+    private fun canLoadData() {
         // 双重标记：如果还没有加载过数据 && 用户切换到了这个fragment
         // 那就开始加载数据
         if (isVisibleToUser && isInitView) {
+            Log.d(TAG, "开始加载数据")
+            ToastUtils.showShort("${TAG}开始加载数据")
             loadData()
             //防止重复加载
             isVisibleToUser = false
@@ -77,9 +99,9 @@ abstract class BaseFragment : Fragment() {
     }
 
     /**
-     * 开始加载数据
+     * 加载数据
      */
-    abstract fun loadData()
+    protected abstract fun loadData()
 
     protected fun findViewById(id : Int) : View? {
         return if (view != null && id > 0) {
