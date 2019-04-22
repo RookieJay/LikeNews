@@ -25,6 +25,20 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+/**
+ * 导入第三方包后报错：all com.android.support libraries must use the exact same version specification(mixing versions can lead to runtime crashes)
+ * 让所有的第三方包强制使用指定版本的support包
+* */
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '28.0.0'
+            }
+        }
+    }
+}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
