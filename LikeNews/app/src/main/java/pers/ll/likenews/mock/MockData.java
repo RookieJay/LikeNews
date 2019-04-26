@@ -18,7 +18,7 @@ public class MockData {
         InputStreamReader streamReader = null;
         BufferedReader bufferedReader = null;
         try {
-            streamReader = new InputStreamReader(context.getAssets().open("news.json"), "UTF-8");
+            streamReader = new InputStreamReader(context.getAssets().open("content.json"), "UTF-8");
             bufferedReader = new BufferedReader(streamReader);
             String line;
             StringBuilder stringBuilder = new StringBuilder();

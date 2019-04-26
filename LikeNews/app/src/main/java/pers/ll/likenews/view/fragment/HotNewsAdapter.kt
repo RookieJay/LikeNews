@@ -7,15 +7,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
 
 import pers.ll.likenews.R
 import pers.ll.likenews.model.News
+import pers.ll.likenews.utils.TimeUtils
+import java.util.*
 
-import java.util.ArrayList
 
 class HotNewsAdapter(newsList: ArrayList<News>) : RecyclerView.Adapter<HotNewsAdapter.HotNewsViewHolder>() {
 
     private var newsList = ArrayList<News>()
+    private lateinit var itemClickCallBack : ItemClickCallBack
 
     init {
         this.newsList = newsList
@@ -26,14 +29,30 @@ class HotNewsAdapter(newsList: ArrayList<News>) : RecyclerView.Adapter<HotNewsAd
         return HotNewsViewHolder(view)
     }
 
+    fun setOnclickListener(itemClickCallBack: ItemClickCallBack) {
+        this.itemClickCallBack = itemClickCallBack
+    }
+
     override fun onBindViewHolder(holder: HotNewsViewHolder, i: Int) {
         val news = newsList[i]
-        holder.ivNews.setImageResource(R.drawable.ic_drawable_icon_signal_fill)
+        holder.ivNews.setImageResource(R.mipmap.ic_launcher)
         holder.ivNews.visibility = View.VISIBLE
         holder.tvTitle.text = news.title
         holder.tvSource.text = news.source.toString()
-        holder.reviewCount.text = news.comment_count.toString()
-        holder.tvNewsTime.text = news.publish_time.toString()
+        holder.reviewCount.text = String.format("%s评论", news.comment_count.toString())
+        val friendTime : String = TimeUtils.getFriendlyTimeSpanByNow(TimeUtils.timestampToString(news.publish_time))
+        holder.tvNewsTime.text = friendTime
+        if (news.middle_image != null) {
+            //动态改变图片大小
+//            val params : RelativeLayout.LayoutParams =  RelativeLayout.LayoutParams(
+//                news.middle_image!!.width,
+//                news.middle_image!!.height) //分别为添加图片的大小
+//            holder.ivNews.layoutParams = params
+            Glide.with(holder.itemView.context).load(news.middle_image!!.url).into(holder.ivNews)
+        }
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            v ->  itemClickCallBack.onclick(news)
+        })
     }
 
     override fun getItemCount(): Int {
@@ -53,6 +72,10 @@ class HotNewsAdapter(newsList: ArrayList<News>) : RecyclerView.Adapter<HotNewsAd
         val reviewCount: TextView = itemView.findViewById(R.id.tvReviewCount)
         val tvNewsTime: TextView = itemView.findViewById(R.id.tvNewsTime)
 
+    }
+
+    interface ItemClickCallBack {
+        fun onclick(news: News)
     }
 
 

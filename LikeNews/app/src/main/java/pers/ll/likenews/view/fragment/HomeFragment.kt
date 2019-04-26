@@ -42,7 +42,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initViewData() {
-        titles = arrayOf("热点", "文化", "组图")
+        titles = arrayOf("新闻", "音乐", "电影")
         fragments = ArrayList()
         fragments.add(HotNewsFragment())
         fragments.add(HotNewsFragment())

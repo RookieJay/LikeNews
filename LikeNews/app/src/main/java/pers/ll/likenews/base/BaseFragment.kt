@@ -89,7 +89,6 @@ abstract class BaseFragment : Fragment() {
         // 双重标记：如果还没有加载过数据 && 用户切换到了这个fragment
         // 那就开始加载数据
         if (isVisibleToUser && isInitView) {
-            Log.d(TAG, "开始加载数据")
             ToastUtils.showShort("${TAG}开始加载数据")
             loadData()
             //防止重复加载
