@@ -1,7 +1,6 @@
 package pers.ll.likenews.api
 
 import pers.ll.likenews.model.Music
-import pers.ll.likenews.model.MusicResult
 import pers.ll.likenews.model.NewsResult
 import retrofit2.Call
 import retrofit2.http.GET

@@ -28,18 +28,37 @@ class Music : Parcelable {
 
     var time: Int = 0
 
-    constructor(source: Parcel) : this(
-    )
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {}
-
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Music> = object : Parcelable.Creator<Music> {
             override fun createFromParcel(source: Parcel): Music = Music(source)
             override fun newArray(size: Int): Array<Music?> = arrayOfNulls(size)
         }
+    }
+
+    constructor(source: Parcel): this(
+    ){
+        this.id = source.readString()
+        this.name = source.readString()
+        this.singer = source.readString()
+        this.pic = source.readString()
+        this.lrc = source.readString()
+        this.url = source.readString()
+        this.time = source.readInt()
+    }
+
+    constructor()
+
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(id)
+        writeString(name)
+        writeString(singer)
+        writeString(pic)
+        writeString(lrc)
+        writeString(url)
+        writeInt(time)
     }
 }
