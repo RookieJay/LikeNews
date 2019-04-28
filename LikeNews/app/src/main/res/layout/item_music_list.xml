@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="45dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <TextView
+        android:id="@+id/tvMusicNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        tools:text="1"
+        android:layout_centerVertical="true"
+        android:textColor="@color/gray"/>
     
     <TextView
         android:id="@+id/tvMusicName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-</android.support.constraint.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="春风十里不如你"
+        android:textSize="14sp"
+        android:layout_toRightOf="@+id/tvMusicNo"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/black"/>
+    
+    <TextView
+        android:id="@+id/tvSinger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="鹿先森乐队"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvMusicNo"
+        android:layout_alignParentBottom="true" />
+    
+    <ImageView
+        android:id="@+id/ivPlay"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        tools:src="@drawable/icon_music_play"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+    
+</RelativeLayout>

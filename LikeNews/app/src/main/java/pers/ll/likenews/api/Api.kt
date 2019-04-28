@@ -1,6 +1,8 @@
 package pers.ll.likenews.api
 
+import pers.ll.likenews.model.Album
 import pers.ll.likenews.model.Music
+import pers.ll.likenews.model.MusicResult
 import pers.ll.likenews.model.NewsResult
 import retrofit2.Call
 import retrofit2.http.GET
@@ -17,6 +19,13 @@ interface Api {
      /**
       *  搜索音乐/专辑/歌词/歌单/MV/用户/歌手/电台搜索
       */
-     @GET("/search")
-     fun searchMusic(@QueryMap params : LinkedHashMap<String, Any>) : Call<Result<Music>>
- }
+     @GET("search")
+     fun searchMusic(@QueryMap params : LinkedHashMap<String, Any>) : Call<MusicResult<Music>>
+
+    /**
+     *专辑
+     */
+    @GET("album")
+    fun getAlbum(@QueryMap params: LinkedHashMap<String, Any>) : Call<MusicResult<Album>>
+}
+

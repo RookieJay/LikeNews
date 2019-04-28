@@ -61,4 +61,10 @@ class Music : Parcelable {
         writeString(url)
         writeInt(time)
     }
+
+    fun getDuration(time: Int) : String {
+        val min = time / 60
+        val second = time % 60
+        return String.format("%s分%s秒", min.toString(), second.toString())
+    }
 }

@@ -8,7 +8,13 @@ public interface Const {
 
     interface URL {
         String BASE_URL_NEWS = "http://is.snssdk.com/api/news/";
-        String BASE_URL_MUSIC = "https://api.itooi.cn/music/netease";
+        String BASE_URL_MUSIC = "https://api.itooi.cn/music/netease/";
+    }
+
+    interface Key{
+        String KEY_NEWS = "KEY_NEWS";
+        String KEY_MUSIC_LIST = "KEY_MUSIC_LIST";
+        String KEY_MUSIC = "KEY_MUSIC";
     }
 
     interface Param {

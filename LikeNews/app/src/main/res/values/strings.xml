@@ -3,9 +3,10 @@
     <string name="title_home">我的首页</string>
     <string name="title_news">立刻新闻</string>
     <string name="title_personal">个人中心</string>
-
+    
     <!--hint-->
     <string name="hint_news_source">中国新闻网</string>
     <string name="hint_news_review_count">141评论</string>
     <string name="hint_news_time">6分钟前</string>
+    <string name="hint_search_tips">请输入您要搜索的歌名</string>
 </resources>

@@ -28,7 +28,7 @@ android {
 /**
  * 导入第三方包后报错：all com.android.support libraries must use the exact same version specification(mixing versions can lead to runtime crashes)
  * 让所有的第三方包强制使用指定版本的support包
-* */
+ * */
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         def requested = details.requested

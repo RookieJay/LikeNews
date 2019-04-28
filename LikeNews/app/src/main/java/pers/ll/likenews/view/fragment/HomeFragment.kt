@@ -45,7 +45,7 @@ class HomeFragment : BaseFragment() {
         titles = arrayOf("新闻", "音乐", "电影")
         fragments = ArrayList()
         fragments.add(HotNewsFragment())
-        fragments.add(HotNewsFragment())
+        fragments.add(MusicListFragment())
         fragments.add(HotNewsFragment())
     }
 
