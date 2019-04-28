@@ -50,9 +50,9 @@ class HotNewsAdapter(newsList: ArrayList<News>) : RecyclerView.Adapter<HotNewsAd
 //            holder.ivNews.layoutParams = params
             Glide.with(holder.itemView.context).load(news.middle_image!!.url).into(holder.ivNews)
         }
-        holder.itemView.setOnClickListener(View.OnClickListener {
-            v ->  itemClickCallBack.onclick(news)
-        })
+        holder.itemView.setOnClickListener {
+            itemClickCallBack.onclick(news)
+        }
     }
 
     override fun getItemCount(): Int {

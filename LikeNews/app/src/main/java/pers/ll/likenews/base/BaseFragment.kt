@@ -28,6 +28,7 @@ abstract class BaseFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         mContext = this.context
+        mActivity = context as Activity
     }
 
     /**
@@ -108,5 +109,9 @@ abstract class BaseFragment : Fragment() {
         } else {
             null
         }
+    }
+
+    protected fun runOnUIThread(runnable: Runnable) {
+        mActivity.runOnUiThread(runnable)
     }
 }
