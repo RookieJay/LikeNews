@@ -182,8 +182,10 @@ class MusicPlayActivity : AppCompatActivity() {
             if (!isRepeat) {
                 ToastUtils.showShort("开启单曲循环")
                 ivRecycle.setImageResource(R.drawable.ic_repeat_one_pink)
+                player.isLooping = true
             } else {
                 ivRecycle.setImageResource(R.drawable.ic_repeat_one)
+                player.isLooping = false
             }
             isRepeat = !isRepeat
         }
