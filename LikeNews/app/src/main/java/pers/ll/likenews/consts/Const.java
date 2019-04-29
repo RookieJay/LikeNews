@@ -72,5 +72,6 @@ public interface Const {
         SimpleDateFormat CN_MM_DD = new SimpleDateFormat("MM月dd日");
         SimpleDateFormat CN_MD_H_m = new SimpleDateFormat("M月d日 H时m分");
         SimpleDateFormat CN_WITHOUT_HMS = new SimpleDateFormat("yyyy年MM月dd日");
+        SimpleDateFormat MMSS = new SimpleDateFormat("mm:ss");
     }
 }

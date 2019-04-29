@@ -35,6 +35,7 @@ class HomeFragment : BaseFragment() {
     private fun initToolBar() {
         val tvTitle = findViewById(R.id.barTitle) as TextView
         val ivLeft = findViewById(R.id.barLeft) as ImageView
+
         tvTitle.text = "我的首页"
         ivLeft.setImageResource(R.drawable.ic_drawable_icon_workmore)
         ivLeft.setBackgroundColor(ContextCompat.getColor(mRootView!!.context, R.color.white))
@@ -70,6 +71,9 @@ class HomeFragment : BaseFragment() {
 
     private fun initTab() {
         tabLayout = findViewById(R.id.tabLayout) as TabLayout
+        val viewLine = findViewById(R.id.view_line) as View
+        viewLine.visibility = View.VISIBLE
+        tabLayout.setSelectedTabIndicator(0)
         val linearLayout = tabLayout.getChildAt(0) as LinearLayout
         linearLayout.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
         linearLayout.dividerDrawable = ContextCompat.getDrawable(mContext, R.drawable.drawable_divider_vertical)

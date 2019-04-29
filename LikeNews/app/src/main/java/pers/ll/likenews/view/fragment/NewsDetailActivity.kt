@@ -33,6 +33,10 @@ class NewsDetailActivity : AppCompatActivity() {
     private fun initView() {
         ivBack = findViewById(R.id.barLeft)
         barTitle = findViewById(R.id.barTitle)
+        //跑马灯必须加
+        barTitle.isSelected = true
+        barTitle.isFocusable = true
+        barTitle.isFocusableInTouchMode = true
         ivBack.visibility = View.VISIBLE
         val intent = intent
         if (intent != null) {

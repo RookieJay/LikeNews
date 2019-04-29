@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -325,12 +324,11 @@ public class ImageUtil {
 
     public Bitmap blur(Bitmap bkg, View view) {
         long startMs = System.currentTimeMillis();
-        float scaleFactor = 40;
+        float scaleFactor = 400;
         float radius = 2;
-        Bitmap overlay = Bitmap.createBitmap(
-                (int) (view.getMeasuredWidth() / scaleFactor),
-                (int) (view.getMeasuredHeight() / scaleFactor),
-                Bitmap.Config.ARGB_8888);
+        int width = (int)Math.ceil(view.getMeasuredWidth() / scaleFactor);
+        int height = (int)Math.ceil(view.getMeasuredHeight() / scaleFactor);
+        Bitmap overlay = Bitmap.createBitmap(20, 40, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(overlay);
 //        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop()
 //                / scaleFactor);
