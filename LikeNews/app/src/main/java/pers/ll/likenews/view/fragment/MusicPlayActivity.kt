@@ -251,7 +251,8 @@ class MusicPlayActivity : AppCompatActivity() {
             }
             try {
                 //每100毫秒更新一次
-                Thread.sleep(80)
+//                Thread.sleep(80)
+                handler.postDelayed(this, 80)
             } catch (e: Exception) {
             }
         }
