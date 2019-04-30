@@ -16,4 +16,6 @@ public final class AppUtils {
         }
         throw new NullPointerException("请初始化Application");
     }
+
+
 }

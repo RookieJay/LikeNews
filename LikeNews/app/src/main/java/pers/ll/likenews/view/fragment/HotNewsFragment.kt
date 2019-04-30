@@ -15,7 +15,7 @@ import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.News
 import pers.ll.likenews.model.NewsResult
-import pers.ll.likenews.view.activity.NewsDetailActivity
+import pers.ll.likenews.view.activity.WebActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, HotNewsAdapter.ItemClickCallBack{
 
+    private val START_TYPE = 1
 
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var mRecyclerView : RecyclerView
@@ -121,8 +122,9 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
     }
 
     override fun onclick(news: News) {
-        val intent = Intent(context, NewsDetailActivity:: class.java)
-        intent.putExtra("news", news)
+        val intent = Intent(context, WebActivity:: class.java)
+        intent.putExtra(Const.Key.START_TYPE, START_TYPE)
+        intent.putExtra(Const.Key.KEY_NEWS, news)
         startActivity(intent)
     }
 

@@ -2,6 +2,7 @@ package pers.ll.likenews.consts;
 
 import android.annotation.SuppressLint;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.SimpleDateFormat;
@@ -19,6 +20,10 @@ public interface Const {
         String KEY_MUSIC_LIST = "KEY_MUSIC_LIST";
         String KEY_MUSIC = "KEY_MUSIC";
         String KEY_MOVIE = "KEY_MOVIE";
+        String KEY_MOVIE_URL = "KEY_MOVIE_URL";
+        String START_TYPE = "START_TYPE";
+        String KEY_FILMER = "KEY_FILMER";
+        String KEY_MSG = "KEY_MSG";
     }
 
     interface Param {

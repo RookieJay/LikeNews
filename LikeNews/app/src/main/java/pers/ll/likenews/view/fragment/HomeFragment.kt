@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.base.MyApplication
@@ -30,6 +31,7 @@ class HomeFragment : BaseFragment() {
         initViewData()
         initViewPager()
         initTab()
+        setListener()
     }
 
     private fun initToolBar() {
@@ -37,7 +39,6 @@ class HomeFragment : BaseFragment() {
         val ivLeft = findViewById(R.id.barLeft) as ImageView
         tvTitle.text = "我的首页"
         ivLeft.setImageResource(R.drawable.ic_menu)
-        ivLeft.setBackgroundColor(ContextCompat.getColor(mRootView!!.context, R.color.white))
         ivLeft.visibility = View.VISIBLE
     }
 
@@ -78,6 +79,12 @@ class HomeFragment : BaseFragment() {
         linearLayout.dividerDrawable = ContextCompat.getDrawable(mContext, R.drawable.drawable_divider_vertical)
         //此处不用再设置Tab,setupWithViewPager会removeAllTabs(),直接把titles传入adapter，重写getPageTitle即可
         tabLayout.setupWithViewPager(viewPager)
+    }
+
+    private fun setListener() {
+        barLeft.setOnClickListener{
+
+        }
     }
 
     override fun loadData() {

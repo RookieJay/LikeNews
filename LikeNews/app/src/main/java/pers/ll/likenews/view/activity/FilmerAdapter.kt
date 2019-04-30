@@ -10,9 +10,10 @@ import com.bumptech.glide.Glide
 import pers.ll.likenews.R
 import pers.ll.likenews.model.Movie
 
-class FilmerAdapter(filmer: ArrayList<Movie.Cast>) : RecyclerView.Adapter<FilmerAdapter.FilmerHolder>() {
+class FilmerAdapter(filmer: ArrayList<Movie.Cast>, onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<FilmerAdapter.FilmerHolder>() {
 
     private var mData = filmer
+    private var mOnItemClickListener = onItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): FilmerHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_filmer, parent, false)
@@ -27,6 +28,12 @@ class FilmerAdapter(filmer: ArrayList<Movie.Cast>) : RecyclerView.Adapter<Filmer
         val filmer = mData[position]
         holder.tvFilmer.text = filmer.name
         Glide.with(holder.ivFilmer).load(filmer.avatars.large).into(holder.ivFilmer)
+        holder.tvFilmer.isSelected = true
+        holder.tvFilmer.isFocusable = true
+        holder.tvFilmer.isFocusableInTouchMode = true
+        holder.itemView.setOnClickListener{
+            mOnItemClickListener.OnItemClick(filmer)
+        }
     }
 
     fun replaceAll(filmerList: ArrayList<Movie.Cast>) {
@@ -38,5 +45,9 @@ class FilmerAdapter(filmer: ArrayList<Movie.Cast>) : RecyclerView.Adapter<Filmer
     class FilmerHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val ivFilmer = itemView.findViewById(R.id.ivFilmer) as ImageView
         val tvFilmer = itemView.findViewById(R.id.tvFilmer) as TextView
+    }
+
+    interface OnItemClickListener {
+        fun OnItemClick(cast : Movie.Cast)
     }
 }

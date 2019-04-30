@@ -51,9 +51,10 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
     private lateinit var musicList : ArrayList<Music>
     private lateinit var etSearch : EditText
     private lateinit var viewLine : View
-    private lateinit var musicName : String
+    private var musicName = "春风十里"
     private lateinit var drawable : Drawable
     private lateinit var rlEmpty : RelativeLayout
+    private val keyWords = arrayOf("古风", "林俊杰", "民谣", "防弹少年团", "英文", "张杰", "轻音乐", "rap", "粤语", "华语", "影视原声", "运动", "读书")
 
     override fun setContentView(): Int {
         return R.layout.fragment_recycler_base_vertical
@@ -106,7 +107,8 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
                         return true
                     }
                     startRefresh()
-                    requestData(content)
+                    musicName = content
+                    requestData()
                     return true
                 }
                 return false
@@ -143,8 +145,14 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
     }
 
     override fun onRefresh() {
-        musicName = etSearch.text.toString()
-        requestData(musicName)
+        if (etSearch.text.toString().isNotEmpty()) {
+            musicName = etSearch.text.toString()
+        } else {
+            val random = (Math.random() * keyWords.size).toInt()
+            musicName = keyWords[random]
+            etSearch.hint = String.format("请输入您要搜索的关键词,如:%s", musicName)
+        }
+        requestData()
     }
 
     private fun finishRefresh() {
@@ -155,18 +163,17 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
 
     override fun loadData() {
         startRefresh()
-        musicName = "春风十里"
-        requestData(musicName)
+        requestData()
     }
 
-    private fun requestData(name: String) {
+    private fun requestData() {
         Thread(Runnable {
             val retrofit = Retrofit.Builder()
                     .baseUrl(Const.URL.BASE_URL_MUSIC)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
             val apiService = retrofit.create(Api :: class.java)
-            val map : LinkedHashMap<String, Any> = linkedMapOf("key" to "579621905", "s" to name, "type" to "song",
+            val map : LinkedHashMap<String, Any> = linkedMapOf("key" to "579621905", "s" to musicName, "type" to "song",
                     "limit" to 30, "offset" to 0)
             apiService.searchMusic(map).enqueue(object : Callback<MusicResult<Music>> {
                 override fun onFailure(call: Call<MusicResult<Music>>, t: Throwable) {

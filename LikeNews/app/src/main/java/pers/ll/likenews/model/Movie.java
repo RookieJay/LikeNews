@@ -461,6 +461,9 @@ public class Movie implements Parcelable {
         dest.writeStringList(this.genres);
         dest.writeList(this.casts);
         dest.writeList(this.directors);
+        dest.writeString(this.mobile_url);
+        dest.writeString(this.summary);
+        dest.writeList(this.countries);
     }
 
     public Movie() {}

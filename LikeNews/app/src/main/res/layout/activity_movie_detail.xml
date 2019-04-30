@@ -146,33 +146,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:background="@color/white"
-                        android:paddingTop="10dp"
                         android:paddingLeft="20dp"
-                        android:paddingRight="20dp">
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp">
                         <TextView
                             android:id="@+id/txtSummary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/txt_summary"
                             android:textColor="@color/black"
-                            android:textSize="18sp"/>
+                            android:textSize="18sp"
+                            android:layout_marginBottom="5dp"/>
                         <TextView
                             android:id="@+id/tvSummary"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_movie_summary"
+                            tools:text="@string/txt_movie_summary"
                             android:textColor="@color/gray_dark"
                             android:textSize="14sp"
-                            tools:layout_below="@+id/txtSummary"
-                            android:layout_marginTop="10dp"
-                            android:maxLines="2"
+                            android:layout_below="@+id/txtSummary"
+                            android:maxLines="4"
                             android:ellipsize="end"/>
                     </RelativeLayout>
                     
                     <RelativeLayout
                         android:id="@+id/rlFilmer"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="200dp"
                         android:background="@color/white"
                         android:paddingTop="10dp"
                         android:paddingLeft="20dp"
@@ -188,11 +188,11 @@
                             android:textSize="18sp"/>
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recyclerView"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:layout_marginTop="10dp"
-                            android:layout_below="@+id/txtFilmer"/>
+                            android:layout_below="@+id/txtFilmer" />
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/rlUrl"
@@ -215,10 +215,10 @@
                             android:id="@+id/tvUrl"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_url"
+                            tools:text="@string/txt_url"
                             android:textColor="@color/blue"
                             android:textSize="14sp"
-                            tools:layout_below="@+id/txtUrl"
+                            android:layout_below="@+id/txtUrl"
                             android:layout_marginTop="10dp"
                             android:maxLines="2"
                             android:ellipsize="end"/>

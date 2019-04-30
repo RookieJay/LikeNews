@@ -1,5 +1,6 @@
 package pers.ll.likenews.view.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +18,7 @@ import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Movie
 import pers.ll.likenews.utils.ImageUtil
 import pers.ll.likenews.utils.ThreadPoolManager
+import pers.ll.likenews.utils.ToastUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,12 +26,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.StringBuilder
 
-class MovieDetailActivity : AppCompatActivity() {
+class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListener {
 
     private val Args_Success = 0
     private val Args_Failure = 1
     private val Args_Empty = 2
-
+    private val START_TYPE_MOVIE = 2
+    private val START_TYPE_FILMER = 3
     private lateinit var movie: Movie
     private val imageUtil = ImageUtil.getInstance()
     private lateinit var handler : MovieHandler
@@ -53,7 +56,7 @@ class MovieDetailActivity : AppCompatActivity() {
         tvMovieName.isSelected = true
         val linearLayoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = linearLayoutManager
-        adapter = FilmerAdapter(ArrayList())
+        adapter = FilmerAdapter(ArrayList(), this)
         recyclerView.adapter = adapter
     }
 
@@ -137,11 +140,21 @@ class MovieDetailActivity : AppCompatActivity() {
             } else {
                 collapsingToolbarLayout.title = ""
             }
-
         })
+        tvUrl.setOnClickListener{
+            val url = tvUrl.text.toString()
+            if (url.isNotEmpty()) {
+                val intent = Intent(this, WebActivity() :: class.java)
+                intent.putExtra(Const.Key.START_TYPE, START_TYPE_MOVIE)
+                intent.putExtra(Const.Key.KEY_MOVIE_URL, url)
+                intent.putExtra(Const.Key.KEY_MOVIE, movie)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun showData(movie: Movie) {
+        this.movie = movie
         val list = movie.countries
         val countries = StringBuilder()
         for (country in list) {
@@ -152,7 +165,7 @@ class MovieDetailActivity : AppCompatActivity() {
             }
         }
         tvCountries.text = countries.toString()
-        tvSummary.text = movie.summary
+        tvSummary.text = String.format("\u3000\u3000%s", movie.summary)
         tvUrl.text = movie.mobile_url
         val filmerList = ArrayList<Movie.Cast>()
         val directors = movie.directors
@@ -160,8 +173,10 @@ class MovieDetailActivity : AppCompatActivity() {
             for (director in directors) {
                 val cast = Movie.Cast()
                 cast.name = String.format("%s(导演)", director.name)
-                val avatas = Movie.Cast.Avatars()
-                avatas.large = director.avatars.large
+                val avatars = Movie.Cast.Avatars()
+                avatars.large = director.avatars.large
+                cast.avatars = avatars
+                cast.alt = director.alt
                 filmerList.add(cast)
             }
         }
@@ -176,11 +191,18 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun showEmpty() {
-
+        ToastUtils.showShort("获取详情失败")
     }
 
     private fun showFailure() {
+        ToastUtils.showShort("网络加载失败")
+    }
 
+    override fun OnItemClick(filmer: Movie.Cast) {
+        val intent = Intent(this, WebActivity() :: class.java)
+        intent.putExtra(Const.Key.START_TYPE, START_TYPE_FILMER)
+        intent.putExtra(Const.Key.KEY_FILMER, filmer)
+        startActivity(intent)
     }
 
     class MovieHandler(movieDetailActivity: MovieDetailActivity) : Handler() {

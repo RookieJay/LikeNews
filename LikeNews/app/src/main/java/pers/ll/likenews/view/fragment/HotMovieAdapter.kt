@@ -47,7 +47,8 @@ class HotMovieAdapter(movieList : ArrayList<Movie>, onItemClickListener: OnItemC
     }
 
     fun replaceAll(list: ArrayList<Movie>) {
-        this.mData = list
+        this.mData.clear()
+        this.mData.addAll(list)
         notifyDataSetChanged()
     }
 

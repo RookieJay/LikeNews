@@ -2,6 +2,7 @@ package pers.ll.likenews.view.activity
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
@@ -22,38 +23,52 @@ import pers.ll.likenews.model.Music
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import android.widget.TextView
+import com.google.gson.Gson
+import pers.ll.likenews.api.Api
+import pers.ll.likenews.model.ErroBody
+import pers.ll.likenews.model.MusicResult
 import pers.ll.likenews.utils.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 import java.lang.ref.WeakReference
 import java.util.*
 
 
-class MusicPlayActivity : AppCompatActivity() {
+class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
+
+    private val Args_Success = 0
+    private val Args_Failure = 1
+    private val Args_Empty = 2
 
     private lateinit var music : Music
     private lateinit var imageUtil : ImageUtil
-
     private lateinit var objectAnimator : ObjectAnimator
     private val STATE_PLAYING = 1 //正在播放
     private val STATE_PAUSE = 2 //暂停
     private val STATE_STOP = 3 //停止
     private var state : Int = 0
     private var hadDestroy = false
-    private lateinit var player : MediaPlayer
+    private var player = MediaPlayer()
     private var isPlaying = true
     private var isRepeat = false
     private lateinit var tvMusicDuration : TextView
     private lateinit var tvCurTime : TextView
     private lateinit var seekBar : SeekBar
     private val handler = ProgressHandler(this)
+    private lateinit var validateHandler : ValidateHandler
+    private var executor = ThreadPoolManager.getInstance()
+    private var url = ""
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music_play)
         music = intent.getParcelableExtra(Const.Key.KEY_MUSIC)
+        url = music.url.toString()
         initView()
         initPlayer()
-        playMusic()
         setListener()
     }
 
@@ -75,7 +90,7 @@ class MusicPlayActivity : AppCompatActivity() {
                 .placeholder(ContextCompat.getDrawable(ivMusicPic.context, R.drawable.icon_music_placeholder))
                 .error(ContextCompat.getDrawable(ivMusicPic.context, R.drawable.icon_music_placeholder))
                 .into(ivMusicPic)
-            Thread(Runnable {
+            executor.execute(Runnable {
                 val bitmap = imageUtil.url2BitMap(music.pic)
                 if (bitmap != null) {
                     //启用高斯模糊
@@ -83,7 +98,7 @@ class MusicPlayActivity : AppCompatActivity() {
                     MainHandler.getInstance().post {
                         rlMusicPlayer.background = imageUtil.getDrawbleFormBitmap(rlMusicPlayer.context, overLay) }
                 }
-            }).start()
+            })
             //（1）LinearInterpolator：动画从开始到结束，变化率是线性变化。
             //（2）AccelerateInterpolator：动画从开始到结束，变化率是一个加速的过程。
             //（3）DecelerateInterpolator：动画从开始到结束，变化率是一个减速的过程。
@@ -107,20 +122,62 @@ class MusicPlayActivity : AppCompatActivity() {
 
     private fun initPlayer(){
         Log.d("-----MPA", "initPlayer")
-        player = MediaPlayer()
-        try {
-            player.setDataSource(music.url)
-            player.prepare()
-            player.setAudioStreamType(AudioManager.STREAM_MUSIC)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        validateHandler = ValidateHandler(this)
+        executor.execute(Runnable {
+            try {
+                val retrofit = Retrofit.Builder()
+                    .baseUrl(Const.URL.BASE_URL_MUSIC)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                val apiService = retrofit.create(Api :: class.java)
+                val map = linkedMapOf("key" to 579621905, "id" to music.id, "br" to 999000)
+                val bundle = Bundle()
+                apiService.validateMusic(map).enqueue(object : Callback<MusicResult<String>>{
+                    @RequiresApi(Build.VERSION_CODES.KITKAT)
+                    override fun onFailure(call: Call<MusicResult<String>>, t: Throwable) {
+//                        val msg = validateHandler.obtainMessage()
+//                        msg.arg1 = Args_Failure
+//                        bundle.putString(Const.Key.KEY_MSG, "请求失败，请检查网络")
+//                        msg.data = bundle
+//                        validateHandler.sendMessage(msg)
+
+                        //现在用于接收的只是错误信息，如果解析错误，说明歌曲可以播放，在此做正确操作
+                        player.setDataSource(url)
+                        player.prepare()
+                        player.setAudioStreamType(AudioManager.STREAM_MUSIC)
+                    }
+
+                    override fun onResponse(call: Call<MusicResult<String>>, response: Response<MusicResult<String>>) {
+                        val errorBody = response.errorBody()
+                        if (errorBody != null) {
+                            val json = errorBody.string()
+                            val body = Gson().fromJson<ErroBody>(json, ErroBody::class.java)
+                            if (body.code == 2333 || body.result == "ERROR") {
+                                val msg = validateHandler.obtainMessage()
+                                msg.arg1 = Args_Failure
+                                bundle.putString(Const.Key.KEY_MSG, "抱歉！\n因为版权或付费原因，此歌曲暂时无法播放，\n请您谅解！")
+                                msg.data = bundle
+                                validateHandler.sendMessage(msg)
+                            } else {
+                                player.setDataSource(url)
+                                player.prepare()
+                                player.setAudioStreamType(AudioManager.STREAM_MUSIC)
+                            }
+                        }
+                    }
+
+                })
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        })
+
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun playMusic() {
         Log.d("-----MPA", "playMusic")
-
         when (state) {
             STATE_STOP -> {
                 if (!player.isPlaying) {
@@ -214,6 +271,25 @@ class MusicPlayActivity : AppCompatActivity() {
             }
 
         })
+        player.setOnPreparedListener(this)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    override fun onPrepared(mp: MediaPlayer?) {
+        playMusic()
+    }
+
+    private fun showErroSong(errorMsg: String?) {
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("错误")
+            .setNegativeButton("确定") { _, _ -> finish()  }
+            .setMessage(errorMsg)
+            .setIcon(R.drawable.icon_music_placeholder)
+            .create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
+
     }
 
     override fun onDestroy() {
@@ -259,5 +335,26 @@ class MusicPlayActivity : AppCompatActivity() {
             }
         }
     }
+
+    class ValidateHandler(musicPlayActivity: MusicPlayActivity) : Handler() {
+
+        private var activity = musicPlayActivity
+
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            if (msg != null) {
+                val bundle = msg.data
+                when(msg.arg1) {
+                        activity.Args_Failure -> if (bundle != null) {
+                            val errorMsg = bundle.getString(Const.Key.KEY_MSG)
+                            activity.showErroSong(errorMsg)
+                        }
+                }
+            }
+        }
+
+    }
+
+
 
 }

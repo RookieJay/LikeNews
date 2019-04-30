@@ -1,6 +1,5 @@
 package pers.ll.likenews.api
 
-import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.*
 import retrofit2.Call
 import retrofit2.http.GET
@@ -41,5 +40,11 @@ interface Api {
      */
     @GET("subject/{id}")
     fun getMovie(@Path("id") id : String) : Call<Movie>
+
+    /**
+     * 校验url是否可播放
+     */
+    @GET("url")
+    fun validateMusic(@QueryMap params: LinkedHashMap<String, Any?>) : Call<MusicResult<String>>
 }
 

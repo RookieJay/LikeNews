@@ -13,15 +13,21 @@ import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_news_detail.*
+import pers.ll.likenews.consts.Const
+import pers.ll.likenews.model.Movie
 import pers.ll.likenews.utils.ToastUtils
+import pers.ll.likenews.view.fragment.HotNewsFragment
 
 
-class NewsDetailActivity : AppCompatActivity() {
+class WebActivity : AppCompatActivity() {
 
     private lateinit var news : News
-    private lateinit var Html5Webview: WebView
     private lateinit var ivBack : ImageView
     private lateinit var barTitle : TextView
+    private var startType = 0
+    private lateinit var movie : Movie
+    private lateinit var url : String
+    private lateinit var filmer : Movie.Cast
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +45,32 @@ class NewsDetailActivity : AppCompatActivity() {
         ivBack.visibility = View.VISIBLE
         val intent = intent
         if (intent != null) {
-            news = intent.getParcelableExtra("news")
+            startType = intent.getIntExtra(Const.Key.START_TYPE, 0)
+            when(startType) {
+                0 -> {
+                    ToastUtils.showShort("页面发生未知错误")
+                    back()
+                    return
+                }
+                1 -> {
+                    news = intent.getParcelableExtra(Const.Key.KEY_NEWS)
+                    barTitle.text = news.title
+                    url = news.article_url.toString()
+                }
+                2 -> {
+                    movie = intent.getParcelableExtra(Const.Key.KEY_MOVIE)
+                    val url = intent.getStringExtra(Const.Key.KEY_MOVIE_URL)
+                    barTitle.text = movie.title
+                    this.url = movie.mobile_url
+                }
+                3 -> {
+                    filmer = intent.getParcelableExtra(Const.Key.KEY_FILMER)
+                    barTitle.text = filmer.name
+                    this.url = filmer.alt
+                }
+            }
+
         }
-        if (news == null) {
-            ToastUtils.showShort("网页地址为空")
-            back()
-        }
-        barTitle.text = news.title
         initWebView()
         setListener()
 
@@ -70,9 +95,8 @@ class NewsDetailActivity : AppCompatActivity() {
                 //该方法在Build.VERSION_CODES.LOLLIPOP以前有效，从Build.VERSION_CODES.LOLLIPOP起，建议使用shouldOverrideUrlLoading(WebView, WebResourceRequest)} instead
                 //返回false，意味着请求过程里，不管有多少次的跳转请求（即新的请求地址），均交给webView自己处理，这也是此方法的默认处理
                 //返回true，说明你自己想根据url，做新的跳转，比如在判断url符合条件的情况下，我想让webView加载http://ask.csdn.net/questions/178242
-
                 if (url.contains("sina.cn")) {
-                    view.loadUrl(news.article_url)
+                    view.loadUrl(url)
                     return true
                 }
 
@@ -84,7 +108,7 @@ class NewsDetailActivity : AppCompatActivity() {
                 //返回true，说明你自己想根据url，做新的跳转，比如在判断url符合条件的情况下，我想让webView加载http://ask.csdn.net/questions/178242
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     if (request.url.toString().contains("sina.cn")) {
-                        view.loadUrl(news.article_url)
+                        view.loadUrl(url)
                         return true
                     }
                 }
@@ -93,7 +117,7 @@ class NewsDetailActivity : AppCompatActivity() {
             }
 
         }
-        webView.loadUrl(news.article_url)
+        webView.loadUrl(url)
     }
 
     private fun back() {

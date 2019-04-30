@@ -60,7 +60,8 @@ class HotNewsAdapter(newsList: ArrayList<News>) : RecyclerView.Adapter<HotNewsAd
     }
 
     fun replaceAll(newsList: ArrayList<News>) {
-        this.newsList = newsList
+        this.newsList.clear()
+        this.newsList.addAll(newsList)
         notifyDataSetChanged()
     }
 

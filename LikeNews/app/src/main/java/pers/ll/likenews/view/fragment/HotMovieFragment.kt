@@ -63,6 +63,7 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
 
     override fun loadData() {
         ThreadPoolManager.getInstance().execute(Runnable {
+            startRefresh()
             val retrofit = Retrofit.Builder()
                     .baseUrl(Const.URL.BASE_URL_MOVIE)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -99,7 +100,7 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
 
     private fun startRefresh() {
         runOnUIThread(Runnable {
-            if (refreshLayout.isRefreshing) {
+            if (!refreshLayout.isRefreshing) {
                 refreshLayout.isRefreshing = true
             }
         })
@@ -107,7 +108,9 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
 
     private fun finishRefresh() {
         runOnUIThread(Runnable {
-            refreshLayout.isRefreshing = false
+            if (refreshLayout.isRefreshing) {
+                refreshLayout.isRefreshing = false
+            }
         })
     }
 
