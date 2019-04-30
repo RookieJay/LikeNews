@@ -35,9 +35,8 @@ class HomeFragment : BaseFragment() {
     private fun initToolBar() {
         val tvTitle = findViewById(R.id.barTitle) as TextView
         val ivLeft = findViewById(R.id.barLeft) as ImageView
-
         tvTitle.text = "我的首页"
-        ivLeft.setImageResource(R.drawable.ic_drawable_icon_workmore)
+        ivLeft.setImageResource(R.drawable.ic_menu)
         ivLeft.setBackgroundColor(ContextCompat.getColor(mRootView!!.context, R.color.white))
         ivLeft.visibility = View.VISIBLE
     }
@@ -47,7 +46,7 @@ class HomeFragment : BaseFragment() {
         fragments = ArrayList()
         fragments.add(HotNewsFragment())
         fragments.add(MusicListFragment())
-        fragments.add(HotNewsFragment())
+        fragments.add(HotMovieFragment())
     }
 
     private fun initViewPager() {

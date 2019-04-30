@@ -1,6 +1,5 @@
 package pers.ll.likenews.view.fragment
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -23,7 +22,6 @@ import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_recycler_base_vertical.*
-import kotlinx.android.synthetic.main.include_layout_empty.*
 import pers.ll.likenews.R
 import pers.ll.likenews.api.Api
 import pers.ll.likenews.base.BaseFragment
@@ -33,6 +31,7 @@ import pers.ll.likenews.model.MusicResult
 import pers.ll.likenews.utils.DrawableUtil
 import pers.ll.likenews.utils.ToastUtils
 import pers.ll.likenews.utils.SystemUtils
+import pers.ll.likenews.view.activity.MusicPlayActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -223,7 +222,7 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
     }
 
     override fun onItemClick(music: Music) {
-        val intent = Intent(context, MusicPlayActivity :: class.java)
+        val intent = Intent(context, MusicPlayActivity:: class.java)
         intent.putExtra(Const.Key.KEY_MUSIC, music)
         startActivity(intent)
     }

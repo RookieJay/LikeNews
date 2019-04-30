@@ -15,6 +15,7 @@ import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.News
 import pers.ll.likenews.model.NewsResult
+import pers.ll.likenews.view.activity.NewsDetailActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -120,7 +121,7 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
     }
 
     override fun onclick(news: News) {
-        val intent = Intent(context, NewsDetailActivity :: class.java)
+        val intent = Intent(context, NewsDetailActivity:: class.java)
         intent.putExtra("news", news)
         startActivity(intent)
     }

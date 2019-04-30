@@ -11,4 +11,17 @@
     <string name="hint_news_review_count">141评论</string>
     <string name="hint_news_time">6分钟前</string>
     <string name="hint_search_tips">请输入您要搜索的歌名,如:春风十里</string>
+    
+    <!--movie-->
+    <string name="txt_movie_name">复仇者联盟4</string>
+    <string name="txt_movie_stars">110011人评分</string>
+    <string name="txt_movie_rating">8.8分</string>
+    <string name="txt_movie_year">2019年上映</string>
+    <string name="txt_movie_type">科幻/悬疑</string>
+    <string name="txt_movie_country">中国/香港</string>
+    <string name="txt_summary">剧情简介</string>
+    <string name="txt_filmer">影人</string>
+    <string name="txt_detail">电影详情</string>
+    <string name="txt_movie_summary">&#8195;&#8195;这是剧情简介这是剧情简介这是剧情简介这是剧情简介这是剧情简介这是剧情简介这是剧情简介</string>
+    <string name="txt_url">https://movie.douban.com/subject/26942674/mobile</string>
 </resources>

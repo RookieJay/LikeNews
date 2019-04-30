@@ -2,6 +2,8 @@ package pers.ll.likenews.consts;
 
 import android.annotation.SuppressLint;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.text.SimpleDateFormat;
 
 public interface Const {
@@ -9,12 +11,14 @@ public interface Const {
     interface URL {
         String BASE_URL_NEWS = "http://is.snssdk.com/api/news/";
         String BASE_URL_MUSIC = "https://api.itooi.cn/music/netease/";
+        String BASE_URL_MOVIE = "https://api.douban.com/v2/movie/";
     }
 
     interface Key{
         String KEY_NEWS = "KEY_NEWS";
         String KEY_MUSIC_LIST = "KEY_MUSIC_LIST";
         String KEY_MUSIC = "KEY_MUSIC";
+        String KEY_MOVIE = "KEY_MOVIE";
     }
 
     interface Param {
@@ -28,6 +32,11 @@ public interface Const {
         String type = "type";   //搜索类型	默认为 song
         String limit = "limit"; //请求数量	默认为 100
         String offset = "offset";   //	分页	默认第1页
+        //电影
+        String start = "start"; //start : 数据的开始项
+        String count = "count"; //count：单页条数
+        String city = "city";   //city：城市
+        String subject = "subject"; //电影
     }
 
     interface KeyWords_News {

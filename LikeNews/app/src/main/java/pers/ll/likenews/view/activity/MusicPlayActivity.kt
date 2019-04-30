@@ -1,4 +1,4 @@
-package pers.ll.likenews.view.fragment
+package pers.ll.likenews.view.activity
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -78,6 +78,7 @@ class MusicPlayActivity : AppCompatActivity() {
             Thread(Runnable {
                 val bitmap = imageUtil.url2BitMap(music.pic)
                 if (bitmap != null) {
+                    //启用高斯模糊
                     val overLay = imageUtil.blur(bitmap, rlMusicPlayer)
                     MainHandler.getInstance().post {
                         rlMusicPlayer.background = imageUtil.getDrawbleFormBitmap(rlMusicPlayer.context, overLay) }
@@ -224,7 +225,7 @@ class MusicPlayActivity : AppCompatActivity() {
         }
     }
 
-    inner class ProgressHandler(activity : MusicPlayActivity) : Handler() {
+    private class ProgressHandler(activity : MusicPlayActivity) : Handler() {
 
         private val weakReference : WeakReference<MusicPlayActivity> = WeakReference(activity)
 
@@ -240,7 +241,7 @@ class MusicPlayActivity : AppCompatActivity() {
         }
     }
 
-    inner class SeekBarThread : Runnable {
+        inner class SeekBarThread : Runnable {
         override fun run() {
             if (player != null && !hadDestroy) {
                 val curTime = TimeUtils.date2String(Date(player.currentPosition.toLong()), Const.DateFormat.MMSS)
@@ -253,7 +254,6 @@ class MusicPlayActivity : AppCompatActivity() {
             }
             try {
                 //每100毫秒更新一次
-//                Thread.sleep(80)
                 handler.postDelayed(this, 80)
             } catch (e: Exception) {
             }

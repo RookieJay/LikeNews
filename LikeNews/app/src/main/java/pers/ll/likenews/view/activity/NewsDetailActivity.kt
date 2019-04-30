@@ -1,4 +1,4 @@
-package pers.ll.likenews.view.fragment
+package pers.ll.likenews.view.activity
 
 import android.webkit.WebSettings
 import android.webkit.WebViewClient
@@ -13,7 +13,6 @@ import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_news_detail.*
-import pers.ll.likenews.ui.Html5Webview
 import pers.ll.likenews.utils.ToastUtils
 
 

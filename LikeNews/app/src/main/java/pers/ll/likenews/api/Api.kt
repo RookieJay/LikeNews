@@ -1,11 +1,10 @@
 package pers.ll.likenews.api
 
-import pers.ll.likenews.model.Album
-import pers.ll.likenews.model.Music
-import pers.ll.likenews.model.MusicResult
-import pers.ll.likenews.model.NewsResult
+import pers.ll.likenews.consts.Const
+import pers.ll.likenews.model.*
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.QueryMap
 
 interface Api {
@@ -27,5 +26,20 @@ interface Api {
      */
     @GET("album")
     fun getAlbum(@QueryMap params: LinkedHashMap<String, Any>) : Call<MusicResult<Album>>
+
+    /**
+     * 豆瓣热映电影
+     * start : 数据的开始项
+     * count：单页条数
+     * city：城市
+     */
+    @GET("in_theaters")
+    fun getHotMovie(@QueryMap params: LinkedHashMap<String, Any>) : Call<MovieResult>
+
+    /**
+     * 获取电影详情
+     */
+    @GET("subject/{id}")
+    fun getMovie(@Path("id") id : String) : Call<Movie>
 }
 
