@@ -42,11 +42,16 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
         mRecyclerView = findViewById(R.id.recyclerView) as RecyclerView
         refreshLayout = findViewById(R.id.refreshLayout) as SwipeRefreshLayout
         refreshLayout.setOnRefreshListener(this)
+        newsList = ArrayList()
+        adapter = HotNewsAdapter(newsList)
+        val linearLayoutManager = LinearLayoutManager(mContext)
+        mRecyclerView.layoutManager = linearLayoutManager
+        mRecyclerView.adapter = adapter
+        adapter.setOnclickListener(this)
     }
 
     override fun loadData() {
         refreshLayout.isRefreshing = true
-        newsList = ArrayList()
         Thread(Runnable {
             val retrofit = Retrofit.Builder()
                 .baseUrl(Const.URL.BASE_URL_NEWS)
@@ -88,14 +93,9 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
 
             })
         }).start()
-        adapter = HotNewsAdapter(newsList)
-        adapter.setOnclickListener(this)
-        val linearLayoutManager = LinearLayoutManager(mContext)
-        mRecyclerView.layoutManager = linearLayoutManager
-        mRecyclerView.adapter = adapter
     }
 
-     fun startRefresh() {
+     private fun startRefresh() {
          refreshLayout.isRefreshing = true
     }
 
@@ -105,7 +105,7 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
         finishRefresh()
     }
 
-     fun finishRefresh() {
+     private fun finishRefresh() {
          refreshLayout.isRefreshing = false
     }
 
