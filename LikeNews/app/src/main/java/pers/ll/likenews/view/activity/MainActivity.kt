@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavigation() {
-//        menu_navigation.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+//        menu_navigation_bottom.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
     }
 
     private fun initData() {

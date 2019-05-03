@@ -2,11 +2,9 @@ package pers.ll.likenews.api
 
 import pers.ll.likenews.model.*
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
-interface Api {
+interface ApiService {
 
      /**
       * 头条新闻
@@ -46,5 +44,11 @@ interface Api {
      */
     @GET("url")
     fun validateMusic(@QueryMap params: LinkedHashMap<String, Any?>) : Call<MusicResult<String>>
+
+    /**
+     * 天气
+     */
+    @GET("weatherApi")
+    fun getWhether(@Query("city") city : String ) : Call<WhetherResult>
 }
 

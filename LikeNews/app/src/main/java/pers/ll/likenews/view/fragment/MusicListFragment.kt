@@ -23,7 +23,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_recycler_base_vertical.*
 import pers.ll.likenews.R
-import pers.ll.likenews.api.Api
+import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Music
@@ -172,7 +172,7 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
                     .baseUrl(Const.URL.BASE_URL_MUSIC)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-            val apiService = retrofit.create(Api :: class.java)
+            val apiService = retrofit.create(ApiService :: class.java)
             val map : LinkedHashMap<String, Any> = linkedMapOf("key" to "579621905", "s" to musicName, "type" to "song",
                     "limit" to 30, "offset" to 0)
             apiService.searchMusic(map).enqueue(object : Callback<MusicResult<Music>> {

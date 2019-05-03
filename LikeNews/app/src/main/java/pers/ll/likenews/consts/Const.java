@@ -13,6 +13,7 @@ public interface Const {
         String BASE_URL_NEWS = "http://is.snssdk.com/api/news/";
         String BASE_URL_MUSIC = "https://api.itooi.cn/music/netease/";
         String BASE_URL_MOVIE = "https://api.douban.com/v2/movie/";
+        String BASE_URL_WHETHER = "https://www.apiopen.top/";
     }
 
     interface Key{
@@ -24,6 +25,7 @@ public interface Const {
         String START_TYPE = "START_TYPE";
         String KEY_FILMER = "KEY_FILMER";
         String KEY_MSG = "KEY_MSG";
+        String KEY_WHETHER = "KEY_WHETHER";
     }
 
     interface Param {
@@ -87,5 +89,11 @@ public interface Const {
         SimpleDateFormat CN_MD_H_m = new SimpleDateFormat("M月d日 H时m分");
         SimpleDateFormat CN_WITHOUT_HMS = new SimpleDateFormat("yyyy年MM月dd日");
         SimpleDateFormat MMSS = new SimpleDateFormat("mm:ss");
+    }
+
+    interface RESULT_CODE {
+        int Args_Success = 0;
+        int Args_Failure = 1;
+        int Args_Empty = 2;
     }
 }

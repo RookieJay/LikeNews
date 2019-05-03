@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/ivWhether"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        tools:src="@drawable/icon_music_play"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"/>
+    
+    <TextView
+        android:id="@+id/tvWhether"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="多云"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:layout_toRightOf="@+id/ivWhether"
+        android:layout_alignTop="@+id/ivWhether"/>
+    
+    <TextView
+        android:id="@+id/tvTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="15°C"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:layout_toRightOf="@+id/ivWhether"
+        android:layout_below="@+id/tvWhether"
+        android:layout_alignBottom="@+id/ivWhether"
+        android:gravity="bottom"/>
+    
+    <pers.ll.likenews.ui.CircleImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        tools:src="@drawable/icon_music_placeholder"
+        android:layout_above="@+id/tvInstruction"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"/>
+    
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@+id/ivAvatar"
+        android:layout_above="@+id/tvInstruction"
+        tools:text="RookieJay"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"/>
+    
+    <TextView
+        android:id="@+id/tvInstruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        tools:text="不以物喜,不以己悲"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"/>
+    
+</RelativeLayout>

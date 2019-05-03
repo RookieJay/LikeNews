@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.google.gson.Gson
 import pers.ll.likenews.R
-import pers.ll.likenews.api.Api
+import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.News
@@ -52,7 +52,7 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
                 .baseUrl(Const.URL.BASE_URL_NEWS)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            val apiService = retrofit.create(Api :: class.java)
+            val apiService = retrofit.create(ApiService :: class.java)
             val map : LinkedHashMap<String, Any> = linkedMapOf(Const.Param.CATEGORY to Const.KeyWords_News.news_hot, Const.Param.COUNT to 30)
             apiService.getNews(map).enqueue(object : Callback<NewsResult> {
                 override fun onFailure(call: Call<NewsResult>, t: Throwable) {

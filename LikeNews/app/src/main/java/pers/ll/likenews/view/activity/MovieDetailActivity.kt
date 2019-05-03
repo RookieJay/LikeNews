@@ -13,7 +13,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import pers.ll.likenews.R
-import pers.ll.likenews.api.Api
+import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Movie
 import pers.ll.likenews.utils.ImageUtil
@@ -102,7 +102,7 @@ class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListen
                     .baseUrl(Const.URL.BASE_URL_MOVIE)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-            val apiService = retrofit.create(Api :: class.java)
+            val apiService = retrofit.create(ApiService :: class.java)
             val msg = handler.obtainMessage()
             apiService.getMovie(movie.id).enqueue(object : Callback<Movie>{
                 override fun onFailure(call: Call<Movie>, t: Throwable) {

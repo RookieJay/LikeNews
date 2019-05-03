@@ -24,7 +24,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import android.widget.TextView
 import com.google.gson.Gson
-import pers.ll.likenews.api.Api
+import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.model.ErroBody
 import pers.ll.likenews.model.MusicResult
 import pers.ll.likenews.utils.*
@@ -129,7 +129,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                     .baseUrl(Const.URL.BASE_URL_MUSIC)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-                val apiService = retrofit.create(Api :: class.java)
+                val apiService = retrofit.create(ApiService :: class.java)
                 val map = linkedMapOf("key" to 579621905, "id" to music.id, "br" to 999000)
                 val bundle = Bundle()
                 apiService.validateMusic(map).enqueue(object : Callback<MusicResult<String>>{

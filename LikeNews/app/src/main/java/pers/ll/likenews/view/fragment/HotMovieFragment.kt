@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import pers.ll.likenews.R
-import pers.ll.likenews.api.Api
+import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Movie
@@ -68,7 +68,7 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
                     .baseUrl(Const.URL.BASE_URL_MOVIE)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-            val apiService = retrofit.create(Api :: class.java)
+            val apiService = retrofit.create(ApiService :: class.java)
             val map : LinkedHashMap<String, Any> = linkedMapOf(Const.Param.start to 0, Const.Param.count to 15, Const.Param.city to "成都")
             apiService.getHotMovie(map).enqueue(object : Callback<MovieResult> {
                 override fun onFailure(call: Call<MovieResult>, t: Throwable) {

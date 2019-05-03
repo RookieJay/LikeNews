@@ -26,4 +26,9 @@
     <string name="txt_url">https://movie.douban.com/subject/26942674/mobile</string>
     <string name="txt_place_holder">\u3000\u3000</string>
     <!--&#8195;&#8195;-->
+    
+    <!--drawerLayout-->
+    <string name="nav_news">新闻</string>
+    <string name="nav_music">音乐</string>
+    <string name="nav_movie">电影</string>
 </resources>
