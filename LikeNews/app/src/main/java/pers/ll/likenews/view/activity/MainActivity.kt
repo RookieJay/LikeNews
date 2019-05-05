@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
@@ -92,7 +95,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-//        barTitle.text = resources.getString(R.string.title_home)
+        barTitle.text = "我的首页"
+        barLeft.setImageResource(R.drawable.ic_menu)
+        barLeft.visibility = View.VISIBLE
     }
 
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) = beginTransaction().func().commit()

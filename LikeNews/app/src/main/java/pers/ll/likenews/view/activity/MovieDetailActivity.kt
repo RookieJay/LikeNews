@@ -10,6 +10,7 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import pers.ll.likenews.R
@@ -38,6 +39,7 @@ class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListen
     private lateinit var handler : MovieHandler
     private val executor = ThreadPoolManager.getInstance()
     private lateinit var adapter : FilmerAdapter
+    private lateinit var ivBack : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +50,7 @@ class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListen
     }
 
     private fun initView() {
+//        ivBack = headLayout.findViewById(R.id.ivBack)
         handler = MovieHandler(this)
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

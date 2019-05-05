@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment() {
 
     override fun initView() {
         initDrawer()
-        initToolBar()
+//        initToolBar()
         initViewData()
         initViewPager()
         initTab()

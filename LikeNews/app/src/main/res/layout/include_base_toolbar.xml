@@ -19,7 +19,7 @@
         android:id="@+id/barLeft"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@mipmap/icon_left"
+        android:src="@drawable/icon_back"
         android:scaleType="centerCrop"
         android:visibility="gone"
         tools:visibility="visible" />

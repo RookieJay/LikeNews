@@ -38,6 +38,14 @@
                     app:layout_collapseParallaxMultiplier="0.7">
                 <!--layout_collapseParallaxMultiplier视差因子 0~1 -->
                     
+                    <!--<ImageView
+                        android:id="@+id/ivBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/icon_back"/>-->
+                    
                     <ImageView
                         android:id="@+id/ivMovie"
                         android:layout_width="120dp"
@@ -130,6 +138,7 @@
                     android:layout_height="?android:attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     android:fitsSystemWindows="true"
+                    app:theme="@style/AppTheme.PopupOverlay"
                     app:layout_scrollFlags="scroll|enterAlways|snap"/>
             </android.support.design.widget.CollapsingToolbarLayout>
             
