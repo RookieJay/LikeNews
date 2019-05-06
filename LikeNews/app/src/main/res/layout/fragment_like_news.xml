@@ -3,19 +3,23 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
  	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-
-	<android.support.v4.widget.SwipeRefreshLayout
-		android:id="@+id/rfNews"
+	
+	<!--<android.support.v4.widget.SwipeRefreshLayout-->
+		<!--android:id="@+id/rfNews"-->
+		<!--android:layout_width="match_parent"-->
+		<!--android:layout_height="match_parent">-->
+		<!--<android.support.v7.widget.RecyclerView-->
+			<!--android:id="@+id/rvNews"-->
+			<!--android:layout_width="match_parent"-->
+			<!--android:layout_height="match_parent"/>-->
+	<!--</android.support.v4.widget.SwipeRefreshLayout>-->
+	
+	<TextView
+		android:id="@+id/tvTest"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
-
-		<android.support.v7.widget.RecyclerView
-			android:id="@+id/rvNews"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
-
-	</android.support.v4.widget.SwipeRefreshLayout>
-
-
-
+		android:layout_height="match_parent"
+		android:text="@string/tips_empty"
+		android:gravity="center"/>
+	
+	
 </android.support.constraint.ConstraintLayout>

@@ -9,13 +9,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
         <LinearLayout
                 android:id="@+id/ll_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="?android:attr/actionBarSize">
+                android:orientation="vertical">
             <android.support.design.widget.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
@@ -31,13 +29,6 @@
 
     </android.support.constraint.ConstraintLayout>
     
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigationView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:background="@color/white"
-        app:headerLayout="@layout/header_layout_drawer_navigation"
-        app:menu="@menu/menu_navigation_left"/>
+   
     
 </android.support.v4.widget.DrawerLayout>

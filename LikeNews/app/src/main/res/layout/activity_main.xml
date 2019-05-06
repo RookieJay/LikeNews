@@ -1,39 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/container"
+<android.support.v4.widget.DrawerLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    tools:context=".view.activity.MainActivity">
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        
+        <include
+            android:id="@+id/include_toolBar"
+            layout="@layout/include_base_toolbar"/>
+        
+            <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="50dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="?android:attr/actionBarSize">
+            </android.support.v4.view.ViewPager>
+    
+        <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottomNavigation"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="?android:attr/windowBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:menu="@menu/menu_navigation_bottom"
+                app:itemIconTint="@color/color_bottom_navigation"
+                app:itemTextColor="@color/color_bottom_navigation"/>
+    
+    </android.support.constraint.ConstraintLayout>
+    
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigationView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activity.MainActivity">
-    
-    <include
-        android:id="@+id/include_toolBar"
-        layout="@layout/include_base_toolbar"/>
-    
-        <android.support.v4.view.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="50dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/navigation"
-                app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="?android:attr/actionBarSize">
-        </android.support.v4.view.ViewPager>
-
-    <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="?android:attr/windowBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/menu_navigation_bottom"
-            app:itemIconTint="@color/color_bottom_navigation"
-            app:itemTextColor="@color/color_bottom_navigation"/>
-
-</android.support.constraint.ConstraintLayout>
+        android:layout_gravity="left"
+        android:background="@color/white"
+        app:headerLayout="@layout/header_layout_drawer_navigation"
+        app:menu="@menu/menu_navigation_left"
+        android:choiceMode="singleChoice"
+        app:itemIconTint="@color/color_left_navigation"
+        app:itemTextColor="@color/color_left_navigation"/>
+</android.support.v4.widget.DrawerLayout>

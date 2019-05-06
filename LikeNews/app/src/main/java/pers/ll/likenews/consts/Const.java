@@ -2,8 +2,6 @@ package pers.ll.likenews.consts;
 
 import android.annotation.SuppressLint;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.text.SimpleDateFormat;
 

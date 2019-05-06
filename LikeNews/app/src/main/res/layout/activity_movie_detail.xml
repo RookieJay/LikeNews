@@ -117,7 +117,7 @@
                             android:id="@+id/tvCountries"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="@string/txt_movie_country"
+                            android:text="@string/txt_movie_country"
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:layout_below="@+id/tvYear"/>

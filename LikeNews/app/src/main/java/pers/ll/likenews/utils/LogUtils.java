@@ -1,4 +1,4 @@
-package com.zp.android.zlib.utils;
+package pers.ll.likenews.utils;
 
 import android.annotation.SuppressLint;
 import android.content.pm.PackageInfo;
@@ -480,9 +480,9 @@ public final class LogUtils {
         String versionName = "";
         int versionCode = 0;
         try {
-            PackageInfo pi = Utils.getApp()
+            PackageInfo pi = AppUtils.getApp()
                     .getPackageManager()
-                    .getPackageInfo(Utils.getApp().getPackageName(), 0);
+                    .getPackageInfo(AppUtils.getApp().getPackageName(), 0);
             if (pi != null) {
                 versionName = pi.versionName;
                 versionCode = pi.versionCode;
@@ -555,10 +555,10 @@ public final class LogUtils {
         private Config() {
             if (sDefaultDir != null) return;
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-                    && Utils.getApp().getExternalCacheDir() != null)
-                sDefaultDir = Utils.getApp().getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                    && AppUtils.getApp().getExternalCacheDir() != null)
+                sDefaultDir = AppUtils.getApp().getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
             else {
-                sDefaultDir = Utils.getApp().getCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                sDefaultDir = AppUtils.getApp().getCacheDir() + FILE_SEP + "log" + FILE_SEP;
             }
         }
 

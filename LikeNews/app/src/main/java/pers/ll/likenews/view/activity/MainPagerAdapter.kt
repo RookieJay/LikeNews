@@ -3,6 +3,9 @@ package pers.ll.likenews.view.activity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentTransaction
+import android.support.v4.view.PagerAdapter
+import android.view.ViewGroup
 
 
 class MainPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
@@ -24,7 +27,25 @@ class MainPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         return fragmentList[i]
     }
 
-//    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+    override fun getItemId(position: Int): Long {
+        return fragmentList[position].hashCode().toLong()
+    }
+
+
+    fun refreshData(fragments: ArrayList<Fragment>) {
+//        var trans : FragmentTransaction? = fm.beginTransaction()  //获得FragmentTransaction 事务
+//        for (f in this.fragmentList) {
+//            trans?.remove(f) //遍历删除fragment
+//        }
+//        trans?.commit()
+//        trans = null
+//        fm.executePendingTransactions() //提交事务
+        this.fragmentList = fragments
+        notifyDataSetChanged()
+    }
+
+
+    //    override fun instantiateItem(container: ViewGroup, position: Int): Any {
 //        val fragment = fragmentList[position]
 //        //判断当前fragment是否被加入FragmentManager中
 //        if (!fragment.isAdded) {
