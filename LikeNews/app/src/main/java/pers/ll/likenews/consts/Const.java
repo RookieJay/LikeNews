@@ -1,6 +1,7 @@
 package pers.ll.likenews.consts;
 
 import android.annotation.SuppressLint;
+import org.jetbrains.annotations.Nullable;
 
 
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ public interface Const {
         String BASE_URL_MUSIC = "https://api.itooi.cn/music/netease/";
         String BASE_URL_MOVIE = "https://api.douban.com/v2/movie/";
         String BASE_URL_WHETHER = "https://www.apiopen.top/";
+        String BING_DAILY_PIC = "https://api.mlwei.com/bing.php"; //必应每日一图
     }
 
     interface Key{

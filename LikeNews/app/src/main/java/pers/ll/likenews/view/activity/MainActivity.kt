@@ -16,6 +16,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.header_layout_drawer_navigation.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
 import pers.ll.likenews.api.ApiService
@@ -23,9 +24,7 @@ import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Whether
 import pers.ll.likenews.model.WhetherResult
 import pers.ll.likenews.ui.CircleImageView
-import pers.ll.likenews.utils.GsonConverterFactory
-import pers.ll.likenews.utils.ThreadPoolManager
-import pers.ll.likenews.utils.ToastUtils
+import pers.ll.likenews.utils.*
 import pers.ll.likenews.view.fragment.HomeFragment
 import pers.ll.likenews.view.fragment.CenterFragment
 import pers.ll.likenews.view.fragment.PersonalFragment
@@ -51,6 +50,8 @@ class MainActivity : AppCompatActivity() {
     private val TYPE_NEWS = 1
     private val TYPE_MUSIC = 2
     private val TYPE_MOVIE = 3
+    private var executor = ThreadPoolManager.getInstance()
+    private var imageUtil = ImageUtil.getInstance()
 
     private val handler = WhetherHandler(this)
 
@@ -100,6 +101,15 @@ class MainActivity : AppCompatActivity() {
         tvInstruction.text = "春风十里不如你"
         ivAvatar.setImageResource(R.mipmap.icon_avatar)
         navigationView.menu.getItem(0).isChecked = true
+        executor.execute(Runnable {
+            val bitmap = imageUtil.url2BitMap(Const.URL.BING_DAILY_PIC)
+            if (bitmap != null) {
+                //启用高斯模糊
+                val overLay = imageUtil.blur(bitmap, rlHeader)
+                MainHandler.getInstance().post {
+                    rlHeader.background = imageUtil.getDrawbleFormBitmap(rlHeader.context, overLay) }
+            }
+        })
     }
 
 

@@ -324,7 +324,7 @@ public class ImageUtil {
 
     public Bitmap blur(Bitmap bkg, View view) {
         long startMs = System.currentTimeMillis();
-        float scaleFactor = 10;
+        float scaleFactor = 8;
         float radius = 2;
         int width = (int)Math.ceil(view.getMeasuredWidth() / scaleFactor);
         int height = (int)Math.ceil(view.getMeasuredHeight() / scaleFactor);
