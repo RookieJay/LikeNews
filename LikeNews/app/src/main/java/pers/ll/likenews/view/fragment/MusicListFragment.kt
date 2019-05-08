@@ -228,9 +228,11 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
         finishRefresh()
     }
 
-    override fun onItemClick(music: Music) {
+    override fun onItemClick(music: Music, data: ArrayList<Music>, position: Int) {
         val intent = Intent(context, MusicPlayActivity:: class.java)
+        intent.putExtra(Const.Key.KEY_POSITION, position)
         intent.putExtra(Const.Key.KEY_MUSIC, music)
+        intent.putParcelableArrayListExtra(Const.Key.KEY_MUSIC_LIST, data)
         startActivity(intent)
     }
 

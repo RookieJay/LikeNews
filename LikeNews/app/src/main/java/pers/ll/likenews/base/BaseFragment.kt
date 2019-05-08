@@ -37,7 +37,6 @@ abstract class BaseFragment : Fragment() {
     protected abstract fun setContentView() : Int
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d(TAG, "onCreateView")
         val layoutId = setContentView()
         if (layoutId == 0) {
             throw Exception("初始化界面失败，如果您不希望使用layoutId，请重写onCreateView()方法实现您自己的view")
@@ -59,7 +58,6 @@ abstract class BaseFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d(TAG, "onActivityCreated")
 
     }
 
@@ -73,7 +71,6 @@ abstract class BaseFragment : Fragment() {
      * 如果我们需要在 Fragment 可见与不可见时干点事，用这个的话就会有多余的回调了，那么就需要重新封装一个
      */
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        print("setUserVisibleHint$isVisibleToUser")
         if (isVisibleToUser) {
             this.isVisibleToUser = true
             canLoadData()

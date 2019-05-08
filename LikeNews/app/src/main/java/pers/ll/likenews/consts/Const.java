@@ -26,6 +26,7 @@ public interface Const {
         String KEY_FILMER = "KEY_FILMER";
         String KEY_MSG = "KEY_MSG";
         String KEY_WHETHER = "KEY_WHETHER";
+        String KEY_POSITION = "KEY_POSITION";
     }
 
     interface Param {

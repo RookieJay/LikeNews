@@ -8,7 +8,7 @@
     android:paddingRight="10dp"
     android:paddingEnd="10dp"
     app:title=""
-    android:background="@android:color/transparent"
+    android:background="@color/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -27,8 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_gravity="left">
         <TextView
             android:id="@+id/barTitle"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             tools:text="@string/app_name"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textColor="@color/white"
             android:singleLine="true"
             android:ellipsize="marquee"
@@ -46,8 +46,8 @@
             android:id="@+id/barSubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/gray_dark"
+            android:textSize="12sp"
+            android:textColor="@color/white"
             tools:text="@string/app_name"/>
     </LinearLayout>
     

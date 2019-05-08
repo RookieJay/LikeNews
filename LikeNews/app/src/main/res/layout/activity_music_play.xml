@@ -4,26 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rlMusicPlay"
     tools:context=".view.activity.MusicPlayActivity">
     
-    <RelativeLayout
-        android:id="@+id/rlMusicPlayer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <include
-            android:id="@+id/layout_toolbar"
             layout="@layout/include_music_play_toolbar"/>
         <ImageView
             android:id="@+id/ivBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:background="@android:color/transparent" />
-        <pers.ll.likenews.ui.CircleImageView
-            android:id="@+id/ivMusicPic"
-            android:layout_width="260dp"
-            android:layout_height="260dp"
-            tools:src="@mipmap/ic_launcher"
-            android:layout_centerInParent="true" />
+            android:layout_marginTop="?android:attr/actionBarSize"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <pers.ll.likenews.ui.CircleImageView
+                android:id="@+id/ivMusicPic"
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                tools:src="@mipmap/ic_launcher" />
+        </FrameLayout>
+        
         <RelativeLayout
             android:id="@+id/rlSeek"
             android:layout_width="match_parent"
@@ -100,6 +101,5 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="7dp"/>
-    </RelativeLayout>
     
 </RelativeLayout>

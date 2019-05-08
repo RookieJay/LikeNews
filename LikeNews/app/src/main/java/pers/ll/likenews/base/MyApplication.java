@@ -1,7 +1,10 @@
 package pers.ll.likenews.base;
 
 import android.app.Application;
+import android.os.Environment;
+
 import pers.ll.likenews.utils.AppUtils;
+import pers.ll.likenews.utils.LogUtils;
 
 /**
  * 自定义Application，初始化一些全局数据
@@ -20,6 +23,9 @@ public class MyApplication extends Application {
         super.onCreate();
         app = this;
         AppUtils.init(this);
+        String logPath = String.format("%s/%s/log", Environment.getExternalStorageDirectory().toString(),
+                getPackageName());
+        LogUtils.getConfig().setDir(logPath).setFilePrefix("likeNews");
     }
 
 

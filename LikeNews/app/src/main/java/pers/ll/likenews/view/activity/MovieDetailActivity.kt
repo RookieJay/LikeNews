@@ -70,7 +70,7 @@ class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListen
             val bitmap = imageUtil.url2BitMap(movie.images.large)
             if (bitmap != null) {
                 //设置背景高斯模糊
-                val overLay = imageUtil.blur(bitmap, headLayout)
+                val overLay = imageUtil.rsBlur(headLayout.context, bitmap, 24, 1f/8f)
                 runOnUiThread(Runnable {
                     headLayout.background = imageUtil.getDrawbleFormBitmap(headLayout.context, overLay)
                 })

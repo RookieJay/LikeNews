@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import pers.ll.likenews.R
@@ -37,7 +36,7 @@ class MusicListAdapter(musicList: ArrayList<Music>) : RecyclerView.Adapter<Music
 
         holder.tvSinger.text = music.singer
         holder.itemView.setOnClickListener(View.OnClickListener {
-            v -> onItemClickListener.onItemClick(music)
+            v -> onItemClickListener.onItemClick(music, data, position)
         })
     }
 
@@ -59,6 +58,6 @@ class MusicListAdapter(musicList: ArrayList<Music>) : RecyclerView.Adapter<Music
     }
 
     interface OnItemClickListener {
-        fun onItemClick(music: Music)
+        fun onItemClick(music: Music, data: ArrayList<Music>, position: Int)
     }
 }

@@ -14,14 +14,12 @@ import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_music_play.*
 import pers.ll.likenews.R
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Music
 import android.view.animation.LinearInterpolator
-import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import com.google.gson.Gson
@@ -36,6 +34,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
@@ -45,6 +44,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     private val Args_Empty = 2
 
     private lateinit var music : Music
+    private lateinit var musicList : ArrayList<Music>
     private lateinit var imageUtil : ImageUtil
     private lateinit var objectAnimator : ObjectAnimator
     private val STATE_PLAYING = 1 //正在播放
@@ -61,15 +61,21 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     private val handler = ProgressHandler(this)
     private lateinit var validateHandler : ValidateHandler
     private var executor = ThreadPoolManager.getInstance()
-    private var url = ""
+    private var isLrcShowing = false
+    private var curPosition = -1
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_music_play)
         super.onCreate(savedInstanceState)
-
         music = intent.getParcelableExtra(Const.Key.KEY_MUSIC)
-        url = music.url.toString()
+        curPosition = intent.getIntExtra(Const.Key.KEY_POSITION, -1)
+        musicList = intent.getParcelableArrayListExtra(Const.Key.KEY_MUSIC_LIST)
+//        for ((index, element) in musicList.withIndex()) {
+//            if (music.equals(element)) {
+//                curPosition = index
+//            }
+//        }
         initView()
         initPlayer()
         setListener()
@@ -91,8 +97,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                 val bitmap = imageUtil.url2BitMap(music.pic)
                 if (bitmap != null) {
                     //启用高斯模糊
-                    val scale = (1f / 8f)
-                    val blurBitmap = imageUtil.rsBlur(ivBg.context, bitmap, 24, scale)
+                    val blurBitmap = imageUtil.rsBlur(ivBg.context, bitmap, 24, 1f / 8f)
                     //回到主线程
                     MainHandler.getInstance().post {
                         //                        ivBg.setImageDrawable(imageUtil.getDrawbleFormBitmap(ivBg.context, blurBitmap))
@@ -105,9 +110,6 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             //（3）DecelerateInterpolator：动画从开始到结束，变化率是一个减速的过程。
             //（4）CycleInterpolator：动画从开始到结束，变化率是循环给定次数的正弦曲线。
             //（5）AccelerateDecelerateInterpolator：动画从开始到结束，变化率是先加速后减速的过程。
-//            operatingAnim = AnimationUtils.loadAnimation(this, R.anim.anim_rotate)
-//            val lin = LinearInterpolator()
-//            operatingAnim.interpolator = lin
             state = STATE_STOP
             objectAnimator = ObjectAnimator.ofFloat(ivMusicPic, "rotation", 0f, 360f) //添加旋转动画，旋转中心默认为控件中点
             objectAnimator.duration = 20000 //设置动画时间
@@ -130,14 +132,15 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
         barTitle.text = music.name
         barSubTitle.text = music.singer
         //FLAG_LAYOUT_NO_LIMITS允许窗口扩展到屏幕之外。
-        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 //        // 但这样会把ToolBar顶到最上面去，这时候再给ToolBar设置一个MarginTop就好了。
-        val params = layout_toolbar.layoutParams as RelativeLayout.LayoutParams
-        params.setMargins(0, SystemUtils.getStatusBarHeight(resources), 50, 0)
-        layout_toolbar.layoutParams = params
+//        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+//        val params = toolBarMusic.layoutParams as RelativeLayout.LayoutParams
+//        params.setMargins(0, SystemUtils.getStatusBarHeight(resources), 0, 0)
+//        toolBarMusic.layoutParams = params
+
     }
 
-    private fun initPlayer(){
+    private fun initPlayer() {
         Log.d("-----MPA", "initPlayer")
         validateHandler = ValidateHandler(this)
         executor.execute(Runnable {
@@ -152,16 +155,13 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                 apiService.validateMusic(map).enqueue(object : Callback<MusicResult<String>>{
                     @RequiresApi(Build.VERSION_CODES.KITKAT)
                     override fun onFailure(call: Call<MusicResult<String>>, t: Throwable) {
-//                        val msg = validateHandler.obtainMessage()
-//                        msg.arg1 = Args_Failure
-//                        bundle.putString(Const.Key.KEY_MSG, "请求失败，请检查网络")
-//                        msg.data = bundle
-//                        validateHandler.sendMessage(msg)
-
                         //现在用于接收的只是错误信息，如果解析错误，说明歌曲可以播放，在此做正确操作
-                        player.setDataSource(url)
-                        player.prepare()
-                        player.setAudioStreamType(AudioManager.STREAM_MUSIC)
+                        try {
+                            player.setDataSource(music.url)
+                            player.prepare()
+                            player.setAudioStreamType(AudioManager.STREAM_MUSIC)
+                        } catch (e: Exception) {
+                        }
                     }
 
                     override fun onResponse(call: Call<MusicResult<String>>, response: Response<MusicResult<String>>) {
@@ -176,7 +176,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                                 msg.data = bundle
                                 validateHandler.sendMessage(msg)
                             } else {
-                                player.setDataSource(url)
+                                player.setDataSource(music.url)
                                 player.prepare()
                                 player.setAudioStreamType(AudioManager.STREAM_MUSIC)
                             }
@@ -289,6 +289,54 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 
         })
         player.setOnPreparedListener(this)
+        rlMusicPlay.setOnClickListener {
+            if (!isLrcShowing) {
+                showLrc()
+            } else {
+                hideLrc()
+            }
+        }
+        ivPrevious.setOnClickListener {
+            if (curPosition == -1) {
+                ToastUtils.showShort("未知错误")
+                return@setOnClickListener
+            }
+            if (curPosition == 0) {
+                ToastUtils.showShort("当前正在播放第一首歌")
+                return@setOnClickListener
+            }
+            music = musicList[curPosition-1]
+            curPosition++
+            switchMusic(music)
+        }
+        ivNext.setOnClickListener {
+            if (curPosition == -1) {
+                ToastUtils.showShort("未知错误")
+                return@setOnClickListener
+            }
+            if (curPosition == musicList.size - 1) {
+                ToastUtils.showShort("当前正在播放最后一首歌")
+                return@setOnClickListener
+            }
+            music = musicList[curPosition+1]
+            curPosition--
+            switchMusic(music)
+        }
+    }
+
+    private fun showLrc() {
+        ivMusicPic.visibility = View.GONE
+    }
+
+    private fun hideLrc() {
+        ivMusicPic.visibility = View.VISIBLE
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun switchMusic(music: Music) {
+        stopMediaPlayer()
+        initView()
+        initPlayer()
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
@@ -309,13 +357,17 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun stopMediaPlayer() {
         if (player != null) {
             player.stop()
             hadDestroy = true
             player.release()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopMediaPlayer()
     }
 
     private class ProgressHandler(activity : MusicPlayActivity) : Handler() {
