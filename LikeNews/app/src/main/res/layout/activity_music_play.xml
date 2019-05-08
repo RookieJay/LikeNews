@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".view.activity.MusicPlayActivity">
-    
-    <include layout="@layout/include_base_toolbar"/>
     
     <RelativeLayout
         android:id="@+id/rlMusicPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <include
+            android:id="@+id/layout_toolbar"
+            layout="@layout/include_music_play_toolbar"/>
+        <ImageView
+            android:id="@+id/ivBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:background="@android:color/transparent" />
         <pers.ll.likenews.ui.CircleImageView
             android:id="@+id/ivMusicPic"
             android:layout_width="260dp"
             android:layout_height="260dp"
             tools:src="@mipmap/ic_launcher"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
         <RelativeLayout
             android:id="@+id/rlSeek"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/ivPause"
+            android:layout_above="@id/rlMusicCtrl"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/tvCurTime"
@@ -54,35 +60,37 @@
                 android:layout_marginRight="20dp"/>
         </RelativeLayout>
         
-        <ImageView
-            android:id="@+id/ivPause"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_pause_circle"
+        <RelativeLayout
+            android:id="@+id/rlMusicCtrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="20dp" />
-        <ImageView
-            android:id="@+id/ivPrevious"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_skip_previous"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:layout_toLeftOf="@+id/ivPause"
-            android:layout_marginRight="20dp"
-            android:layout_centerVertical="true" />
-        <ImageView
-            android:id="@+id/ivNext"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_skip_next"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/ivPause"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_centerVertical="true"/>
+            android:layout_marginBottom="20dp">
+            <ImageView
+                android:id="@+id/ivPause"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/ic_pause_circle"
+                android:layout_centerHorizontal="true"/>
+            <ImageView
+                android:id="@+id/ivPrevious"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_skip_previous"
+                android:layout_toLeftOf="@+id/ivPause"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:id="@+id/ivNext"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_skip_next"
+                android:layout_toRightOf="@+id/ivPause"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+        
+        
         <ImageView
             android:id="@+id/ivRecycle"
             android:layout_width="30dp"
@@ -94,4 +102,4 @@
             android:layout_marginBottom="7dp"/>
     </RelativeLayout>
     
-</LinearLayout>
+</RelativeLayout>

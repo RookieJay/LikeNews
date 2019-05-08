@@ -14,16 +14,18 @@ import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_music_play.*
-import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Music
 import android.view.animation.LinearInterpolator
+import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.include_music_play_toolbar.*
 import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.model.ErroBody
 import pers.ll.likenews.model.MusicResult
@@ -63,8 +65,9 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music_play)
+        super.onCreate(savedInstanceState)
+
         music = intent.getParcelableExtra(Const.Key.KEY_MUSIC)
         url = music.url.toString()
         initView()
@@ -75,13 +78,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     @SuppressLint("ObjectAnimatorBinding")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun initView() {
-        barLeft.visibility = View.VISIBLE
-        barTitle.visibility = View.VISIBLE
-        //跑马灯必须加
-        barTitle.isSelected = true
-        barTitle.isFocusable = true
-        barTitle.isFocusableInTouchMode = true
-        barTitle.text = music.name
+        initToolbar()
         if (music.pic != null) {
             imageUtil = ImageUtil.getInstance()
             Glide.with(ivMusicPic.context)
@@ -90,15 +87,19 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                 .placeholder(ContextCompat.getDrawable(ivMusicPic.context, R.drawable.icon_music_placeholder))
                 .error(ContextCompat.getDrawable(ivMusicPic.context, R.drawable.icon_music_placeholder))
                 .into(ivMusicPic)
-            executor.execute(Runnable {
+            executor.execute {
                 val bitmap = imageUtil.url2BitMap(music.pic)
                 if (bitmap != null) {
                     //启用高斯模糊
-                    val overLay = imageUtil.blur(bitmap, rlMusicPlayer)
+                    val scale = (1f / 8f)
+                    val blurBitmap = imageUtil.rsBlur(ivBg.context, bitmap, 24, scale)
+                    //回到主线程
                     MainHandler.getInstance().post {
-                        rlMusicPlayer.background = imageUtil.getDrawbleFormBitmap(rlMusicPlayer.context, overLay) }
+                        //                        ivBg.setImageDrawable(imageUtil.getDrawbleFormBitmap(ivBg.context, blurBitmap))
+                        ivBg.background = imageUtil.getDrawbleFormBitmap(ivBg.context, blurBitmap)
+                    }
                 }
-            })
+            }
             //（1）LinearInterpolator：动画从开始到结束，变化率是线性变化。
             //（2）AccelerateInterpolator：动画从开始到结束，变化率是一个加速的过程。
             //（3）DecelerateInterpolator：动画从开始到结束，变化率是一个减速的过程。
@@ -107,7 +108,6 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 //            operatingAnim = AnimationUtils.loadAnimation(this, R.anim.anim_rotate)
 //            val lin = LinearInterpolator()
 //            operatingAnim.interpolator = lin
-
             state = STATE_STOP
             objectAnimator = ObjectAnimator.ofFloat(ivMusicPic, "rotation", 0f, 360f) //添加旋转动画，旋转中心默认为控件中点
             objectAnimator.duration = 20000 //设置动画时间
@@ -118,6 +118,23 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             tvCurTime = findViewById(R.id.tvCurTime)
             seekBar = findViewById(R.id.seekBar)
         }
+    }
+
+    private fun initToolbar() {
+        barLeft.visibility = View.VISIBLE
+        barTitle.visibility = View.VISIBLE
+        //跑马灯必须加
+        barTitle.isSelected = true
+        barTitle.isFocusable = true
+        barTitle.isFocusableInTouchMode = true
+        barTitle.text = music.name
+        barSubTitle.text = music.singer
+        //FLAG_LAYOUT_NO_LIMITS允许窗口扩展到屏幕之外。
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+//        // 但这样会把ToolBar顶到最上面去，这时候再给ToolBar设置一个MarginTop就好了。
+        val params = layout_toolbar.layoutParams as RelativeLayout.LayoutParams
+        params.setMargins(0, SystemUtils.getStatusBarHeight(resources), 50, 0)
+        layout_toolbar.layoutParams = params
     }
 
     private fun initPlayer(){

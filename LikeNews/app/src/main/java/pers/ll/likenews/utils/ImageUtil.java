@@ -12,6 +12,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.util.Log;
 import android.view.View;
 
 import jp.wasabeef.glide.transformations.internal.FastBlur;
@@ -31,6 +32,7 @@ public class ImageUtil {
     // 饿汉式
     private static ImageUtil instance = new ImageUtil();
     private static final float BITMAP_SCALE = 0.4f;
+    private static String TAG = ImageUtil.class.getSimpleName();
 
     private ImageUtil(){}
 
@@ -338,6 +340,35 @@ public class ImageUtil {
         canvas.drawBitmap(bkg, 0, 0, paint);
         overlay = FastBlur.blur(overlay, (int) radius, true);
         return overlay;
+    }
+
+    /**
+     * RenderScript高斯模糊
+     * Note：缩小的系数应该为2的整数次幂 ，即上面代码中的scale应该为1/2、1/4、1/8 ...
+     * 参考BitmapFactory.Options 对图片缩放 的inSample系数。据前辈们经验，一般scale = 1/8 为佳。
+     */
+    public Bitmap rsBlur(Context context,Bitmap source,int radius,float scale){
+        Log.i(TAG,"origin size:"+source.getWidth()+"*"+source.getHeight());
+        int width = Math.round(source.getWidth() * scale);
+        int height = Math.round(source.getHeight() * scale);
+        Bitmap inputBmp = Bitmap.createScaledBitmap(source,width,height,false);
+        RenderScript renderScript =  RenderScript.create(context);
+        Log.i(TAG,"scale size:"+inputBmp.getWidth()+"*"+inputBmp.getHeight());
+        // Allocate memory for Renderscript to work with
+        final Allocation input = Allocation.createFromBitmap(renderScript,inputBmp);
+        final Allocation output = Allocation.createTyped(renderScript,input.getType());
+        // Load up an instance of the specific script that we want to use.
+        ScriptIntrinsicBlur scriptIntrinsicBlur = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript));
+        scriptIntrinsicBlur.setInput(input);
+        // Set the blur radius
+        // ** 设置模糊半径**：设置一个模糊的半径,其值为 0－25
+        scriptIntrinsicBlur.setRadius(radius);
+        // Start the ScriptIntrinisicBlur
+        scriptIntrinsicBlur.forEach(output);
+        // Copy the output to the blurred bitmap
+        output.copyTo(inputBmp);
+        renderScript.destroy();
+        return inputBmp;
     }
 
 
