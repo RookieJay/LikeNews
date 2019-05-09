@@ -1,7 +1,6 @@
 package pers.ll.likenews.consts;
 
 import android.annotation.SuppressLint;
-import org.jetbrains.annotations.Nullable;
 
 
 import java.text.SimpleDateFormat;
@@ -74,7 +73,6 @@ public interface Const {
         String news_world = "news_world";
     }
 
-
     interface Search_Type_Music {
         String song = "song";
         String singer = "singer";
@@ -84,13 +82,10 @@ public interface Const {
         String radio = "radio";
         String user = "user";
         String lrc = "lrc";
-
     }
-
 
     @SuppressLint("SimpleDateFormat")
     interface DateFormat {
-
         SimpleDateFormat WITH_HMS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat WITHOUT_HMS = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat WITHOUT_HMS_00 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");

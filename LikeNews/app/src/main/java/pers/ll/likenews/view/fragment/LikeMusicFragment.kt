@@ -5,27 +5,28 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.fragment_songsheet_list.*
 import pers.ll.likenews.R
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.ui.ChildViewPager
-import pers.ll.likenews.utils.UIUtils
+import pers.ll.likenews.ui.NoScrollViewPager
 import pers.ll.likenews.view.activity.MainActivity
 
 
 
 class LikeMusicFragment : BaseFragment(), MainActivity.MyTouchListener {
 
-    private lateinit var mMyTouchListener: MainActivity.MyTouchListener
+    private var mSongSheetListeners = ArrayList<SongSheetTouchListener>()
+    private lateinit var childListener : SongSheetTouchListener
 
     private lateinit var titles : Array<String>
     private lateinit var fragments : ArrayList<Fragment>
     private lateinit var tabLayout : TabLayout
-    private lateinit var viewPager : ChildViewPager
+    private lateinit var viewPager : ViewPager
     private lateinit var adapter : HotNewsPagerAdapter
     private lateinit var curActivity : MainActivity
 
@@ -59,7 +60,7 @@ class LikeMusicFragment : BaseFragment(), MainActivity.MyTouchListener {
     }
 
     private fun initViewPager() {
-        viewPager = findViewById(R.id.viewPager) as ChildViewPager
+        viewPager = findViewById(R.id.viewPager) as ViewPager
         viewPager.offscreenPageLimit = 3
         adapter = HotNewsPagerAdapter(childFragmentManager, titles)
         adapter.setData(fragments)
@@ -86,8 +87,16 @@ class LikeMusicFragment : BaseFragment(), MainActivity.MyTouchListener {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         //不在litePager范围类
-        viewPager.setIsScanScroll(!UIUtils.inRangeOfView(litePager, event))
-        return !UIUtils.inRangeOfView(litePager, event)
+//        viewPager.setIsScanScroll(!UIUtils.inRangeOfView(litePager, event))
+//        return !UIUtils.inRangeOfView(litePager, event)
+        if (mSongSheetListeners.size > 0) {
+            for (listener in mSongSheetListeners) {
+                childListener =  listener
+            }
+        }
+        var isCanScroll = !childListener.onTouchEvent(event)
+//        viewPager.setNoScroll(isCanScroll)
+        return isCanScroll
     }
 
     override fun onDestroy() {
@@ -100,11 +109,11 @@ class LikeMusicFragment : BaseFragment(), MainActivity.MyTouchListener {
     }
 
     fun registerMyTouchListener(listener: SongSheetTouchListener) {
-
+        this.mSongSheetListeners.add(listener)
     }
 
     fun unRegisterMyTouchListener(listener: SongSheetTouchListener) {
-
+        this.mSongSheetListeners.remove(listener)
     }
 
     interface SongSheetTouchListener {
