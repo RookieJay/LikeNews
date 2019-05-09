@@ -3,26 +3,28 @@ package pers.ll.likenews.view.activity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentTransaction
-import android.support.v4.view.PagerAdapter
-import android.view.ViewGroup
+import pers.ll.likenews.consts.Const
+import pers.ll.likenews.view.fragment.CenterFragment
 
 
 class MainPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     private var fragmentList = arrayListOf<Fragment>()
     private lateinit var fm: FragmentManager
+    private var type = Const.Type.TYPE_NEWS
 
     fun setData(fragments : ArrayList<Fragment>?, fm : FragmentManager) {
         this.fragmentList = fragments!!
         this.fm = fm
     }
 
-
     override fun getCount(): Int {
         return fragmentList.size
     }
 
+    /**
+     * getItem是创建一个新的Fragment，但是这个方法名可能会被误认为是返回一个已经存在的Fragment。
+     */
     override fun getItem(i: Int): Fragment {
         return fragmentList[i]
     }
@@ -31,16 +33,19 @@ class MainPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         return fragmentList[position].hashCode().toLong()
     }
 
+    /**
+     * 调用notifyDataSetChanged()时，2个adapter(pagerAdapter和PagerStateAdapter)的方法的调用情况相同，
+     * 当前页和相邻的两页的getItemPosition都会被调用到。
+     */
+    override fun getItemPosition(`object`: Any): Int {
+        if (`object` is CenterFragment) {
+            `object`.changePage(type)
+        }
+        return super.getItemPosition(`object`)
+    }
 
-    fun refreshData(fragments: ArrayList<Fragment>) {
-//        var trans : FragmentTransaction? = fm.beginTransaction()  //获得FragmentTransaction 事务
-//        for (f in this.fragmentList) {
-//            trans?.remove(f) //遍历删除fragment
-//        }
-//        trans?.commit()
-//        trans = null
-//        fm.executePendingTransactions() //提交事务
-        this.fragmentList = fragments
+    fun refreshData(fragType: Int) {
+        type = fragType
         notifyDataSetChanged()
     }
 

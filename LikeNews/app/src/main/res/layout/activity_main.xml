@@ -15,7 +15,7 @@
             android:id="@+id/include_toolBar"
             layout="@layout/include_base_toolbar"/>
         
-            <android.support.v4.view.ViewPager
+            <pers.ll.likenews.ui.NoScrollViewPager
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -25,7 +25,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
                     app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="?android:attr/actionBarSize">
-            </android.support.v4.view.ViewPager>
+            </pers.ll.likenews.ui.NoScrollViewPager>
     
         <android.support.design.widget.BottomNavigationView
                 android:id="@+id/bottomNavigation"

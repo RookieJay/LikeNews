@@ -10,7 +10,8 @@ public interface Const {
 
     interface URL {
         String BASE_URL_NEWS = "http://is.snssdk.com/api/news/";
-        String BASE_URL_MUSIC = "https://api.itooi.cn/music/netease/";
+        String BASE_URL_MUSIC = "https://api.itooi.cn/music/netease/"; //旧版音乐接口，2019年6月30日停止维护
+        String BASE_URL_MUSIC_NEW = "https://v1.itooi.cn/netease/"; //新版音乐接口
         String BASE_URL_MOVIE = "https://api.douban.com/v2/movie/";
         String BASE_URL_WHETHER = "https://www.apiopen.top/";
         String BING_DAILY_PIC = "https://api.mlwei.com/bing.php"; //必应每日一图
@@ -27,6 +28,13 @@ public interface Const {
         String KEY_MSG = "KEY_MSG";
         String KEY_WHETHER = "KEY_WHETHER";
         String KEY_POSITION = "KEY_POSITION";
+        String KEY_TYPE = "KEY_TYPE";
+    }
+
+    interface Type {
+        int TYPE_NEWS = 1;
+        int TYPE_MUSIC = 2;
+        int TYPE_MOVIE = 3;
     }
 
     interface Param {
@@ -40,6 +48,10 @@ public interface Const {
         String type = "type";   //搜索类型	默认为 song
         String limit = "limit"; //请求数量	默认为 100
         String offset = "offset";   //	分页	默认第1页
+        String netease = "netease"; // 网易云
+        String tencent = "tencent"; //QQ音乐
+        String kugou = "kugou"; //酷狗
+        String kuwo = "kuwo"; //酷我
         //电影
         String start = "start"; //start : 数据的开始项
         String count = "count"; //count：单页条数
@@ -47,7 +59,7 @@ public interface Const {
         String subject = "subject"; //电影
     }
 
-    interface KeyWords_News {
+    interface News_Type {
         String news_hot = "news_hot";
         String video = "video";
         String news_society = "news_society";

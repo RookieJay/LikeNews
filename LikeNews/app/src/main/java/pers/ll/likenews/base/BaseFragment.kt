@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import pers.ll.likenews.utils.ToastUtils
+import pers.ll.likenews.view.activity.MainActivity
 import java.lang.Exception
 
 abstract class BaseFragment : Fragment() {

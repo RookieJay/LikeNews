@@ -51,7 +51,7 @@ class HotNewsAdapter(newsList: ArrayList<News>) : RecyclerView.Adapter<HotNewsAd
             Glide.with(holder.itemView.context).load(news.middle_image!!.url).into(holder.ivNews)
         }
         holder.itemView.setOnClickListener {
-            itemClickCallBack.onclick(news)
+            itemClickCallBack.onItemClick(news)
         }
     }
 
@@ -76,7 +76,7 @@ class HotNewsAdapter(newsList: ArrayList<News>) : RecyclerView.Adapter<HotNewsAd
     }
 
     interface ItemClickCallBack {
-        fun onclick(news: News)
+        fun onItemClick(news: News)
     }
 
 

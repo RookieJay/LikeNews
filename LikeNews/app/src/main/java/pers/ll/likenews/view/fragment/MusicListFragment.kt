@@ -31,6 +31,7 @@ import pers.ll.likenews.model.MusicResult
 import pers.ll.likenews.utils.DrawableUtil
 import pers.ll.likenews.utils.ToastUtils
 import pers.ll.likenews.utils.SystemUtils
+import pers.ll.likenews.utils.UIUtils
 import pers.ll.likenews.view.activity.MusicPlayActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -70,6 +71,9 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
         handler = MusicHandler(this)
         mRecyclerView = findViewById(R.id.recyclerView) as RecyclerView
         refreshLayout = findViewById(R.id.refreshLayout) as SwipeRefreshLayout
+        refreshLayout.setColorSchemeColors(
+            UIUtils.getColor(context, android.R.color.holo_blue_light), UIUtils.getColor(context,android.R.color.holo_red_light),
+            UIUtils.getColor(context,android.R.color.holo_green_light), UIUtils.getColor(context,android.R.color.holo_orange_light))
         musicList = ArrayList()
         adapter = MusicListAdapter(musicList)
         val linearLayoutManager = LinearLayoutManager(mContext)

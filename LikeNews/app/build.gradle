@@ -61,4 +61,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'jp.wasabeef:glide-transformations:2.0.2'
+    implementation 'com.wuyr:litepager:1.0.0' //小缘同学的仿网易云歌单广场效果
 }

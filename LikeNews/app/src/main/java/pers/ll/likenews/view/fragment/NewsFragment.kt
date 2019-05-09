@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,35 +15,36 @@ import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.News
 import pers.ll.likenews.model.NewsResult
-import pers.ll.likenews.utils.UIUtils
+import pers.ll.likenews.model.NewsType
+import pers.ll.likenews.utils.ThreadPoolManager
 import pers.ll.likenews.view.activity.WebActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.ref.WeakReference
 
-class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, HotNewsAdapter.ItemClickCallBack{
+class NewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, HotNewsAdapter.ItemClickCallBack {
 
     private val START_TYPE = 1
-
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var mRecyclerView : RecyclerView
     private lateinit var adapter: HotNewsAdapter
     private lateinit var newsList : ArrayList<News>
-    private lateinit var handler : MyHandler    //防止内存泄漏
+    private lateinit var handler : NewsHandler    //防止内存泄漏
+    private var executor = ThreadPoolManager.getInstance()
+    private var newsType = "news_hot"
 
     override fun setContentView(): Int {
         return R.layout.fragment_recycler_base_vertical
     }
 
     override fun initView() {
-        handler = MyHandler(this)
+        handler = NewsHandler(this)
         mRecyclerView = findViewById(R.id.recyclerView) as RecyclerView
         refreshLayout = findViewById(R.id.refreshLayout) as SwipeRefreshLayout
         refreshLayout.setOnRefreshListener(this)
-        refreshLayout.setColorSchemeColors(UIUtils.getColor(context, android.R.color.holo_blue_light), UIUtils.getColor(context,android.R.color.holo_red_light),
-            UIUtils.getColor(context,android.R.color.holo_green_light), UIUtils.getColor(context,android.R.color.holo_orange_light))
         newsList = ArrayList()
         adapter = HotNewsAdapter(newsList)
         val linearLayoutManager = LinearLayoutManager(mContext)
@@ -53,16 +53,29 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
         adapter.setOnclickListener(this)
     }
 
-
     override fun loadData() {
+        val bundle = arguments
+        if (bundle != null) {
+            val keyType = bundle.getString(Const.Key.KEY_TYPE)
+            when(keyType) {
+                NewsType.SOCIAL.toString() -> newsType = Const.News_Type.news_society
+                NewsType.ENTERTAINMENT.toString() -> newsType = Const.News_Type.news_entertainment
+                NewsType.TECH.toString() -> newsType = Const.News_Type.news_tech
+                NewsType.CAR.toString() -> newsType = Const.News_Type.news_car
+                NewsType.SPORT.toString() -> newsType = Const.News_Type.news_sport
+                NewsType.FINANCE.toString() -> newsType = Const.News_Type.news_finance
+                NewsType.MILITARY.toString() -> newsType = Const.News_Type.news_military
+                NewsType.QA.toString() -> newsType = Const.News_Type.question_and_answer
+            }
+        }
         refreshLayout.isRefreshing = true
-        Thread(Runnable {
+        executor.execute {
             val retrofit = Retrofit.Builder()
                 .baseUrl(Const.URL.BASE_URL_NEWS)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val apiService = retrofit.create(ApiService :: class.java)
-            val map : LinkedHashMap<String, Any> = linkedMapOf(Const.Param.CATEGORY to Const.News_Type.news_hot, Const.Param.COUNT to 30)
+            val map : LinkedHashMap<String, Any> = linkedMapOf(Const.Param.CATEGORY to newsType, Const.Param.COUNT to 30)
             apiService.getNews(map).enqueue(object : Callback<NewsResult> {
                 override fun onFailure(call: Call<NewsResult>, t: Throwable) {
                     Log.d("onFailure", t.message)
@@ -96,11 +109,11 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
                 }
 
             })
-        }).start()
+        }
     }
 
-     private fun startRefresh() {
-         refreshLayout.isRefreshing = true
+    private fun startRefresh() {
+        refreshLayout.isRefreshing = true
     }
 
     override fun onRefresh() {
@@ -109,8 +122,8 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
         finishRefresh()
     }
 
-     private fun finishRefresh() {
-         refreshLayout.isRefreshing = false
+    private fun finishRefresh() {
+        refreshLayout.isRefreshing = false
     }
 
     private fun showData(data: Bundle?) {
@@ -132,13 +145,18 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
         startActivity(intent)
     }
 
+    override fun onDestroy() {
+        handler.removeCallbacksAndMessages(null)
+        super.onDestroy()
+    }
 
-    class MyHandler(hotNewsFragment: HotNewsFragment) : Handler() {
+    class NewsHandler(likeNewsFragment: NewsFragment) : Handler() {
 
-        private var fragment = hotNewsFragment
+        private var mWeakReference = WeakReference(likeNewsFragment)
 
         override fun handleMessage(msg: Message?) {
-            if (msg != null && msg.data != null) {
+            val fragment = mWeakReference.get()
+            if (fragment != null && msg != null && msg.data != null) {
                 when(msg.arg1) {
                     0 -> fragment.showData(msg.data)
                     1 -> fragment.onFailure()
@@ -148,7 +166,5 @@ class HotNewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, Ho
         }
 
     }
-
-
 
 }

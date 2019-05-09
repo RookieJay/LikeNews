@@ -19,6 +19,7 @@ import pers.ll.likenews.model.Movie
 import pers.ll.likenews.model.MovieResult
 import pers.ll.likenews.utils.ThreadPoolManager
 import pers.ll.likenews.utils.ToastUtils
+import pers.ll.likenews.utils.UIUtils
 import pers.ll.likenews.view.activity.MovieDetailActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -47,6 +48,9 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
     override fun initView() {
         movieHandler = MovieHandler(this)
         refreshLayout = findViewById(R.id.refreshLayout) as SwipeRefreshLayout
+        refreshLayout.setColorSchemeColors(
+            UIUtils.getColor(context, android.R.color.holo_blue_light), UIUtils.getColor(context,android.R.color.holo_red_light),
+            UIUtils.getColor(context,android.R.color.holo_green_light), UIUtils.getColor(context,android.R.color.holo_orange_light))
         mRecyclerView = findViewById(R.id.recyclerView) as RecyclerView
         ivEmpty = findViewById(R.id.ivEmpty) as ImageView
         tvEmpty = findViewById(R.id.tvEmpty) as TextView
@@ -62,12 +66,12 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
     }
 
     override fun loadData() {
-        ThreadPoolManager.getInstance().execute(Runnable {
+        ThreadPoolManager.getInstance().execute {
             startRefresh()
             val retrofit = Retrofit.Builder()
-                    .baseUrl(Const.URL.BASE_URL_MOVIE)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
+                .baseUrl(Const.URL.BASE_URL_MOVIE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
             val apiService = retrofit.create(ApiService :: class.java)
             val map : LinkedHashMap<String, Any> = linkedMapOf(Const.Param.start to 0, Const.Param.count to 15, Const.Param.city to "成都")
             apiService.getHotMovie(map).enqueue(object : Callback<MovieResult> {
@@ -91,7 +95,7 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
                 }
 
             })
-        })
+        }
     }
 
     override fun onRefresh() {

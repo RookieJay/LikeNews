@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -35,6 +36,9 @@ import retrofit2.Retrofit
 
 class MainActivity : AppCompatActivity() {
 
+    // 保存MyTouchListener接口的列表
+    private  var mTouchListeners = ArrayList<MyTouchListener>()
+
     private lateinit var adapter : MainPagerAdapter
     private var fragments : ArrayList<Fragment> = ArrayList()
     private var menuItem : MenuItem? = null
@@ -47,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvInstruction : TextView
     private var centerTitle = "立刻新闻"
     private var fragType = 0
+    private val TYPE_DEFAULT = 0
     private val TYPE_NEWS = 1
     private val TYPE_MUSIC = 2
     private val TYPE_MOVIE = 3
@@ -107,11 +112,10 @@ class MainActivity : AppCompatActivity() {
                 //启用高斯模糊
                 val overLay = imageUtil.blur(bitmap, rlHeader)
                 MainHandler.getInstance().post {
-                    rlHeader.background = imageUtil.getDrawbleFormBitmap(rlHeader.context, overLay) }
+                    rlHeader.background = imageUtil.getDrawbleFormBitmap(rlHeader.context, bitmap) }
             }
         })
     }
-
 
     private fun initView() {
         initDrawer()
@@ -119,6 +123,7 @@ class MainActivity : AppCompatActivity() {
         initBottomNavigation()
         viewPager.setCurrentItem(0, true)
         viewPager.offscreenPageLimit = 3
+        viewPager.setNoScroll(true)
         adapter = MainPagerAdapter(supportFragmentManager)
         initData()
         viewPager.adapter = adapter
@@ -144,7 +149,7 @@ class MainActivity : AppCompatActivity() {
         fragments.add(homeFragment)
         fragments.add(centerFragment)
         fragments.add(personalFragment)
-        adapter!!.setData(fragments, supportFragmentManager)
+        adapter.setData(fragments, supportFragmentManager)
     }
 
     private fun refreshCenterFragment() {
@@ -155,14 +160,7 @@ class MainActivity : AppCompatActivity() {
                 TYPE_MOVIE -> barTitle.setText(R.string.title_movie)
             }
         }
-        val centerFragment = CenterFragment()
-        val bundle = Bundle()
-        bundle.putInt(Const.Key.START_TYPE, fragType)
-        centerFragment.arguments = bundle
-        if (fragments.size > 0 && adapter != null) {
-            fragments[1] = centerFragment
-            adapter!!.refreshData(fragments)
-        }
+        adapter.refreshData( fragType)
     }
 
     private fun loadData() {
@@ -220,7 +218,7 @@ class MainActivity : AppCompatActivity() {
                 when(i) {
                     0 -> barTitle.setText(R.string.title_home)
                     1 -> when(fragType) {
-                        0 -> barTitle.setText(R.string.title_news)
+                        TYPE_DEFAULT -> barTitle.setText(R.string.title_news)
                         TYPE_NEWS -> barTitle.setText(R.string.title_news)
                         TYPE_MUSIC -> barTitle.setText(R.string.title_music)
                         TYPE_MOVIE -> barTitle.setText(R.string.title_movie)
@@ -256,7 +254,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun showWhetherInfo(whether: Whether?) {
         if (whether != null) {
             ivWhether.setImageResource(R.drawable.ic_wb_sunny)
@@ -274,6 +271,10 @@ class MainActivity : AppCompatActivity() {
         ToastUtils.showShort("天气查询为空")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
+    }
 
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) = beginTransaction().func().commit()
 
@@ -302,5 +303,35 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    /**
+     * 提供给Fragment通过getActivity()方法来注册自己的触摸事件的方法
+     */
+    fun registerMyTouchListener(listener : MyTouchListener ) {
+        mTouchListeners.add(listener)
+    }
+
+    /**
+     * 提供给Fragment通过getActivity()方法来取消注册自己的触摸事件的方法
+     */
+    fun unRegisterMyTouchListener(listener : MyTouchListener ) {
+        mTouchListeners.remove(listener)
+    }
+
+    /**
+     * 分发触摸事件给所有注册了MyTouchListener的接口
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (mTouchListeners.size > 0) {
+            for (listener in mTouchListeners) {
+                listener.onTouchEvent(ev)
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    interface MyTouchListener {
+        fun onTouchEvent(event : MotionEvent) : Boolean
     }
 }

@@ -13,8 +13,6 @@ class LikeMovieFragment : BaseFragment() {
     }
 
     override fun initView() {
-        tvTest = findViewById(R.id.tvTest) as TextView
-        tvTest.text = "立刻电影"
     }
 
     override fun loadData() {
