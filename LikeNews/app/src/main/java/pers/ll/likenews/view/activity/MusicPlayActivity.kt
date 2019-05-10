@@ -357,8 +357,6 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             .create()
         alertDialog.setCancelable(false)
         alertDialog.show()
-
-
     }
 
     private fun releseMediaPlayer() {
@@ -390,7 +388,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
         }
     }
 
-        inner class SeekBarThread : Runnable {
+    inner class SeekBarThread : Runnable {
         override fun run() {
             if (player != null && !hadDestroy) {
                 val curTime = TimeUtils.date2String(Date(player.currentPosition.toLong()), Const.DateFormat.MMSS)
@@ -427,7 +425,5 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
         }
 
     }
-
-
 
 }

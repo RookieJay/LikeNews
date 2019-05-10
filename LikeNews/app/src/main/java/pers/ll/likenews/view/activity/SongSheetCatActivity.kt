@@ -20,7 +20,6 @@ class SongSheetCatActivity : AppCompatActivity() {
             override fun getSpanSize(position: Int): Int {
                 return 5
             }
-
         }
         recyclerView.layoutManager = layoutManager
     }
