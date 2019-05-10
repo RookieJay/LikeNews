@@ -1,6 +1,7 @@
 package pers.ll.likenews.view.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -9,14 +10,14 @@ import android.support.v4.view.ViewPager
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
+import kotlinx.android.synthetic.main.fragment_like_music.*
 import pers.ll.likenews.R
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.ui.ChildViewPager
 import pers.ll.likenews.ui.NoScrollViewPager
 import pers.ll.likenews.view.activity.MainActivity
-
-
+import pers.ll.likenews.view.activity.SongSheetCatActivity
 
 class LikeMusicFragment : BaseFragment(), MainActivity.MyTouchListener {
 
@@ -83,6 +84,9 @@ class LikeMusicFragment : BaseFragment(), MainActivity.MyTouchListener {
     private fun setListener() {
         //注册触摸事件
         curActivity.registerMyTouchListener(this)
+        ivMoreSongList.setOnClickListener {
+            startActivity(Intent(context, SongSheetCatActivity().javaClass))
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

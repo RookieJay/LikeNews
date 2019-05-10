@@ -34,6 +34,8 @@ public interface Const {
         int TYPE_NEWS = 1;
         int TYPE_MUSIC = 2;
         int TYPE_MOVIE = 3;
+        int VIEW_TYPE_CAT = 1;
+        int VIEW_TYPE_SUB_CAT = 2;
     }
 
     interface Param {

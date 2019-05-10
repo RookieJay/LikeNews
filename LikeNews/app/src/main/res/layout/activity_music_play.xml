@@ -22,7 +22,8 @@
                 android:id="@+id/ivMusicPic"
                 android:layout_width="260dp"
                 android:layout_height="260dp"
-                tools:src="@mipmap/ic_launcher" />
+                tools:src="@mipmap/ic_launcher"
+                />
         </FrameLayout>
         
         <RelativeLayout

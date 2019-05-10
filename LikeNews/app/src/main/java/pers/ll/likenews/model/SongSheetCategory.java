@@ -15,9 +15,9 @@ public class SongSheetCategory {
      */
 
     private AllBean all;
-    private CategoriesBean categories;
+    private Categories categories;
     private int code;
-    private List<SubBean> sub;
+    private List<SubCat> sub;
 
     public AllBean getAll() {
         return all;
@@ -27,11 +27,11 @@ public class SongSheetCategory {
         this.all = all;
     }
 
-    public CategoriesBean getCategories() {
+    public Categories getCategories() {
         return categories;
     }
 
-    public void setCategories(CategoriesBean categories) {
+    public void setCategories(Categories categories) {
         this.categories = categories;
     }
 
@@ -43,11 +43,11 @@ public class SongSheetCategory {
         this.code = code;
     }
 
-    public List<SubBean> getSub() {
+    public List<SubCat> getSub() {
         return sub;
     }
 
-    public void setSub(List<SubBean> sub) {
+    public void setSub(List<SubCat> sub) {
         this.sub = sub;
     }
 
@@ -147,7 +147,7 @@ public class SongSheetCategory {
         }
     }
 
-    public static class CategoriesBean {
+    public static class Categories {
         /**
          * 0 : 语种
          * 1 : 风格
@@ -157,58 +157,58 @@ public class SongSheetCategory {
          */
 
         @SerializedName("0")
-        private String _$0;
+        private String catLan;
         @SerializedName("1")
-        private String _$1;
+        private String catStyle;
         @SerializedName("2")
-        private String _$2;
+        private String catScene;
         @SerializedName("3")
-        private String _$3;
+        private String catMotion;
         @SerializedName("4")
-        private String _$4;
+        private String catTheme;
 
-        public String get_$0() {
-            return _$0;
+        public String getCatLan() {
+            return catLan;
         }
 
-        public void set_$0(String _$0) {
-            this._$0 = _$0;
+        public void setCatLan(String catLan) {
+            this.catLan = catLan;
         }
 
-        public String get_$1() {
-            return _$1;
+        public String getCatStyle() {
+            return catStyle;
         }
 
-        public void set_$1(String _$1) {
-            this._$1 = _$1;
+        public void setCatStyle(String catStyle) {
+            this.catStyle = catStyle;
         }
 
-        public String get_$2() {
-            return _$2;
+        public String getCatScene() {
+            return catScene;
         }
 
-        public void set_$2(String _$2) {
-            this._$2 = _$2;
+        public void setCatScene(String catScene) {
+            this.catScene = catScene;
         }
 
-        public String get_$3() {
-            return _$3;
+        public String getCatMotion() {
+            return catMotion;
         }
 
-        public void set_$3(String _$3) {
-            this._$3 = _$3;
+        public void setCatMotion(String catMotion) {
+            this.catMotion = catMotion;
         }
 
-        public String get_$4() {
-            return _$4;
+        public String getCatTheme() {
+            return catTheme;
         }
 
-        public void set_$4(String _$4) {
-            this._$4 = _$4;
+        public void setCatTheme(String catTheme) {
+            this.catTheme = catTheme;
         }
     }
 
-    public static class SubBean {
+    public static class SubCat {
         /**
          * name : 流行
          * resourceCount : 1000

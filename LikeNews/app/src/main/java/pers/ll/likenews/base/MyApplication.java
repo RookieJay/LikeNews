@@ -1,9 +1,11 @@
 package pers.ll.likenews.base;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Environment;
 
 import pers.ll.likenews.utils.AppUtils;
+import pers.ll.likenews.utils.CrashUtils;
 import pers.ll.likenews.utils.LogUtils;
 
 /**
@@ -18,6 +20,7 @@ public class MyApplication extends Application {
         return app;
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onCreate() {
         super.onCreate();
@@ -25,7 +28,8 @@ public class MyApplication extends Application {
         AppUtils.init(this);
         String logPath = String.format("%s/%s/log", Environment.getExternalStorageDirectory().toString(),
                 getPackageName());
-        LogUtils.getConfig().setDir(logPath).setFilePrefix("likeNews");
+        CrashUtils.init(logPath);
+        LogUtils.getConfig().setDir(logPath).setFilePrefix("LikeNews");
     }
 
 

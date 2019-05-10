@@ -2,6 +2,9 @@ package pers.ll.likenews.model;
 
 import java.util.List;
 
+/**
+ * 歌单
+ */
 public class SongSheet {
         /**
          * songListId : 3778678

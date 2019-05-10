@@ -105,11 +105,13 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                     }
                 }
             }
-            //（1）LinearInterpolator：动画从开始到结束，变化率是线性变化。
-            //（2）AccelerateInterpolator：动画从开始到结束，变化率是一个加速的过程。
-            //（3）DecelerateInterpolator：动画从开始到结束，变化率是一个减速的过程。
-            //（4）CycleInterpolator：动画从开始到结束，变化率是循环给定次数的正弦曲线。
-            //（5）AccelerateDecelerateInterpolator：动画从开始到结束，变化率是先加速后减速的过程。
+            /**
+             *   （1）LinearInterpolator：动画从开始到结束，变化率是线性变化。
+             *   （2）AccelerateInterpolator：动画从开始到结束，变化率是一个加速的过程。
+             *   （3）DecelerateInterpolator：动画从开始到结束，变化率是一个减速的过程。
+             *   （4）CycleInterpolator：动画从开始到结束，变化率是循环给定次数的正弦曲线。
+             *   （5）AccelerateDecelerateInterpolator：动画从开始到结束，变化率是先加速后减速的过程。
+             */
             state = STATE_STOP
             objectAnimator = ObjectAnimator.ofFloat(ivMusicPic, "rotation", 0f, 360f) //添加旋转动画，旋转中心默认为控件中点
             objectAnimator.duration = 20000 //设置动画时间
@@ -119,6 +121,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             tvMusicDuration = findViewById(R.id.tvMusicDuration)
             tvCurTime = findViewById(R.id.tvCurTime)
             seekBar = findViewById(R.id.seekBar)
+            hideLrc()
         }
     }
 
@@ -306,7 +309,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                 return@setOnClickListener
             }
             music = musicList[curPosition-1]
-            curPosition++
+            curPosition -= 1
             switchMusic(music)
         }
         ivNext.setOnClickListener {
@@ -319,7 +322,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                 return@setOnClickListener
             }
             music = musicList[curPosition+1]
-            curPosition--
+            curPosition += 1
             switchMusic(music)
         }
     }
@@ -334,7 +337,8 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun switchMusic(music: Music) {
-        stopMediaPlayer()
+        player.stop()
+        player.reset()
         initView()
         initPlayer()
     }
@@ -357,7 +361,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 
     }
 
-    private fun stopMediaPlayer() {
+    private fun releseMediaPlayer() {
         if (player != null) {
             player.stop()
             hadDestroy = true
@@ -367,7 +371,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        stopMediaPlayer()
+        releseMediaPlayer()
     }
 
     private class ProgressHandler(activity : MusicPlayActivity) : Handler() {

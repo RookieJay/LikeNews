@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import pers.ll.likenews.R
 import pers.ll.likenews.model.Movie
+import pers.ll.likenews.ui.RoundCornerImageView
 import java.text.FieldPosition
 
 class HotMovieAdapter(movieList : ArrayList<Movie>, onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<HotMovieAdapter.Holder>() {
@@ -53,7 +54,7 @@ class HotMovieAdapter(movieList : ArrayList<Movie>, onItemClickListener: OnItemC
     }
 
     inner class Holder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        val ivMovie = itemView.findViewById(R.id.ivMovie) as ImageView
+        val ivMovie = itemView.findViewById(R.id.ivMovie) as RoundCornerImageView
         val tvMovieName = itemView.findViewById(R.id.tvMovieName) as TextView
         val rbRating = itemView.findViewById(R.id.rbRating) as RatingBar
         val tvScore = itemView.findViewById(R.id.tvScore) as TextView

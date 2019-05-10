@@ -50,5 +50,10 @@ interface ApiService {
      */
     @GET("weatherApi")
     fun getWhether(@Query("city") city : String ) : Call<WhetherResult>
+
+    /**
+     * 获取某一类型歌单（全部，华语，粤语...）   https://api.itooi.cn/music/netease/highQualitySongList?key=579621905&cat=全部&limit=100
+     */
+
 }
 
