@@ -30,7 +30,9 @@
     <!--&#8195;&#8195;-->
     
     <!--drawerLayout-->
+    <string name="nav_cat">分类</string>
     <string name="nav_news">新闻</string>
     <string name="nav_music">音乐</string>
     <string name="nav_movie">电影</string>
+    <string name="nav_whether">天气</string>
 </resources>

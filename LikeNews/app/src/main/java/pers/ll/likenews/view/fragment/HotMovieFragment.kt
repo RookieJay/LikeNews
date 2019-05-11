@@ -137,6 +137,8 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
     override fun onItemClick(movie: Movie) {
         val intent = Intent(mContext, MovieDetailActivity().javaClass)
         intent.putExtra(Const.Key.KEY_MOVIE, movie)
+        //解决异常 Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(intent)
     }
 
