@@ -11,6 +11,7 @@ public interface Const {
         String BASE_URL_NEWS = "http://is.snssdk.com/api/news/";
         String BASE_URL_MUSIC = "https://api.itooi.cn/music/netease/"; //旧版音乐接口，2019年6月30日停止维护
         String BASE_URL_MUSIC_NEW = "https://v1.itooi.cn/netease/"; //新版音乐接口
+        String BASE_URL_MUSIC_XIAOWEI = "https://api.mlwei.com/music/api/"; //小伟博客网易云音乐wy
         String BASE_URL_MOVIE = "https://api.douban.com/v2/movie/";
         String BASE_URL_WHETHER = "https://www.apiopen.top/";
         String BING_DAILY_PIC = "https://api.mlwei.com/bing.php"; //必应每日一图
@@ -58,6 +59,8 @@ public interface Const {
         String count = "count"; //count：单页条数
         String city = "city";   //city：城市
         String subject = "subject"; //电影
+        //小伟博客网易云音乐
+//        type	必需	解析类型：song 单曲，songlist 歌单，so 搜索，url 链接，pic 专辑图，lrc 歌词
     }
 
     interface News_Type {

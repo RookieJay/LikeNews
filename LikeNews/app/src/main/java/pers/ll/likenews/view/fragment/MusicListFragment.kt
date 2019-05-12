@@ -28,6 +28,8 @@ import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Music
 import pers.ll.likenews.model.MusicResult
+import pers.ll.likenews.model.XWMusic
+import pers.ll.likenews.model.XWMusicResult
 import pers.ll.likenews.utils.DrawableUtil
 import pers.ll.likenews.utils.ToastUtils
 import pers.ll.likenews.utils.SystemUtils
@@ -50,6 +52,7 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
     private lateinit var adapter: MusicListAdapter
     private lateinit var handler : Handler
     private lateinit var musicList : ArrayList<Music>
+    private lateinit var musicListXW : ArrayList<XWMusic>
     private lateinit var etSearch : EditText
     private lateinit var viewLine : View
     private var musicName = "春风十里"
@@ -74,8 +77,10 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
         refreshLayout.setColorSchemeColors(
             UIUtils.getColor(context, android.R.color.holo_blue_light), UIUtils.getColor(context,android.R.color.holo_red_light),
             UIUtils.getColor(context,android.R.color.holo_green_light), UIUtils.getColor(context,android.R.color.holo_orange_light))
-        musicList = ArrayList()
-        adapter = MusicListAdapter(musicList)
+//        musicList = ArrayList()
+        musicListXW = ArrayList()
+//        adapter = MusicListAdapter(musicList)
+        adapter = MusicListAdapter(musicListXW)
         val linearLayoutManager = LinearLayoutManager(mContext)
         mRecyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = adapter
@@ -112,7 +117,7 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
                     }
                     startRefresh()
                     musicName = content
-                    requestData()
+                    requestDataXW()
                     return true
                 }
                 return false
@@ -156,7 +161,7 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
             musicName = keyWords[random]
             etSearch.hint = String.format("请输入您要搜索的关键词,如:%s", musicName)
         }
-        requestData()
+        requestDataXW()
     }
 
     private fun finishRefresh() {
@@ -167,20 +172,60 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
 
     override fun loadData() {
         startRefresh()
-        requestData()
+        requestDataXW()
     }
 
-    private fun requestData() {
+//    private fun requestDataXW() {
+//        Thread(Runnable {
+//            val retrofit = Retrofit.Builder()
+//                    .baseUrl(Const.URL.BASE_URL_MUSIC)
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build()
+//            val apiService = retrofit.create(ApiService :: class.java)
+//            val map : LinkedHashMap<String, Any> = linkedMapOf("key" to "579621905", "s" to musicName, "type" to "song",
+//                    "limit" to 30, "offset" to 0)
+//            apiService.searchMusic(map).enqueue(object : Callback<MusicResult<Music>> {
+//                override fun onFailure(call: Call<MusicResult<Music>>, t: Throwable) {
+//                    Log.d("Music->onFailure", t.message)
+//                    val message = handler.obtainMessage()
+//                    val bundle = Bundle()
+//                    message.data = bundle
+//                    message.arg1 = Args_Failure
+//                    handler.sendMessage(message)
+//                }
+//
+//                override fun onResponse(call: Call<MusicResult<Music>>, response: Response<MusicResult<Music>>) {
+//                    musicList.clear()
+//                    Log.d("Music->成功message", response.message())
+//                    val result = response.body()
+//                    val message = handler.obtainMessage()
+//                    if (response.code() == 200 && result != null) {
+//                        val list = result.data as ArrayList<Music>
+//                        val bundle = Bundle()
+//                        bundle.putParcelableArrayList(Const.Key.KEY_MUSIC_LIST, list)
+//                        message.arg1 = Args_Success
+//                        message.data = bundle
+//                    } else {
+//                        message.arg1 = Args_Empty
+//                    }
+//                    handler.sendMessage(message)
+//                }
+//            })
+//        }).start()
+//
+//    }
+
+    private fun requestDataXW() {
         Thread(Runnable {
             val retrofit = Retrofit.Builder()
-                    .baseUrl(Const.URL.BASE_URL_MUSIC)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
+                .baseUrl(Const.URL.BASE_URL_MUSIC_XIAOWEI)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
             val apiService = retrofit.create(ApiService :: class.java)
-            val map : LinkedHashMap<String, Any> = linkedMapOf("key" to "579621905", "s" to musicName, "type" to "song",
-                    "limit" to 30, "offset" to 0)
-            apiService.searchMusic(map).enqueue(object : Callback<MusicResult<Music>> {
-                override fun onFailure(call: Call<MusicResult<Music>>, t: Throwable) {
+            val map : LinkedHashMap<String, Any> = linkedMapOf("key" to "523077333", "id" to musicName, "type" to "so",
+                "nu" to 30) //30条
+            apiService.searchMusicXW(map).enqueue(object : Callback<XWMusicResult> {
+                override fun onFailure(call: Call<XWMusicResult>, t: Throwable) {
                     Log.d("Music->onFailure", t.message)
                     val message = handler.obtainMessage()
                     val bundle = Bundle()
@@ -189,14 +234,17 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
                     handler.sendMessage(message)
                 }
 
-                override fun onResponse(call: Call<MusicResult<Music>>, response: Response<MusicResult<Music>>) {
-                    musicList.clear()
+                override fun onResponse(call: Call<XWMusicResult>, response: Response<XWMusicResult>) {
+//                    musicList.clear()
+                    musicListXW.clear()
                     Log.d("Music->成功message", response.message())
                     val result = response.body()
                     val message = handler.obtainMessage()
                     if (response.code() == 200 && result != null) {
-                        val list = result.data as ArrayList<Music>
+//                        val list = result.data as ArrayList<Music>
+                        val list = result.body as ArrayList<XWMusic>
                         val bundle = Bundle()
+//                        bundle.putParcelableArrayList(Const.Key.KEY_MUSIC_LIST, list)
                         bundle.putParcelableArrayList(Const.Key.KEY_MUSIC_LIST, list)
                         message.arg1 = Args_Success
                         message.data = bundle
@@ -213,8 +261,14 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
     private fun showData(data: Bundle?) {
         if (data != null) {
             rlEmpty.visibility = View.GONE
-            musicList = data.getParcelableArrayList(Const.Key.KEY_MUSIC_LIST)
-            adapter.replaceAll(musicList)
+//            musicList = data.getParcelableArrayList(Const.Key.KEY_MUSIC_LIST)
+//            adapter.replaceAll(musicList)
+            musicListXW = data.getParcelableArrayList(Const.Key.KEY_MUSIC_LIST)
+            if (musicListXW.size > 0) {
+                adapter.replaceAll(musicListXW)
+            } else {
+                ToastUtils.showShort("没有找到相关歌曲")
+            }
             finishRefresh()
         }
     }
@@ -232,7 +286,15 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
         finishRefresh()
     }
 
-    override fun onItemClick(music: Music, data: ArrayList<Music>, position: Int) {
+//    override fun onItemClick(music: Music, data: ArrayList<Music>, position: Int) {
+//        val intent = Intent(context, MusicPlayActivity:: class.java)
+//        intent.putExtra(Const.Key.KEY_POSITION, position)
+//        intent.putExtra(Const.Key.KEY_MUSIC, music)
+//        intent.putParcelableArrayListExtra(Const.Key.KEY_MUSIC_LIST, data)
+//        startActivity(intent)
+//    }
+
+    override fun onItemClick(music: XWMusic, data: ArrayList<XWMusic>, position: Int) {
         val intent = Intent(context, MusicPlayActivity:: class.java)
         intent.putExtra(Const.Key.KEY_POSITION, position)
         intent.putExtra(Const.Key.KEY_MUSIC, music)

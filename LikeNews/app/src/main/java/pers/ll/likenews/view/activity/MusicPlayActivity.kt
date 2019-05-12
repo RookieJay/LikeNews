@@ -18,15 +18,14 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_music_play.*
 import pers.ll.likenews.R
 import pers.ll.likenews.consts.Const
-import pers.ll.likenews.model.Music
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import android.widget.TextView
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.include_music_play_toolbar.*
+import okhttp3.MediaType
 import pers.ll.likenews.api.ApiService
-import pers.ll.likenews.model.ErroBody
-import pers.ll.likenews.model.MusicResult
+import pers.ll.likenews.model.*
 import pers.ll.likenews.utils.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,8 +42,10 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     private val Args_Failure = 1
     private val Args_Empty = 2
 
-    private lateinit var music : Music
-    private lateinit var musicList : ArrayList<Music>
+//    private lateinit var music : Music
+    private lateinit var music : XWMusic
+//    private lateinit var musicList : ArrayList<Music>
+private lateinit var musicList : ArrayList<XWMusic>
     private lateinit var imageUtil : ImageUtil
     private lateinit var objectAnimator : ObjectAnimator
     private val STATE_PLAYING = 1 //正在播放
@@ -68,6 +69,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_music_play)
         super.onCreate(savedInstanceState)
+//        music = intent.getParcelableExtra(Const.Key.KEY_MUSIC)
         music = intent.getParcelableExtra(Const.Key.KEY_MUSIC)
         curPosition = intent.getIntExtra(Const.Key.KEY_POSITION, -1)
         musicList = intent.getParcelableArrayListExtra(Const.Key.KEY_MUSIC_LIST)
@@ -132,8 +134,10 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
         barTitle.isSelected = true
         barTitle.isFocusable = true
         barTitle.isFocusableInTouchMode = true
-        barTitle.text = music.name
-        barSubTitle.text = music.singer
+//        barTitle.text = music.name
+//        barSubTitle.text = music.singer
+        barTitle.text = music.title
+        barSubTitle.text = music.author
         //FLAG_LAYOUT_NO_LIMITS允许窗口扩展到屏幕之外。
 //        // 但这样会把ToolBar顶到最上面去，这时候再给ToolBar设置一个MarginTop就好了。
 //        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
@@ -142,47 +146,101 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 //        toolBarMusic.layoutParams = params
 
     }
+//
+//    private fun initPlayer() {
+//        Log.d("-----MPA", "initPlayer")
+//        validateHandler = ValidateHandler(this)
+//        executor.execute(Runnable {
+//            try {
+//                val retrofit = Retrofit.Builder()
+//                    .baseUrl(Const.URL.BASE_URL_MUSIC)
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build()
+//                val apiService = retrofit.create(ApiService :: class.java)
+//                val map = linkedMapOf("key" to 579621905, "id" to music.id, "br" to 999000)
+//                val bundle = Bundle()
+//                apiService.validateMusic(map).enqueue(object : Callback<MusicResult<String>>{
+//                    @RequiresApi(Build.VERSION_CODES.KITKAT)
+//                    override fun onFailure(call: Call<MusicResult<String>>, t: Throwable) {
+//                        //现在用于接收的只是错误信息，如果解析错误，说明歌曲可以播放，在此做正确操作
+//                        try {
+//                            player.setDataSource(music.url)
+//                            player.prepare()
+//                            player.setAudioStreamType(AudioManager.STREAM_MUSIC)
+//                        } catch (e: Exception) {
+//                        }
+//                    }
+//
+//                    override fun onResponse(call: Call<MusicResult<String>>, response: Response<MusicResult<String>>) {
+//                        val errorBody = response.errorBody()
+//                        if (errorBody != null) {
+//                            val json = errorBody.string()
+//                            val body = Gson().fromJson<ErroBody>(json, ErroBody::class.java)
+//                            if (body.code == 2333 || body.result == "ERROR") {
+//                                val msg = validateHandler.obtainMessage()
+//                                msg.arg1 = Args_Failure
+//                                bundle.putString(Const.Key.KEY_MSG, "抱歉！\n由于版权或付费等原因，此歌曲暂时无法播放.\n请您谅解！")
+//                                msg.data = bundle
+//                                validateHandler.sendMessage(msg)
+//                            } else {
+//                                player.setDataSource(music.url)
+//                                player.prepare()
+//                                player.setAudioStreamType(AudioManager.STREAM_MUSIC)
+//                            }
+//                        }
+//                    }
+//
+//                })
+//
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        })
+//    }
 
     private fun initPlayer() {
         Log.d("-----MPA", "initPlayer")
         validateHandler = ValidateHandler(this)
-        executor.execute(Runnable {
+        executor.execute {
             try {
                 val retrofit = Retrofit.Builder()
-                    .baseUrl(Const.URL.BASE_URL_MUSIC)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(Const.URL.BASE_URL_MUSIC_XIAOWEI)
                     .build()
                 val apiService = retrofit.create(ApiService :: class.java)
-                val map = linkedMapOf("key" to 579621905, "id" to music.id, "br" to 999000)
+//                val map = linkedMapOf("key" to 523077333, "id" to music.title, "type" to "song")
                 val bundle = Bundle()
-                apiService.validateMusic(map).enqueue(object : Callback<MusicResult<String>>{
+                val msg = validateHandler.obtainMessage()
+                val paramUrl  = music.url.replace("https://api.mlwei.com/music/api/wy/", "")
+                apiService.validateMusicXW(music.url).enqueue(object : Callback<String>{
                     @RequiresApi(Build.VERSION_CODES.KITKAT)
-                    override fun onFailure(call: Call<MusicResult<String>>, t: Throwable) {
-                        //现在用于接收的只是错误信息，如果解析错误，说明歌曲可以播放，在此做正确操作
-                        try {
+                    override fun onFailure(call: Call<String>, t: Throwable) {
+                        bundle.putString(Const.Key.KEY_MSG, "抱歉！由于版权或付费等原因，此歌曲暂时无法播放。\n请您谅解！")
+                        msg.arg1 = Args_Failure
+                        msg.data = bundle
+                        validateHandler.sendMessage(msg)
+                    }
+
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                        val rawBody = response.raw().body()
+                        //付费
+                        if (rawBody != null && rawBody.contentType() == MediaType.parse("text/html;charset=utf8")) {
+                            msg.arg1 = Args_Failure
+                            bundle.putString(Const.Key.KEY_MSG, "抱歉！由于版权或付费等原因，此歌曲暂时无法播放。\n请您谅解！")
+                            msg.data = bundle
+                            validateHandler.sendMessage(msg)
+                            return
+                        }
+                        val body = response.body()
+                        if (body.isNullOrEmpty()) {
+                            msg.arg1 = Args_Failure
+                            bundle.putString(Const.Key.KEY_MSG, "未知错误！")
+                            msg.data = bundle
+                            validateHandler.sendMessage(msg)
+                        } else {
                             player.setDataSource(music.url)
                             player.prepare()
                             player.setAudioStreamType(AudioManager.STREAM_MUSIC)
-                        } catch (e: Exception) {
-                        }
-                    }
-
-                    override fun onResponse(call: Call<MusicResult<String>>, response: Response<MusicResult<String>>) {
-                        val errorBody = response.errorBody()
-                        if (errorBody != null) {
-                            val json = errorBody.string()
-                            val body = Gson().fromJson<ErroBody>(json, ErroBody::class.java)
-                            if (body.code == 2333 || body.result == "ERROR") {
-                                val msg = validateHandler.obtainMessage()
-                                msg.arg1 = Args_Failure
-                                bundle.putString(Const.Key.KEY_MSG, "抱歉！\n因为版权或付费原因，此歌曲暂时无法播放，\n请您谅解！")
-                                msg.data = bundle
-                                validateHandler.sendMessage(msg)
-                            } else {
-                                player.setDataSource(music.url)
-                                player.prepare()
-                                player.setAudioStreamType(AudioManager.STREAM_MUSIC)
-                            }
                         }
                     }
 
@@ -191,7 +249,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        })
+        }
 
     }
 
@@ -310,7 +368,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             }
             music = musicList[curPosition-1]
             curPosition -= 1
-            switchMusic(music)
+            switchMusic()
         }
         ivNext.setOnClickListener {
             if (curPosition == -1) {
@@ -323,7 +381,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             }
             music = musicList[curPosition+1]
             curPosition += 1
-            switchMusic(music)
+            switchMusic()
         }
     }
 
@@ -335,13 +393,22 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
         ivMusicPic.visibility = View.VISIBLE
     }
 
+//    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+//    private fun switchMusic(music: Music) {
+//        player.stop()
+//        player.reset()
+//        initView()
+//        initPlayer()
+//    }
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun switchMusic(music: Music) {
+    private fun switchMusic() {
         player.stop()
         player.reset()
         initView()
         initPlayer()
     }
+
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onPrepared(mp: MediaPlayer?) {
