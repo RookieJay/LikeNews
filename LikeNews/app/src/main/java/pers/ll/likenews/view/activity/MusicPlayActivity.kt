@@ -21,7 +21,6 @@ import pers.ll.likenews.consts.Const
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import android.widget.TextView
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.include_music_play_toolbar.*
 import okhttp3.MediaType
 import pers.ll.likenews.api.ApiService
@@ -43,9 +42,9 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     private val Args_Empty = 2
 
 //    private lateinit var music : Music
-    private lateinit var music : XWMusic
 //    private lateinit var musicList : ArrayList<Music>
-private lateinit var musicList : ArrayList<XWMusic>
+    private lateinit var music : XWMusic
+    private lateinit var musicList : ArrayList<XWMusic>
     private lateinit var imageUtil : ImageUtil
     private lateinit var objectAnimator : ObjectAnimator
     private val STATE_PLAYING = 1 //正在播放
@@ -64,6 +63,8 @@ private lateinit var musicList : ArrayList<XWMusic>
     private var executor = ThreadPoolManager.getInstance()
     private var isLrcShowing = false
     private var curPosition = -1
+    private var bufferPercentage = 0
+    private var totalDur = 0L
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,11 +74,6 @@ private lateinit var musicList : ArrayList<XWMusic>
         music = intent.getParcelableExtra(Const.Key.KEY_MUSIC)
         curPosition = intent.getIntExtra(Const.Key.KEY_POSITION, -1)
         musicList = intent.getParcelableArrayListExtra(Const.Key.KEY_MUSIC_LIST)
-//        for ((index, element) in musicList.withIndex()) {
-//            if (music.equals(element)) {
-//                curPosition = index
-//            }
-//        }
         initView()
         initPlayer()
         setListener()
@@ -88,25 +84,7 @@ private lateinit var musicList : ArrayList<XWMusic>
     private fun initView() {
         initToolbar()
         if (music.pic != null) {
-            imageUtil = ImageUtil.getInstance()
-            Glide.with(ivMusicPic.context)
-                .load(music.pic)
-                .centerCrop()
-                .placeholder(ContextCompat.getDrawable(ivMusicPic.context, R.drawable.icon_music_placeholder))
-                .error(ContextCompat.getDrawable(ivMusicPic.context, R.drawable.icon_music_placeholder))
-                .into(ivMusicPic)
-            executor.execute {
-                val bitmap = imageUtil.url2BitMap(music.pic)
-                if (bitmap != null) {
-                    //启用高斯模糊
-                    val blurBitmap = imageUtil.rsBlur(ivBg.context, bitmap, 24, 1f / 8f)
-                    //回到主线程
-                    MainHandler.getInstance().post {
-                        //                        ivBg.setImageDrawable(imageUtil.getDrawbleFormBitmap(ivBg.context, blurBitmap))
-                        ivBg.background = imageUtil.getDrawbleFormBitmap(ivBg.context, blurBitmap)
-                    }
-                }
-            }
+            setImgAndBackground()
             /**
              *   （1）LinearInterpolator：动画从开始到结束，变化率是线性变化。
              *   （2）AccelerateInterpolator：动画从开始到结束，变化率是一个加速的过程。
@@ -115,15 +93,37 @@ private lateinit var musicList : ArrayList<XWMusic>
              *   （5）AccelerateDecelerateInterpolator：动画从开始到结束，变化率是先加速后减速的过程。
              */
             state = STATE_STOP
+            tvCurTime = findViewById(R.id.tvCurTime)
+            seekBar = findViewById(R.id.seekBar)
+            tvMusicDuration = findViewById(R.id.tvMusicDuration)
             objectAnimator = ObjectAnimator.ofFloat(ivMusicPic, "rotation", 0f, 360f) //添加旋转动画，旋转中心默认为控件中点
             objectAnimator.duration = 20000 //设置动画时间
             objectAnimator.interpolator = LinearInterpolator() //动画时间线性渐变
             objectAnimator.repeatCount = ObjectAnimator.INFINITE
             objectAnimator.repeatMode = ObjectAnimator.RESTART
-            tvMusicDuration = findViewById(R.id.tvMusicDuration)
-            tvCurTime = findViewById(R.id.tvCurTime)
-            seekBar = findViewById(R.id.seekBar)
             hideLrc()
+        }
+    }
+
+    private fun setImgAndBackground() {
+        imageUtil = ImageUtil.getInstance()
+        Glide.with(ivMusicPic.context)
+            .load(music.pic)
+            .centerCrop()
+            .placeholder(ContextCompat.getDrawable(ivMusicPic.context, R.drawable.icon_music_placeholder))
+            .error(ContextCompat.getDrawable(ivMusicPic.context, R.drawable.icon_music_placeholder))
+            .into(ivMusicPic)
+        executor.execute {
+            val bitmap = imageUtil.url2BitMap(music.pic)
+            if (bitmap != null) {
+                //启用高斯模糊
+                val blurBitmap = imageUtil.rsBlur(ivBg.context, bitmap, 24, 1f / 8f)
+                //回到主线程
+                MainHandler.getInstance().post {
+                    //                        ivBg.setImageDrawable(imageUtil.getDrawbleFormBitmap(ivBg.context, blurBitmap))
+                    ivBg.background = imageUtil.getDrawbleFormBitmap(ivBg.context, blurBitmap)
+                }
+            }
         }
     }
 
@@ -211,7 +211,6 @@ private lateinit var musicList : ArrayList<XWMusic>
 //                val map = linkedMapOf("key" to 523077333, "id" to music.title, "type" to "song")
                 val bundle = Bundle()
                 val msg = validateHandler.obtainMessage()
-                val paramUrl  = music.url.replace("https://api.mlwei.com/music/api/wy/", "")
                 apiService.validateMusicXW(music.url).enqueue(object : Callback<String>{
                     @RequiresApi(Build.VERSION_CODES.KITKAT)
                     override fun onFailure(call: Call<String>, t: Throwable) {
@@ -265,7 +264,7 @@ private lateinit var musicList : ArrayList<XWMusic>
                     state = STATE_PLAYING
                     Thread(SeekBarThread()).start() //线程开始
                     seekBar.max = player.duration
-                    val totalDur = player.duration.toLong()
+                    totalDur = player.duration.toLong()
                     val duration = TimeUtils.date2String(Date(totalDur), Const.DateFormat.MMSS)
                     tvMusicDuration.text = duration
                 }
@@ -296,7 +295,6 @@ private lateinit var musicList : ArrayList<XWMusic>
                     state = STATE_PAUSE
                     player.pause()
                 }
-
             } else{
                 ivPause.setImageResource(R.drawable.ic_pause_circle)
                 Log.d("-----MPA", "resumeplayMusic")
@@ -307,12 +305,6 @@ private lateinit var musicList : ArrayList<XWMusic>
                 }
             }
             isPlaying = !isPlaying
-        }
-        ivPrevious.setOnClickListener{
-
-        }
-        ivNext.setOnClickListener {
-
         }
         ivRecycle.setOnClickListener {
             if (!isRepeat) {
@@ -325,12 +317,14 @@ private lateinit var musicList : ArrayList<XWMusic>
             }
             isRepeat = !isRepeat
         }
-        player.setOnErrorListener(object : MediaPlayer.OnErrorListener {
-            override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
-                Log.d("-----MPA", "onError: what$what extra:$extra")
-                return false
-            }
-        })
+        player.setOnErrorListener { mp, what, extra ->
+            Log.d("-----MPA", "onError: what$what extra:$extra")
+            false
+        }
+        player.setOnBufferingUpdateListener { mp, percent ->
+                Log.i("percent", percent.toString())
+                bufferPercentage = percent
+        }
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
@@ -356,33 +350,49 @@ private lateinit var musicList : ArrayList<XWMusic>
             } else {
                 hideLrc()
             }
+            isLrcShowing = !isLrcShowing
         }
         ivPrevious.setOnClickListener {
-            if (curPosition == -1) {
-                ToastUtils.showShort("未知错误")
-                return@setOnClickListener
-            }
-            if (curPosition == 0) {
-                ToastUtils.showShort("当前正在播放第一首歌")
-                return@setOnClickListener
-            }
-            music = musicList[curPosition-1]
-            curPosition -= 1
-            switchMusic()
+            switchToPrevious()
+
         }
         ivNext.setOnClickListener {
-            if (curPosition == -1) {
-                ToastUtils.showShort("未知错误")
-                return@setOnClickListener
-            }
-            if (curPosition == musicList.size - 1) {
-                ToastUtils.showShort("当前正在播放最后一首歌")
-                return@setOnClickListener
-            }
-            music = musicList[curPosition+1]
-            curPosition += 1
-            switchMusic()
+            switchToNext()
         }
+    }
+
+    private fun notifyAnimatorChange() {
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun switchToPrevious() {
+        if (curPosition == -1) {
+            ToastUtils.showShort("未知错误")
+            return
+        }
+        if (curPosition == 0) {
+            ToastUtils.showShort("当前正在播放第一首歌")
+            return
+        }
+        music = musicList[curPosition-1]
+        curPosition -= 1
+        switchMusic()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun switchToNext() {
+        if (curPosition == -1) {
+            ToastUtils.showShort("未知错误")
+            return
+        }
+        if (curPosition == musicList.size - 1) {
+            ToastUtils.showShort("当前正在播放最后一首歌")
+            return
+        }
+        music = musicList[curPosition+1]
+        curPosition += 1
+        switchMusic()
     }
 
     private fun showLrc() {
@@ -405,6 +415,8 @@ private lateinit var musicList : ArrayList<XWMusic>
     private fun switchMusic() {
         player.stop()
         player.reset()
+//        setImgAndBackground()
+//        initToolbar()
         initView()
         initPlayer()
     }
@@ -426,7 +438,7 @@ private lateinit var musicList : ArrayList<XWMusic>
         alertDialog.show()
     }
 
-    private fun releseMediaPlayer() {
+    private fun releaseMediaPlayer() {
         if (player != null) {
             player.stop()
             hadDestroy = true
@@ -436,7 +448,7 @@ private lateinit var musicList : ArrayList<XWMusic>
 
     override fun onDestroy() {
         super.onDestroy()
-        releseMediaPlayer()
+        releaseMediaPlayer()
     }
 
     private class ProgressHandler(activity : MusicPlayActivity) : Handler() {
@@ -456,9 +468,14 @@ private lateinit var musicList : ArrayList<XWMusic>
     }
 
     inner class SeekBarThread : Runnable {
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun run() {
             if (player != null && !hadDestroy) {
                 val curTime = TimeUtils.date2String(Date(player.currentPosition.toLong()), Const.DateFormat.MMSS)
+                if (curTime == totalDur.toString()) {
+                    switchToNext()
+                    return
+                }
                 val bundle  = Bundle()
                 bundle.putString("curTime", curTime)
                 val msg = handler.obtainMessage()
