@@ -14,12 +14,10 @@ import kotlinx.android.synthetic.main.fragment_like_music.*
 import pers.ll.likenews.R
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
-import pers.ll.likenews.ui.ChildViewPager
-import pers.ll.likenews.ui.NoScrollViewPager
 import pers.ll.likenews.view.activity.MainActivity
 import pers.ll.likenews.view.activity.SongSheetCatActivity
 
-class LikeMusicFragment : BaseFragment(), MainActivity.MyTouchListener {
+class LikeMusicFragment : BaseFragment(){
 
     private var mSongSheetListeners = ArrayList<SongSheetTouchListener>()
     private lateinit var childListener : SongSheetTouchListener
@@ -52,7 +50,7 @@ class LikeMusicFragment : BaseFragment(), MainActivity.MyTouchListener {
         titles = arrayOf("推荐", "华语", "民谣", "影视原声", "轻音乐", "学习", "工作")
 
         for ((index, title) in titles.withIndex()) {
-            val fragment  = SongSheetListFragment()
+            val fragment  = MusicListFragment()
             val bundle = Bundle()
             bundle.putInt(Const.Key.KEY_TYPE, index)
             fragment.arguments
@@ -83,29 +81,28 @@ class LikeMusicFragment : BaseFragment(), MainActivity.MyTouchListener {
 
     private fun setListener() {
         //注册触摸事件
-        curActivity.registerMyTouchListener(this)
+//        curActivity.registerMyTouchListener(this)
         ivMoreSongList.setOnClickListener {
             startActivity(Intent(context, SongSheetCatActivity().javaClass))
         }
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        //不在litePager范围类
-//        viewPager.setIsScanScroll(!UIUtils.inRangeOfView(litePager, event))
-//        return !UIUtils.inRangeOfView(litePager, event)
-        if (mSongSheetListeners.size > 0) {
-            for (listener in mSongSheetListeners) {
-                childListener =  listener
-            }
-        }
-        var isCanScroll = !childListener.onTouchEvent(event)
-//        viewPager.setNoScroll(isCanScroll)
-        return isCanScroll
-    }
+//    override fun onTouchEvent(event: MotionEvent): Boolean {
+//        //不在litePager范围类
+////        viewPager.setIsScanScroll(!UIUtils.inRangeOfView(litePager, event))
+////        return !UIUtils.inRangeOfView(litePager, event)
+//        if (mSongSheetListeners.size > 0) {
+//            for (listener in mSongSheetListeners) {
+//                childListener =  listener
+//            }
+//        }
+//        //        viewPager.setNoScroll(isCanScroll)
+//        return !childListener.onTouchEvent(event)
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
-        curActivity.unRegisterMyTouchListener(this)
+//        curActivity.unRegisterMyTouchListener(this)
     }
 
     override fun loadData() {

@@ -73,10 +73,14 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val apiService = retrofit.create(ApiService :: class.java)
-            val map : LinkedHashMap<String, Any> = linkedMapOf(Const.Param.start to 0, Const.Param.count to 15, Const.Param.city to "成都")
+            val map : LinkedHashMap<String, Any> = linkedMapOf("apikey" to Const.Param.apikey, Const.Param.start to 0, Const.Param.count to 30, "city" to "上海")
+            val bundle = Bundle()
+            val msg = movieHandler.obtainMessage()
             apiService.getHotMovie(map).enqueue(object : Callback<MovieResult> {
                 override fun onFailure(call: Call<MovieResult>, t: Throwable) {
                     Log.d("onFailure", t.message)
+                    msg.what = Args_Failure
+                    movieHandler.sendMessage(msg)
                 }
 
                 override fun onResponse(call: Call<MovieResult>, response: Response<MovieResult>) {
@@ -84,9 +88,7 @@ class HotMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
                     if (body != null && body.movies != null) {
                         val list = body.movies as ArrayList<Movie>
                         if (list.size > 0) {
-                            val bundle = Bundle()
                             bundle.putParcelableArrayList(Const.Key.KEY_MOVIE, list)
-                            val msg = movieHandler.obtainMessage()
                             msg.what = Args_Success
                             msg.data = bundle
                             movieHandler.sendMessage(msg)

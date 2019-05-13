@@ -59,6 +59,7 @@ public interface Const {
         String count = "count"; //count：单页条数
         String city = "city";   //city：城市
         String subject = "subject"; //电影
+        String apikey = "0df993c66c0c636e29ecbb5344252a4a"; //豆瓣电影apikey，没有限制调用10次/分钟，有的话40次/分钟。
         //小伟博客网易云音乐
 //        type	必需	解析类型：song 单曲，songlist 歌单，so 搜索，url 链接，pic 专辑图，lrc 歌词
     }

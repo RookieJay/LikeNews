@@ -25,7 +25,7 @@ interface ApiService {
     fun getAlbum(@QueryMap params: LinkedHashMap<String, Any>) : Call<MusicResult<Album>>
 
     /**
-     * 豆瓣热映电影
+     * 豆瓣热映电影 nowplaying
      * start : 数据的开始项
      * count：单页条数
      * city：城市
@@ -37,7 +37,7 @@ interface ApiService {
      * 获取电影详情
      */
     @GET("subject/{id}")
-    fun getMovie(@Path("id") id : String) : Call<Movie>
+    fun getMovie(@Path("id") id : String, @QueryMap params: LinkedHashMap<String, Any>) : Call<Movie>
 
     /**
      * 校验url是否可播放
@@ -70,5 +70,12 @@ interface ApiService {
      */
     @POST
     fun validateMusicXW(@Url url : String) : Call<String>
+
+    /**
+     * 豆瓣电影top250
+     */
+    @GET("top250")
+    fun topMovie250(@QueryMap params : LinkedHashMap<String, Any>) : Call<MovieResult>
+
 }
 

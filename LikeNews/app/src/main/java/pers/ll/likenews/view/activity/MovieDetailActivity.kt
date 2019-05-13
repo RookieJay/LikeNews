@@ -107,7 +107,8 @@ class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListen
                     .build()
             val apiService = retrofit.create(ApiService :: class.java)
             val msg = handler.obtainMessage()
-            apiService.getMovie(movie.id).enqueue(object : Callback<Movie>{
+            val map : LinkedHashMap<String, Any> = linkedMapOf("apikey" to Const.Param.apikey)
+            apiService.getMovie(movie.id, map).enqueue(object : Callback<Movie>{
                 override fun onFailure(call: Call<Movie>, t: Throwable) {
                     msg.what = Args_Failure
                     handler.sendMessage(msg)
@@ -201,7 +202,7 @@ class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListen
         ToastUtils.showShort("网络加载失败")
     }
 
-    override fun OnItemClick(filmer: Movie.Cast) {
+    override fun onItemClick(filmer: Movie.Cast) {
         val intent = Intent(this, WebActivity() :: class.java)
         intent.putExtra(Const.Key.START_TYPE, START_TYPE_FILMER)
         intent.putExtra(Const.Key.KEY_FILMER, filmer)

@@ -2,8 +2,11 @@ package pers.ll.likenews.base;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.graphics.Typeface;
 import android.os.Environment;
 
+import com.jinrishici.sdk.android.JinrishiciClient;
+import com.jinrishici.sdk.android.factory.JinrishiciFactory;
 import pers.ll.likenews.utils.AppUtils;
 import pers.ll.likenews.utils.CrashUtils;
 import pers.ll.likenews.utils.LogUtils;
@@ -14,9 +17,10 @@ import pers.ll.likenews.utils.LogUtils;
  */
 public class MyApplication extends Application {
 
-    private static Application app;
+    private static MyApplication app;
+    private Typeface typeface;
 
-    public static Application getInstance() {
+    public static MyApplication getInstance() {
         return app;
     }
 
@@ -30,6 +34,16 @@ public class MyApplication extends Application {
                 getPackageName());
         CrashUtils.init(logPath);
         LogUtils.getConfig().setDir(logPath).setFilePrefix("LikeNews");
+        JinrishiciFactory.init(this);
+        typeface = Typeface.createFromAsset(app.getAssets(), "fonts/FZZJ-ZHZHXKJW.TTF");//下载的字体
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
     }
 
 

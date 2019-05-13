@@ -17,7 +17,6 @@ class SongSheetListFragment : BaseFragment(), LikeMusicFragment.SongSheetTouchLi
     private lateinit var mRecyclerView : RecyclerView
     private var executor = ThreadPoolManager.getInstance()
 
-
     override fun setContentView(): Int {
         return R.layout.fragment_songsheet_list
     }
