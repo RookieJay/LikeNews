@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/colorPrimary"
+             android:id="@+id/flSplash"
+             tools:context=".view.activity.SplashActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_skip"
+            android:layout_width="50dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            tools:text="跳过1秒"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:background="@drawable/bg_corners"
+            android:textColor="#ffffff"/>
+        
+        <View
+            android:id="@+id/lineVertical"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"/>
+    
+        <View
+            android:id="@+id/lineHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"/>
+        
+        <pers.ll.likenews.ui.MyTextView
+            android:id="@+id/tvSentence1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            tools:text="晓看红湿处"
+            android:ems="1"
+            android:textSize="30sp"
+            android:layout_toStartOf="@+id/lineVertical"
+            android:layout_above="@id/lineHorizontal"
+            android:gravity="bottom"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"/>
+    
+        <pers.ll.likenews.ui.MyTextView
+            android:id="@+id/tvSentence2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            tools:text="花重锦官城"
+            android:ems="1"
+            android:textSize="30sp"
+            android:gravity="top"
+            android:layout_below="@id/lineHorizontal"
+            android:layout_toEndOf="@id/lineVertical"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"/>
+    </RelativeLayout>
+    
+</FrameLayout>
