@@ -77,5 +77,8 @@ interface ApiService {
     @GET("top250")
     fun topMovie250(@QueryMap params : LinkedHashMap<String, Any>) : Call<MovieResult>
 
+
+    @GET("{url}")
+    fun getRandomRecommendPoetry(@Path("url") url : String) : Call<BaseResult<Poetry>>
 }
 

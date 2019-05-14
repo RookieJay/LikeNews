@@ -17,6 +17,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_music_play.*
 import kotlinx.android.synthetic.main.header_layout_drawer_navigation.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
@@ -57,8 +58,8 @@ class MainActivity : AppCompatActivity() {
     private val TYPE_MOVIE = 3
     private var executor = ThreadPoolManager.getInstance()
     private var imageUtil = ImageUtil.getInstance()
-
     private val handler = WhetherHandler(this)
+    private lateinit var mWhether: Whether
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -110,9 +111,9 @@ class MainActivity : AppCompatActivity() {
             val bitmap = imageUtil.url2BitMap(Const.URL.BING_DAILY_PIC)
             if (bitmap != null) {
                 //启用高斯模糊
-                val overLay = imageUtil.blur(bitmap, rlHeader)
+                val bluredBM = imageUtil.rsBlur(rlHeader.context, bitmap, 5, 1f / 8f)
                 MainHandler.getInstance().post {
-                    rlHeader.background = imageUtil.getDrawbleFormBitmap(rlHeader.context, bitmap) }
+                    rlHeader.background = imageUtil.getDrawbleFormBitmap(rlHeader.context, bluredBM) }
             }
         })
     }
@@ -233,20 +234,32 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             it.isChecked = true
             drawerLayout.closeDrawer(Gravity.START, true)
-            centerTitle = String.format("立刻%s", it.title)
             bottomNavigation.menu.getItem(1).title = centerTitle
             when (it.itemId) {
                 R.id.menu_news -> {
                     bottomNavigation.menu.getItem(1).icon = ContextCompat.getDrawable(applicationContext, R.drawable.vector_drawable_icon_menu_news)
                     fragType = TYPE_NEWS
+                    centerTitle = String.format("立刻%s", it.title)
                 }
                 R.id.menu_music -> {
                     bottomNavigation.menu.getItem(1).icon = ContextCompat.getDrawable(applicationContext, R.drawable.vector_drawable_icon_menu_music)
                     fragType = TYPE_MUSIC
+                    centerTitle = String.format("立刻%s", it.title)
                 }
                 R.id.menu_movie -> {
                     bottomNavigation.menu.getItem(1).icon = ContextCompat.getDrawable(applicationContext, R.drawable.vector_drawable_icon_menu_movie)
                     fragType = TYPE_MOVIE
+                    centerTitle = String.format("立刻%s", it.title)
+                }
+                R.id.menu_whether -> {
+                    ToastUtils.showShort(mWhether.ganmao)
+                }
+                R.id.menu_exit -> {
+//                    //调用系统API结束进程
+//                    android.os.Process.killProcess(android.os.Process.myPid())
+//                    //结束整个虚拟机进程，注意如果在manifest里用android:process给app指定了不止一个进程，则只会结束当前进程
+//                    System.exit(0)
+                    finish()
                 }
             }
             refreshCenterFragment()
@@ -254,8 +267,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showWhetherInfo(whether: Whether?) {
+    private fun showWhetherInfo(whether: Whether) {
         if (whether != null) {
+            this.mWhether = whether
             ivWhether.setImageResource(R.drawable.ic_wb_sunny)
             tvWhether.text = whether.forecast[0].type
 //            tvTemp.text = String.format("%s-%s", Utils.get_None_CN_Str(whether.forecast[0].low), Utils.get_None_CN_Str(whether.forecast[0].high))
@@ -292,11 +306,16 @@ class MainActivity : AppCompatActivity() {
                 val bundle = msg.data
                 if (null != bundle) {
                     val whether = bundle.getParcelable<Whether>(Const.Key.KEY_WHETHER)
-                    when(msg.arg1) {
-                        Const.RESULT_CODE.Args_Success -> activity.showWhetherInfo(whether)
-                        Const.RESULT_CODE.Args_Failure -> activity.onFailure()
-                        Const.RESULT_CODE.Args_Empty -> activity.showEmpty()
+                    if (whether != null) {
+                        when(msg.arg1) {
+                            Const.RESULT_CODE.Args_Success -> activity.showWhetherInfo(whether)
+                            Const.RESULT_CODE.Args_Failure -> activity.onFailure()
+                            Const.RESULT_CODE.Args_Empty -> activity.showEmpty()
+                        }
+                    } else {
+                        activity.showEmpty()
                     }
+
                 } else{
                     activity.showEmpty()
                 }

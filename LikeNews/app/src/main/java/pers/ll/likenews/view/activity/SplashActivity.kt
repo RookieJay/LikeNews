@@ -5,16 +5,13 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.jinrishici.sdk.android.JinrishiciClient
 import com.jinrishici.sdk.android.listener.JinrishiciCallback
 import com.jinrishici.sdk.android.model.JinrishiciRuntimeException
 import com.jinrishici.sdk.android.model.PoetySentence
-import kotlinx.android.synthetic.main.activity_music_play.*
 import pers.ll.likenews.R
 import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.android.synthetic.main.header_layout_drawer_navigation.*
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.utils.ImageUtil
 import pers.ll.likenews.utils.MainHandler
@@ -23,14 +20,14 @@ import java.lang.ref.WeakReference
 
 class SplashActivity : AppCompatActivity() {
 
-    private lateinit var mHandler : DelayHandler
+    private var mHandler = DelayHandler(this)
     private var executor = ThreadPoolManager.getInstance()
     private var imageUtil = ImageUtil.getInstance()
+    private lateinit var countDownRunnable : Runnable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        mHandler = DelayHandler(this)
         initView()
         countDown()
         setListener()
@@ -59,7 +56,7 @@ class SplashActivity : AppCompatActivity() {
             }
 
         })
-        executor.execute {
+        countDownRunnable = Runnable {
             for (i in 5 downTo 0) {
                 val msg = mHandler.obtainMessage()
                 msg.what = 1
@@ -71,15 +68,11 @@ class SplashActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-            val bitmap = imageUtil.url2BitMap(Const.URL.BING_DAILY_PIC)
-            if (bitmap != null) {
-                //启用高斯模糊
-                val blurBitmap = imageUtil.rsBlur(flSplash.context, bitmap, 24, 1f / 8f)
-                MainHandler.getInstance().post {
-                    flSplash.background = imageUtil.getDrawbleFormBitmap(flSplash.context, bitmap) }
-            }
         }
+//        executor.execute(countDownRunnable)
+        Thread(countDownRunnable).start()
     }
+
 
     private fun filterMark(str : String) : String{
         val marks = "/[\\u3002|\\uff1f|\\uff01|\\uff0c|\\u3001|\\uff1b|\\uff1a|\\u201c|\\u201d|\\u2018|\\u2019|\\uff08|\\uff09|\\u300a|\\u300b|\\u3008|\\u3009|\\u3010|\\u3011|\\u300e|\\u300f|\\u300c|\\u300d|\\ufe43|\\ufe44|\\u3014|\\u3015|\\u2026|\\u2014|\\uff5e|\\ufe4f|\\uffe5]/"
@@ -93,6 +86,11 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        mHandler.removeCallbacksAndMessages(null)
+        super.onDestroy()
+    }
+
     class DelayHandler(splashActivity: SplashActivity) : Handler() {
 
         private val weakReference = WeakReference<SplashActivity>(splashActivity)
@@ -103,6 +101,7 @@ class SplashActivity : AppCompatActivity() {
                 when (msg.what) {
                     1 -> if (msg.arg1 == 0) {
                         activity.startActivity(Intent(activity.applicationContext, MainActivity().javaClass))
+                        Log.d("SP>>>", "DelayHandler执行了")
                         activity.finish()
                     } else {
                         activity.tv_skip.text = String.format("跳过%s秒", msg.arg1.toString())

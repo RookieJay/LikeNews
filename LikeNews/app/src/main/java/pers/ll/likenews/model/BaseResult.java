@@ -1,13 +1,11 @@
 package pers.ll.likenews.model;
 
 
-import java.util.List;
-
 public class BaseResult<T> {
 
     private int code;
     private String message;
-    private List<T> result;
+    private T result;
 
     public int getCode() {
         return code;
@@ -25,11 +23,11 @@ public class BaseResult<T> {
         this.message = message;
     }
 
-    public List<T> getResult() {
+    public T getResult() {
         return result;
     }
 
-    public void setResult(List<T> result) {
+    public void setResult(T result) {
         this.result = result;
     }
 }

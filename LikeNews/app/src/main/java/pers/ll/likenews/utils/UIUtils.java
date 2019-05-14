@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import pers.ll.likenews.R;
@@ -34,5 +35,17 @@ public class UIUtils {
             return false;
         }
         return true;
+    }
+
+    /**
+     * dp转px
+     *
+     * @param context
+     * @param dpVal
+     * @return
+     */
+    public static int dp2px(Context context, float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                dpVal, context.getResources().getDisplayMetrics());
     }
 }

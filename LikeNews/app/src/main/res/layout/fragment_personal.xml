@@ -1,26 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rlPoetry"
+    android:id="@+id/srlPoetry"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:background="@color/blue">
     
+        <RelativeLayout
+            android:id="@+id/rlPoetry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/llPoetry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+                <pers.ll.likenews.ui.MyTextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:singleLine="true"
+                    tools:text="金缕衣"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:layout_gravity="center"/>
+                <pers.ll.likenews.ui.MyTextView
+                    android:id="@+id/tvAuthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    tools:text="佚名"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"/>
+                
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </LinearLayout>
+            
+        </RelativeLayout>
+   
     
-    <pers.ll.likenews.ui.MyTextView
-        android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        tools:text="送孟浩然之广陵"/>
-
-    <!--<com.jinrishici.sdk.android.view.JinrishiciTextView-->
-            <!--android:id="@+id/jinrisiciTextView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textColor="@color/colorAccent"-->
-            <!--android:textSize="18sp"/>-->
-    
-
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

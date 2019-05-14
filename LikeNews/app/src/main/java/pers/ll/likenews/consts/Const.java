@@ -15,6 +15,7 @@ public interface Const {
         String BASE_URL_MOVIE = "https://api.douban.com/v2/movie/";
         String BASE_URL_WHETHER = "https://www.apiopen.top/";
         String BING_DAILY_PIC = "https://api.mlwei.com/bing.php"; //必应每日一图
+        String BASE_URL_OPEN_API = "https://api.apiopen.top/";
     }
 
     interface Key{

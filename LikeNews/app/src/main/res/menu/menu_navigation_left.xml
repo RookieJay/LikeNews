@@ -3,23 +3,41 @@
         <item android:id="@+id/item__category"
             android:title="@string/nav_cat">
             <menu>
-                <item
-                    android:id="@+id/menu_news"
-                    android:icon="@drawable/vector_drawable_icon_menu_news"
-                    android:title="@string/nav_news" />
-
-                <item
-                    android:id="@+id/menu_music"
-                    android:icon="@drawable/vector_drawable_icon_menu_music"
-                    android:title="@string/nav_music" />
-
-                <item
-                    android:id="@+id/menu_movie"
-                    android:icon="@drawable/vector_drawable_icon_menu_movie"
-                    android:title="@string/nav_movie" />
-                <!--<item android:id="@+id/menu_whether"-->
-                    <!--android:title="@string/nav_whether"-->
-                    <!--android:icon="@drawable/ic_icon_whether"/>-->
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/menu_news"
+                        android:icon="@drawable/vector_drawable_icon_menu_news"
+                        android:title="@string/nav_news" />
+    
+                    <item
+                        android:id="@+id/menu_music"
+                        android:icon="@drawable/vector_drawable_icon_menu_music"
+                        android:title="@string/nav_music" />
+    
+                    <item
+                        android:id="@+id/menu_movie"
+                        android:icon="@drawable/vector_drawable_icon_menu_movie"
+                        android:title="@string/nav_movie" />
+                    <!--<item android:id="@+id/menu_whether"-->
+                        <!--android:title="@string/nav_whether"-->
+                        <!--android:icon="@drawable/ic_icon_whether"/>-->
+                </group>
+            </menu>
+        </item>
+        <item android:id="@+id/big_item_whether"
+            android:title="@string/nav_whether">
+            <menu>
+                <item android:id="@+id/menu_whether"
+                    android:title="@string/nav_whether"
+                    android:icon="@drawable/ic_icon_whether"/>
+            </menu>
+        </item>
+        <item android:id="@+id/item_sys"
+            android:title="@string/nav_sys">
+            <menu>
+                <item android:id="@+id/menu_exit"
+                    android:title="@string/nav_exit"
+                    android:icon="@drawable/vector_drawable_icon_exit"/>
             </menu>
         </item>
 
