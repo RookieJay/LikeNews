@@ -1,5 +1,6 @@
 package pers.ll.likenews.view.activity
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -88,6 +89,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        UIUtils.setSameColorBar(true, window, resources)
         setContentView(R.layout.activity_main)
         initView()
         loadData()
@@ -116,6 +118,13 @@ class MainActivity : AppCompatActivity() {
                     rlHeader.background = imageUtil.getDrawbleFormBitmap(rlHeader.context, bluredBM) }
             }
         })
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            //将侧边栏顶部延伸至status bar
+            drawerLayout.fitsSystemWindows = true
+            //将主页面顶部延伸至status bar;虽默认为false,但经测试,DrawerLayout需显示设置
+            drawerLayout.clipToPadding = false
+        }
+
     }
 
     private fun initView() {
@@ -234,7 +243,6 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             it.isChecked = true
             drawerLayout.closeDrawer(Gravity.START, true)
-            bottomNavigation.menu.getItem(1).title = centerTitle
             when (it.itemId) {
                 R.id.menu_news -> {
                     bottomNavigation.menu.getItem(1).icon = ContextCompat.getDrawable(applicationContext, R.drawable.vector_drawable_icon_menu_news)
@@ -262,6 +270,7 @@ class MainActivity : AppCompatActivity() {
                     finish()
                 }
             }
+            bottomNavigation.menu.getItem(1).title = centerTitle
             refreshCenterFragment()
             return@setNavigationItemSelectedListener true
         }

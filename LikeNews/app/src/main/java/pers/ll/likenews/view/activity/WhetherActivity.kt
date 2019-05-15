@@ -1,7 +1,8 @@
-package pers.ll.likenews
+package pers.ll.likenews.view.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import pers.ll.likenews.R
 
 class WhetherActivity : AppCompatActivity() {
 

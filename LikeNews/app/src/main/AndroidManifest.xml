@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".WhetherActivity"/>
+        <activity android:name=".view.activity.WhetherActivity"/>
         <activity
             android:name=".view.activity.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

@@ -14,11 +14,13 @@ import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_music_play.*
 import pers.ll.likenews.R
 import pers.ll.likenews.consts.Const
 import android.view.animation.LinearInterpolator
+import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import kotlinx.android.synthetic.main.include_music_play_toolbar.*
@@ -82,7 +84,6 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     @SuppressLint("ObjectAnimatorBinding")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun initView() {
-        initToolbar()
         if (music.pic != null) {
             setImgAndBackground()
             /**
@@ -103,6 +104,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             objectAnimator.repeatMode = ObjectAnimator.RESTART
             hideLrc()
         }
+        initToolbar()
     }
 
     private fun setImgAndBackground() {
@@ -117,11 +119,10 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             val bitmap = imageUtil.url2BitMap(music.pic)
             if (bitmap != null) {
                 //启用高斯模糊
-                val blurBitmap = imageUtil.rsBlur(ivBg.context, bitmap, 24, 1f / 8f)
+                val blurBitmap = imageUtil.rsBlur(rlMusicPlay.context, bitmap, 24, 1f / 8f)
                 //回到主线程
                 MainHandler.getInstance().post {
-                    //                        ivBg.setImageDrawable(imageUtil.getDrawbleFormBitmap(ivBg.context, blurBitmap))
-                    ivBg.background = imageUtil.getDrawbleFormBitmap(ivBg.context, blurBitmap)
+                    rlMusicPlay.background = imageUtil.getDrawbleFormBitmap(rlMusicPlay.context, blurBitmap)
                 }
             }
         }
@@ -140,10 +141,13 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
         barSubTitle.text = music.author
         //FLAG_LAYOUT_NO_LIMITS允许窗口扩展到屏幕之外。
 //        // 但这样会把ToolBar顶到最上面去，这时候再给ToolBar设置一个MarginTop就好了。
-//        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-//        val params = toolBarMusic.layoutParams as RelativeLayout.LayoutParams
-//        params.setMargins(0, SystemUtils.getStatusBarHeight(resources), 0, 0)
-//        toolBarMusic.layoutParams = params
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        val toolbarParams = toolBarMusic.layoutParams as RelativeLayout.LayoutParams
+        toolbarParams.setMargins(0, SystemUtils.getStatusBarHeight(resources), 0, 0)
+        toolBarMusic.layoutParams = toolbarParams
+        val rlParams = rlMusicCtrl.layoutParams as RelativeLayout.LayoutParams
+        rlParams.setMargins(0, 0, 0, SystemUtils.getNavigationBarHeight(resources))
+        rlMusicCtrl.layoutParams = rlParams
 
     }
 //

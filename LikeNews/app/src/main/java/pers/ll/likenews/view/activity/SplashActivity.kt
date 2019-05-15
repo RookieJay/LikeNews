@@ -10,23 +10,25 @@ import com.jinrishici.sdk.android.JinrishiciClient
 import com.jinrishici.sdk.android.listener.JinrishiciCallback
 import com.jinrishici.sdk.android.model.JinrishiciRuntimeException
 import com.jinrishici.sdk.android.model.PoetySentence
-import pers.ll.likenews.R
 import kotlinx.android.synthetic.main.activity_splash.*
-import pers.ll.likenews.consts.Const
-import pers.ll.likenews.utils.ImageUtil
-import pers.ll.likenews.utils.MainHandler
-import pers.ll.likenews.utils.ThreadPoolManager
+import pers.ll.likenews.utils.*
 import java.lang.ref.WeakReference
+import android.os.Build
+import android.view.View
+import pers.ll.likenews.R
+
 
 class SplashActivity : AppCompatActivity() {
 
     private var mHandler = DelayHandler(this)
     private var executor = ThreadPoolManager.getInstance()
     private var imageUtil = ImageUtil.getInstance()
+    private var isThreadStop = false
     private lateinit var countDownRunnable : Runnable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        UIUtils.hideStatusAndNavBar(window)
         setContentView(R.layout.activity_splash)
         initView()
         countDown()
@@ -35,9 +37,52 @@ class SplashActivity : AppCompatActivity() {
 
     private fun initView() {
 //        flSplash.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+//        val layoutParams = tv_skip.layoutParams as RelativeLayout.LayoutParams
+//        layoutParams.setMargins(0, SystemUtils.getStatusBarHeight(resources) , 0, 0)
+//        val lineParams = lineVertical.layoutParams as RelativeLayout.LayoutParams
+//        lineParams.setMargins(0, 0, 0, SystemUtils.getNavigationBarHeight(resources))
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            val decorView = window.decorView
+            decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
     }
 
     private fun countDown() {
+        if (isThreadStop) {
+            return
+        }
+        countDownRunnable = Runnable {
+            for (i in 5 downTo 0) {
+                if (isThreadStop) {
+                    break
+                }
+                if (i == 0) {
+                    isThreadStop = true
+                    MainHandler.getInstance().post {
+                        startActivity(Intent(applicationContext, MainActivity().javaClass))
+                        finish()
+                    }
+                } else {
+                    MainHandler.getInstance().post {
+                        tv_skip.text = String.format("跳过%s秒", i.toString())
+                    }
+                }
+                try {
+                    Thread.sleep(1000)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        executor.execute(countDownRunnable)
         val client = JinrishiciClient()
         client.getOneSentenceBackground(object : JinrishiciCallback {
             override fun done(poetySentence: PoetySentence?) {
@@ -56,21 +101,6 @@ class SplashActivity : AppCompatActivity() {
             }
 
         })
-        countDownRunnable = Runnable {
-            for (i in 5 downTo 0) {
-                val msg = mHandler.obtainMessage()
-                msg.what = 1
-                msg.arg1 = i
-                mHandler.sendMessage(msg)
-                try {
-                    Thread.sleep(1000)
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-//        executor.execute(countDownRunnable)
-        Thread(countDownRunnable).start()
     }
 
 
@@ -82,12 +112,16 @@ class SplashActivity : AppCompatActivity() {
     private fun setListener() {
         tv_skip.setOnClickListener {
             startActivity(Intent(this, MainActivity().javaClass))
+            executor.remove(countDownRunnable)
+            isThreadStop = true
             finish()
         }
     }
 
     override fun onDestroy() {
         mHandler.removeCallbacksAndMessages(null)
+        executor.remove(countDownRunnable)
+        isThreadStop = true
         super.onDestroy()
     }
 

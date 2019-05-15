@@ -8,11 +8,11 @@
     android:paddingRight="10dp"
     android:paddingEnd="10dp"
     app:title=""
-    android:background="@color/colorPrimary"
+    tools:background="@color/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+    
     <ImageView
         android:id="@+id/barLeft"
         android:layout_width="25dp"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             tools:text="@string/app_name"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textColor="@color/white"
             android:singleLine="true"
             android:ellipsize="marquee"
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/white"
+            android:textColor="@color/gray"
             tools:text="@string/app_name"/>
     </LinearLayout>
     
