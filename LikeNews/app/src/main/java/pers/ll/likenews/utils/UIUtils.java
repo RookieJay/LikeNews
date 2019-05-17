@@ -102,6 +102,7 @@ public class UIUtils {
             //设置状态栏颜色
             if (isLight) {
                 window.setStatusBarColor(resources.getColor(R.color.colorPrimary));
+//                window.setStatusBarColor(Color.TRANSPARENT);
             } else {
                 window.setStatusBarColor(resources.getColor(R.color.colorAccent));
             }

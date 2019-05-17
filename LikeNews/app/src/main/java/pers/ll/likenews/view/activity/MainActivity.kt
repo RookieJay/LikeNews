@@ -124,7 +124,6 @@ class MainActivity : AppCompatActivity() {
             //将主页面顶部延伸至status bar;虽默认为false,但经测试,DrawerLayout需显示设置
             drawerLayout.clipToPadding = false
         }
-
     }
 
     private fun initView() {
