@@ -83,8 +83,6 @@
                             android:stepSize="0.1"
                             tools:rating="4.7"
                             android:layout_below="@+id/tvMovieName"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"
                             android:paddingRight="3dp" />
                         <TextView
                             android:id="@+id/tvRating"
@@ -95,8 +93,7 @@
                             android:layout_below="@+id/tvMovieName"
                             android:layout_toRightOf="@id/rbRating"
                             tools:text="@string/txt_movie_rating"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"/>
+                            />
                         <TextView
                             android:id="@+id/tvStars"
                             android:layout_width="wrap_content"

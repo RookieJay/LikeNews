@@ -18,7 +18,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_music_play.*
 import kotlinx.android.synthetic.main.header_layout_drawer_navigation.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
@@ -161,7 +160,9 @@ class MainActivity : AppCompatActivity() {
         adapter.setData(fragments, supportFragmentManager)
     }
 
-    private fun refreshCenterFragment() {
+    private fun refreshCenterFragment(type: Int, it: MenuItem) {
+        fragType = type
+        centerTitle = String.format("立刻%s", it.title)
         if (viewPager.currentItem == 1) {
             when(fragType) {
                 TYPE_NEWS -> barTitle.setText(R.string.title_news)
@@ -245,18 +246,15 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.menu_news -> {
                     bottomNavigation.menu.getItem(1).icon = ContextCompat.getDrawable(applicationContext, R.drawable.vector_drawable_icon_menu_news)
-                    fragType = TYPE_NEWS
-                    centerTitle = String.format("立刻%s", it.title)
+                    refreshCenterFragment(TYPE_NEWS, it)
                 }
                 R.id.menu_music -> {
                     bottomNavigation.menu.getItem(1).icon = ContextCompat.getDrawable(applicationContext, R.drawable.vector_drawable_icon_menu_music)
-                    fragType = TYPE_MUSIC
-                    centerTitle = String.format("立刻%s", it.title)
+                    refreshCenterFragment(TYPE_MUSIC, it)
                 }
                 R.id.menu_movie -> {
                     bottomNavigation.menu.getItem(1).icon = ContextCompat.getDrawable(applicationContext, R.drawable.vector_drawable_icon_menu_movie)
-                    fragType = TYPE_MOVIE
-                    centerTitle = String.format("立刻%s", it.title)
+                    refreshCenterFragment(TYPE_MOVIE, it)
                 }
                 R.id.menu_whether -> {
                     ToastUtils.showShort(mWhether.ganmao)
@@ -270,7 +268,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             bottomNavigation.menu.getItem(1).title = centerTitle
-            refreshCenterFragment()
             return@setNavigationItemSelectedListener true
         }
     }
