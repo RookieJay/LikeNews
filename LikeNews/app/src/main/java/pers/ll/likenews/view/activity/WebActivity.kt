@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_news_detail.*
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Movie
 import pers.ll.likenews.utils.ToastUtils
+import pers.ll.likenews.utils.UIUtils
 import pers.ll.likenews.view.fragment.HotNewsFragment
 
 
@@ -31,6 +32,7 @@ class WebActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        UIUtils.setSameColorBar(true, window, resources)
         setContentView(R.layout.activity_news_detail)
         initView()
     }

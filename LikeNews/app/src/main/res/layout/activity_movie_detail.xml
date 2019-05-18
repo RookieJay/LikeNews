@@ -22,7 +22,7 @@
                 android:id="@+id/collapsingToolbarLayout"
                 android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="220dp"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginEnd="48dp"
                 app:expandedTitleMarginStart="48dp"
@@ -52,8 +52,8 @@
                         android:layout_height="145dp"
                         android:scaleType="centerInside"
                         tools:src="@color/colorAccent"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="?android:attr/actionBarSize"/>
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="60dp"/>
                     <RelativeLayout
                         android:id="@+id/llContent"
                         android:layout_width="wrap_content"
@@ -61,14 +61,14 @@
                         android:orientation="vertical"
                         android:layout_toRightOf="@+id/ivMovie"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginTop="?android:attr/actionBarSize">
+                        android:layout_alignTop="@+id/ivMovie">
                         <TextView
                             android:id="@+id/tvMovieName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="@string/txt_movie_name"
                             android:textColor="@color/white"
-                            android:textSize="18sp"
+                            android:textSize="20sp"
                             android:ellipsize="marquee"
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"

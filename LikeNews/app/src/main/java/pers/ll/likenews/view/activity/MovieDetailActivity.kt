@@ -10,16 +10,17 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import pers.ll.likenews.R
 import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Movie
-import pers.ll.likenews.utils.ImageUtil
-import pers.ll.likenews.utils.ThreadPoolManager
-import pers.ll.likenews.utils.ToastUtils
+import pers.ll.likenews.utils.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,6 +62,11 @@ class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListen
         recyclerView.layoutManager = linearLayoutManager
         adapter = FilmerAdapter(ArrayList(), this)
         recyclerView.adapter = adapter
+        //沉浸式
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        val params = toolBar.layoutParams as FrameLayout.LayoutParams
+        params.setMargins(0, SystemUtils.getStatusBarHeight(resources), 0, 0)
+        toolBar.layoutParams = params
     }
 
     private fun initData() {
@@ -128,7 +134,6 @@ class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListen
                 }
             })
         })
-
     }
 
     private fun setListener() {
