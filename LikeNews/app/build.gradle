@@ -64,4 +64,7 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:2.0.2'
     implementation 'com.wuyr:litepager:1.0.0' //小缘同学的仿网易云歌单广场效果
     implementation 'com.jinrishici:android-sdk:1.2' //今日诗词
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:4.2.4"
 }

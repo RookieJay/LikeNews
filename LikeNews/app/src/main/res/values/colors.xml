@@ -13,4 +13,6 @@
     <color name="blue">#04B1FF</color>
 
     <color name="black_overlay">#66000000</color>
+    
+    <color name="layout_background">#944C7ACC</color>
 </resources>

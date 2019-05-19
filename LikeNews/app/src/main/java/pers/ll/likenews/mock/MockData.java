@@ -2,6 +2,8 @@ package pers.ll.likenews.mock;
 
 import android.content.Context;
 import android.util.Log;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,13 +14,14 @@ import java.util.Map;
 
 public class MockData {
 
-    private Map<String, JSONObject> mData = new HashMap<>();
+    private Map<String, JSONArray> mData = new HashMap<>();
+    private String json;
 
-    public MockData(Context context) {
+    public MockData(Context context, String fileName) {
         InputStreamReader streamReader = null;
         BufferedReader bufferedReader = null;
         try {
-            streamReader = new InputStreamReader(context.getAssets().open("content.json"), "UTF-8");
+            streamReader = new InputStreamReader(context.getAssets().open(fileName), "UTF-8");
             bufferedReader = new BufferedReader(streamReader);
             String line;
             StringBuilder stringBuilder = new StringBuilder();
@@ -26,12 +29,17 @@ public class MockData {
                 stringBuilder.append(line);
             }
 
-            Log.i("MockData", stringBuilder.toString());
+            json = stringBuilder.toString();
+            Log.i("MockData", json);
             JSONArray array = new JSONArray(stringBuilder.toString());
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.optJSONObject(i);
-                mData.put(object.optString("name"), object.optJSONObject("data"));
-            }
+            Log.d("JSONArray长度", String.valueOf(array.length()));
+//            for (int i = 0; i < array.length(); i++) {
+//                JSONObject object = array.optJSONObject(i);
+//                mData.put(object.optString("name"), object.optJSONObject("data"));
+//                Log.i("mData的数据", object.optString("name"));
+//            }
+            mData.put("data", array);
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -56,8 +64,19 @@ public class MockData {
         }
     }
 
-    public JSONObject getJSONData(String name) {
-        JSONObject json = mData.get(name);
-        return json == null ? new JSONObject() : json;
+//    public JSONObject getJSONData(String name) {
+//        JSONObject json = mData.get(name);
+//        Log.d("getJSONData: ", new Gson().toJson(json));
+//        return json == null ? new JSONObject() : json;
+//    }
+
+    public JSONArray getJSONData(String name) {
+        JSONArray json = mData.get(name);
+        Log.d("getJSONData: ", new Gson().toJson(json));
+        return json == null ? new JSONArray() : json;
+    }
+
+    public String getJson() {
+        return json;
     }
 }

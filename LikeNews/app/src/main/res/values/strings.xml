@@ -7,13 +7,13 @@
     <string name="title_personal">个人中心</string>
     <!--tips-->
     <string name="tips_empty">哎呀，好像没有数据了</string>
-    
+
     <!--hint-->
     <string name="hint_news_source">中国新闻网</string>
     <string name="hint_news_review_count">141评论</string>
     <string name="hint_news_time">6分钟前</string>
     <string name="hint_search_tips">请输入您要搜索的关键词,如:春风十里(往下拉会有新发现哦~)</string>
-    
+
     <!--movie-->
     <string name="txt_movie_name">复仇者联盟4</string>
     <string name="txt_movie_stars">110011人评分</string>
@@ -30,7 +30,7 @@
     <string name="txt_url">https://movie.douban.com/subject/26942674/mobile</string>
     <string name="txt_place_holder">\u3000\u3000</string>
     <!--&#8195;&#8195;-->
-    
+
     <!--drawerLayout-->
     <string name="nav_cat">分类</string>
     <string name="nav_news">新闻</string>
@@ -39,15 +39,15 @@
     <string name="nav_whether">天气</string>
     <string name="nav_sys">系统</string>
     <string name="nav_exit">退出</string>
-    
+
     <!--poetry-->
     <string name="txt_poetry">
         行色虚无里，人声烟霭间。|浪纹来縠水，地势逼柯山。|浅濑通舟涩，飞桥跨石弯。|风髙云冉冉，滩急水潺潺。|野迥松篁秀，境幽鸡犬闲。|轻装因路险，隐耳觉言蛮。|村酿酤来薄，溪鳞买得悭。|浦晴鸣雁浴，林暝舞鸦还。|寺僻殿阁古，堂虚苔藓斑。|僧房清夜宿，幽梦到乡关。
     </string>
     <string name="txt_single_poetry_sentence">
-    晓看红湿处，花重锦官城。
+        晓看红湿处，花重锦官城。
     </string>
-    
+
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>

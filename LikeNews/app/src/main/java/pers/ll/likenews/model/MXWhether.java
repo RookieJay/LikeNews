@@ -16,13 +16,13 @@ public class MXWhether {
      */
     private String city;
     private int cityid;
-    private Pm25Bean pm25;
+    private Pm25 pm25;
     private String provinceName;
-    private RealtimeBean realtime;
-    private WeatherDetailsInfoBean weatherDetailsInfo;
-    private List<AlarmsBean> alarms;
-    private List<IndexesBean> indexes;
-    private List<WeathersBean> weathers;
+    private RealtimeWhether realtime;
+    private WeatherDetailsInfo weatherDetailsInfo;
+    private List<Alarms> alarms;
+    private List<Indexes> indexes;
+    private List<Forecast> weathers;
 
     public String getCity() {
         return city;
@@ -40,11 +40,11 @@ public class MXWhether {
         this.cityid = cityid;
     }
 
-    public Pm25Bean getPm25() {
+    public Pm25 getPm25() {
         return pm25;
     }
 
-    public void setPm25(Pm25Bean pm25) {
+    public void setPm25(Pm25 pm25) {
         this.pm25 = pm25;
     }
 
@@ -56,47 +56,47 @@ public class MXWhether {
         this.provinceName = provinceName;
     }
 
-    public RealtimeBean getRealtime() {
+    public RealtimeWhether getRealtime() {
         return realtime;
     }
 
-    public void setRealtime(RealtimeBean realtime) {
+    public void setRealtime(RealtimeWhether realtime) {
         this.realtime = realtime;
     }
 
-    public WeatherDetailsInfoBean getWeatherDetailsInfo() {
+    public WeatherDetailsInfo getWeatherDetailsInfo() {
         return weatherDetailsInfo;
     }
 
-    public void setWeatherDetailsInfo(WeatherDetailsInfoBean weatherDetailsInfo) {
+    public void setWeatherDetailsInfo(WeatherDetailsInfo weatherDetailsInfo) {
         this.weatherDetailsInfo = weatherDetailsInfo;
     }
 
-    public List<AlarmsBean> getAlarms() {
+    public List<Alarms> getAlarms() {
         return alarms;
     }
 
-    public void setAlarms(List<AlarmsBean> alarms) {
+    public void setAlarms(List<Alarms> alarms) {
         this.alarms = alarms;
     }
 
-    public List<IndexesBean> getIndexes() {
+    public List<Indexes> getIndexes() {
         return indexes;
     }
 
-    public void setIndexes(List<IndexesBean> indexes) {
+    public void setIndexes(List<Indexes> indexes) {
         this.indexes = indexes;
     }
 
-    public List<WeathersBean> getWeathers() {
+    public List<Forecast> getWeathers() {
         return weathers;
     }
 
-    public void setWeathers(List<WeathersBean> weathers) {
+    public void setWeathers(List<Forecast> weathers) {
         this.weathers = weathers;
     }
 
-    public static class Pm25Bean {
+    public static class Pm25 {
         /**
          * advice : 0
          * aqi : 19
@@ -252,7 +252,7 @@ public class MXWhether {
         }
     }
 
-    public static class RealtimeBean {
+    public static class RealtimeWhether {
         /**
          * img : 8
          * sD : 88
@@ -348,7 +348,7 @@ public class MXWhether {
         }
     }
 
-    public static class WeatherDetailsInfoBean {
+    public static class WeatherDetailsInfo {
         /**
          * publishTime : 2019-05-17 16:00:00
          * weather3HoursDetailsInfos : [{"endTime":"2019-05-17 20:00:00","highestTemperature":"25","img":"2","isRainFall":"","lowerestTemperature":"25","precipitation":"0","startTime":"2019-05-17 17:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-17 23:00:00","highestTemperature":"23","img":"2","isRainFall":"","lowerestTemperature":"23","precipitation":"0","startTime":"2019-05-17 20:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-18 02:00:00","highestTemperature":"23","img":"2","isRainFall":"","lowerestTemperature":"23","precipitation":"0","startTime":"2019-05-17 23:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-18 05:00:00","highestTemperature":"24","img":"2","isRainFall":"","lowerestTemperature":"24","precipitation":"0","startTime":"2019-05-18 02:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-18 08:00:00","highestTemperature":"24","img":"2","isRainFall":"","lowerestTemperature":"24","precipitation":"0","startTime":"2019-05-18 05:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-18 11:00:00","highestTemperature":"24","img":"0","isRainFall":"","lowerestTemperature":"24","precipitation":"0","startTime":"2019-05-18 08:00:00","wd":"","weather":"晴","ws":""},{"endTime":"2019-05-18 14:00:00","highestTemperature":"27","img":"0","isRainFall":"","lowerestTemperature":"27","precipitation":"0","startTime":"2019-05-18 11:00:00","wd":"","weather":"晴","ws":""}]
@@ -480,7 +480,7 @@ public class MXWhether {
         }
     }
 
-    public static class AlarmsBean {
+    public static class Alarms {
         /**
          * alarmContent : 三明市气象台2019年05月17日13时57分变更发布暴雨橙色预警信号：过去6小时明溪、将乐、沙县、三元、尤溪五个县（区）的部分乡镇出现50毫米以上的强降水，预计未来3小时宁化、清流、明溪、将乐、泰宁、永安、沙县、尤溪八个县（市、区）的部分乡镇仍有50毫米以上降水。请注意防范持续强降水可能引发的山洪、城乡渍涝和山体滑坡等次生灾害。（预警信息来源：国家预警信息发布中心）
          * alarmDesc : 福建省三明市气象台发布暴雨橙色预警
@@ -580,7 +580,7 @@ public class MXWhether {
         }
     }
 
-    public static class IndexesBean {
+    public static class Indexes {
         /**
          * abbreviation : gm
          * alias :
@@ -636,7 +636,7 @@ public class MXWhether {
         }
     }
 
-    public static class WeathersBean {
+    public static class Forecast {
         /**
          * date : 2019-05-17
          * img : 9

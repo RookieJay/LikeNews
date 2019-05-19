@@ -16,6 +16,7 @@ public interface Const {
         String BASE_URL_WHETHER = "https://www.apiopen.top/";
         String BING_DAILY_PIC = "https://api.mlwei.com/bing.php"; //必应每日一图
         String BASE_URL_OPEN_API = "https://api.apiopen.top/";
+        String BASE_URL_MXWHETHER = "http://aider.meizu.com/app/weather/";
     }
 
     interface Key{
@@ -30,6 +31,7 @@ public interface Const {
         String KEY_WHETHER = "KEY_WHETHER";
         String KEY_POSITION = "KEY_POSITION";
         String KEY_TYPE = "KEY_TYPE";
+        String KEY_WHETHER_BACKGROUND = "KEY_WHETHER_BACKGROUND";
     }
 
     interface Type {

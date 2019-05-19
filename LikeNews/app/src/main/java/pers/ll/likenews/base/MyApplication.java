@@ -7,6 +7,8 @@ import android.os.Environment;
 
 import com.jinrishici.sdk.android.JinrishiciClient;
 import com.jinrishici.sdk.android.factory.JinrishiciFactory;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
 import pers.ll.likenews.utils.AppUtils;
 import pers.ll.likenews.utils.CrashUtils;
 import pers.ll.likenews.utils.LogUtils;
@@ -29,6 +31,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+        //dbFlow
+        FlowManager.init(new FlowConfig.Builder(this).build());
         AppUtils.init(this);
         String logPath = String.format("%s/%s/log", Environment.getExternalStorageDirectory().toString(),
                 getPackageName());

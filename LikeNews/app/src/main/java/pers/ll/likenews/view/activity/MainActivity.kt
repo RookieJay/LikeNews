@@ -1,5 +1,7 @@
 package pers.ll.likenews.view.activity
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -60,6 +62,7 @@ class MainActivity : AppCompatActivity() {
     private var imageUtil = ImageUtil.getInstance()
     private val handler = WhetherHandler(this)
     private lateinit var mWhether: Whether
+    private lateinit var bgBitmap : Bitmap
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -109,10 +112,10 @@ class MainActivity : AppCompatActivity() {
         ivAvatar.setImageResource(R.mipmap.icon_avatar)
         navigationView.menu.getItem(0).isChecked = true
         executor.execute(Runnable {
-            val bitmap = imageUtil.url2BitMap(Const.URL.BING_DAILY_PIC)
-            if (bitmap != null) {
+            bgBitmap = imageUtil.url2BitMap(Const.URL.BING_DAILY_PIC)
+            if (bgBitmap != null) {
                 //启用高斯模糊
-                val bluredBM = imageUtil.rsBlur(rlHeader.context, bitmap, 5, 1f / 8f)
+                val bluredBM = imageUtil.rsBlur(rlHeader.context, bgBitmap, 5, 1f / 8f)
                 MainHandler.getInstance().post {
                     rlHeader.background = imageUtil.getDrawbleFormBitmap(rlHeader.context, bluredBM) }
             }
@@ -257,7 +260,14 @@ class MainActivity : AppCompatActivity() {
                     refreshCenterFragment(TYPE_MOVIE, it)
                 }
                 R.id.menu_whether -> {
-                    ToastUtils.showShort(mWhether.ganmao)
+                    if (null != mWhether) {
+                        ToastUtils.showShort(mWhether.ganmao)
+                    }
+                    val intent = Intent(this, WhetherActivity :: class.java)
+//                    val bundle = Bundle()
+//                    bundle.putParcelable(Const.Key.KEY_WHETHER_BACKGROUND, bgBitmap)
+//                    intent.putExtras(bundle)
+                    startActivity(intent)
                 }
                 R.id.menu_exit -> {
 //                    //调用系统API结束进程
@@ -274,7 +284,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showWhetherInfo(whether: Whether) {
         if (whether != null) {
-            this.mWhether = whether
+            mWhether = whether
             ivWhether.setImageResource(R.drawable.ic_wb_sunny)
             tvWhether.text = whether.forecast[0].type
 //            tvTemp.text = String.format("%s-%s", Utils.get_None_CN_Str(whether.forecast[0].low), Utils.get_None_CN_Str(whether.forecast[0].high))

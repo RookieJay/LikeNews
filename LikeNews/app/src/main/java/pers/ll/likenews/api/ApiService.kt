@@ -78,7 +78,13 @@ interface ApiService {
     fun topMovie250(@QueryMap params : LinkedHashMap<String, Any>) : Call<MovieResult>
 
 
+    /**
+     * 今日诗词 随机一句古诗
+     */
     @GET("{url}")
     fun getRandomRecommendPoetry(@Path("url") url : String) : Call<BaseResult<Poetry>>
+
+    @GET("listWeather")
+    fun getMXWhether(@Query("cityIds") cityIds : String) : Call<MxWhetherResult>
 }
 
