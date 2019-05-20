@@ -1,7 +1,15 @@
 package pers.ll.likenews.view.activity
 
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.raizlabs.android.dbflow.sql.language.Select
@@ -32,6 +40,11 @@ class CitySelectActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val decorView = window.decorView
+            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            window.statusBarColor = Color.TRANSPARENT
+        }
         setContentView(R.layout.activity_city_select)
         initView()
         checkLoadData()
@@ -40,8 +53,17 @@ class CitySelectActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        initToolbar()
         mAdapter = WhetherListAdapter(ArrayList())
+        recyclerView.layoutManager = LinearLayoutManager(this)
+//        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = mAdapter
+    }
+
+    private fun initToolbar() {
+        toolBar.background = ContextCompat.getDrawable(applicationContext, R.color.black)
+        barLeft.visibility = View.VISIBLE
+        barTitle.text = "选择城市"
     }
 
     private fun initData() {
@@ -76,6 +98,7 @@ class CitySelectActivity : AppCompatActivity() {
         val list = ArrayList<MXWhether>()
         list.add(whether)
         mAdapter.replaceAll(list)
+        mAdapter.notifyDataSetChanged()
     }
 
     private fun checkLoadData() {
@@ -83,7 +106,7 @@ class CitySelectActivity : AppCompatActivity() {
             //查询
             val cityList = Select().from(City :: class.java).queryList()
             if ( cityList.size > 0) {
-                ToastUtils.showShort(cityList.size.toString())
+                ToastUtils.showShort("城市个数" + cityList.size.toString())
             } else {
                 //插入
                 val data = MockData(applicationContext, "cities.json")
@@ -92,6 +115,7 @@ class CitySelectActivity : AppCompatActivity() {
                 val cities : ArrayList<City> = Gson().fromJson(json, type)
                 for (city in cities) {
                     city.save()
+                    ToastUtils.showShort("城市数据自动导入成功")
                 }
             }
         }
@@ -101,6 +125,13 @@ class CitySelectActivity : AppCompatActivity() {
         barLeft.setOnClickListener {
             finish()
         }
+        fab.setOnClickListener {
+            startActivityForResult(Intent(this, CitySearchActivity :: class.java), Const.RESULT_CODE.CODE_SEARCH)
+        }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+    }
 }

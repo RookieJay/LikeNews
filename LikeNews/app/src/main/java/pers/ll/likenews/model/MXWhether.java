@@ -1,8 +1,12 @@
 package pers.ll.likenews.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class MXWhether {
+public class MXWhether implements Parcelable {
     /**
      * alarms : [{"alarmContent":"三明市气象台2019年05月17日13时57分变更发布暴雨橙色预警信号：过去6小时明溪、将乐、沙县、三元、尤溪五个县（区）的部分乡镇出现50毫米以上的强降水，预计未来3小时宁化、清流、明溪、将乐、泰宁、永安、沙县、尤溪八个县（市、区）的部分乡镇仍有50毫米以上降水。请注意防范持续强降水可能引发的山洪、城乡渍涝和山体滑坡等次生灾害。（预警信息来源：国家预警信息发布中心）","alarmDesc":"福建省三明市气象台发布暴雨橙色预警","alarmId":"c0aec553e2dd6a4192269052e4885c96","alarmLevelNo":"03","alarmLevelNoDesc":"橙色","alarmType":"02","alarmTypeDesc":"暴雨橙色","precaution":"1.不要在积水中行走，防止跌入窨井、地坑等；\n\n2.驾驶车辆遇到路面积水过深时，应尽量绕行；\n\n3.危险地带的学校和单位应当停课、停业。","publishTime":"2019-05-17 14:20:00"},{"alarmContent":"福建省气象台5月17日12时56分继续发布雷电黄色预警信号。预计未来6小时全省部分县市有雷电活动，局部伴有短时强降水、7-9级雷雨大风或小冰雹等强对流天气。请注意防范!（预警信息来源：国家预警信息发布中心）","alarmDesc":"福建省气象台发布雷电黄色预警","alarmId":"13cef5595482828011513ea73f5e265f","alarmLevelNo":"02","alarmLevelNoDesc":"黄色","alarmType":"09","alarmTypeDesc":"雷电黄色","precaution":"1.尽量避免户外活动；\n\n2.注意接收后续天气预报预警信号。","publishTime":"2019-05-17 12:56:29"},{"alarmContent":"福建省气象台5月17日5时38分继续发布大雾黄色预警信号。今天白天到夜间，沿海的部分县市和内陆的局部县市、沿海海区、台湾海峡有能见度小于500米的大雾，请注意防范。（预警信息来源：国家预警信息发布中心）","alarmDesc":"福建省气象台发布大雾黄色预警","alarmId":"c942b66739bc18820645548294e0e91e","alarmLevelNo":"02","alarmLevelNoDesc":"黄色","alarmType":"12","alarmTypeDesc":"大雾黄色","precaution":"1.户外活动注意安全；\n\n2.驾驶员注意雾的变化，小心驾驶。","publishTime":"2019-05-17 05:38:57"}]
      * city : 三明
@@ -96,7 +100,7 @@ public class MXWhether {
         this.weathers = weathers;
     }
 
-    public static class Pm25 {
+    public static class Pm25 implements Parcelable {
         /**
          * advice : 0
          * aqi : 19
@@ -250,9 +254,66 @@ public class MXWhether {
         public void setUpDateTime(String upDateTime) {
             this.upDateTime = upDateTime;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.advice);
+            dest.writeString(this.aqi);
+            dest.writeInt(this.citycount);
+            dest.writeInt(this.cityrank);
+            dest.writeString(this.co);
+            dest.writeString(this.color);
+            dest.writeString(this.level);
+            dest.writeString(this.no2);
+            dest.writeString(this.o3);
+            dest.writeString(this.pm10);
+            dest.writeString(this.pm25);
+            dest.writeString(this.quality);
+            dest.writeString(this.so2);
+            dest.writeString(this.timestamp);
+            dest.writeString(this.upDateTime);
+        }
+
+        public Pm25() {
+        }
+
+        protected Pm25(Parcel in) {
+            this.advice = in.readString();
+            this.aqi = in.readString();
+            this.citycount = in.readInt();
+            this.cityrank = in.readInt();
+            this.co = in.readString();
+            this.color = in.readString();
+            this.level = in.readString();
+            this.no2 = in.readString();
+            this.o3 = in.readString();
+            this.pm10 = in.readString();
+            this.pm25 = in.readString();
+            this.quality = in.readString();
+            this.so2 = in.readString();
+            this.timestamp = in.readString();
+            this.upDateTime = in.readString();
+        }
+
+        public static final Creator<Pm25> CREATOR = new Creator<Pm25>() {
+            @Override
+            public Pm25 createFromParcel(Parcel source) {
+                return new Pm25(source);
+            }
+
+            @Override
+            public Pm25[] newArray(int size) {
+                return new Pm25[size];
+            }
+        };
     }
 
-    public static class RealtimeWhether {
+    public static class RealtimeWhether implements Parcelable {
         /**
          * img : 8
          * sD : 88
@@ -346,9 +407,54 @@ public class MXWhether {
         public void setZiwaixian(String ziwaixian) {
             this.ziwaixian = ziwaixian;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.img);
+            dest.writeString(this.sD);
+            dest.writeString(this.sendibleTemp);
+            dest.writeString(this.temp);
+            dest.writeString(this.time);
+            dest.writeString(this.wD);
+            dest.writeString(this.wS);
+            dest.writeString(this.weather);
+            dest.writeString(this.ziwaixian);
+        }
+
+        public RealtimeWhether() {
+        }
+
+        protected RealtimeWhether(Parcel in) {
+            this.img = in.readString();
+            this.sD = in.readString();
+            this.sendibleTemp = in.readString();
+            this.temp = in.readString();
+            this.time = in.readString();
+            this.wD = in.readString();
+            this.wS = in.readString();
+            this.weather = in.readString();
+            this.ziwaixian = in.readString();
+        }
+
+        public static final Creator<RealtimeWhether> CREATOR = new Creator<RealtimeWhether>() {
+            @Override
+            public RealtimeWhether createFromParcel(Parcel source) {
+                return new RealtimeWhether(source);
+            }
+
+            @Override
+            public RealtimeWhether[] newArray(int size) {
+                return new RealtimeWhether[size];
+            }
+        };
     }
 
-    public static class WeatherDetailsInfo {
+    public static class WeatherDetailsInfo implements Parcelable {
         /**
          * publishTime : 2019-05-17 16:00:00
          * weather3HoursDetailsInfos : [{"endTime":"2019-05-17 20:00:00","highestTemperature":"25","img":"2","isRainFall":"","lowerestTemperature":"25","precipitation":"0","startTime":"2019-05-17 17:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-17 23:00:00","highestTemperature":"23","img":"2","isRainFall":"","lowerestTemperature":"23","precipitation":"0","startTime":"2019-05-17 20:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-18 02:00:00","highestTemperature":"23","img":"2","isRainFall":"","lowerestTemperature":"23","precipitation":"0","startTime":"2019-05-17 23:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-18 05:00:00","highestTemperature":"24","img":"2","isRainFall":"","lowerestTemperature":"24","precipitation":"0","startTime":"2019-05-18 02:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-18 08:00:00","highestTemperature":"24","img":"2","isRainFall":"","lowerestTemperature":"24","precipitation":"0","startTime":"2019-05-18 05:00:00","wd":"","weather":"阴","ws":""},{"endTime":"2019-05-18 11:00:00","highestTemperature":"24","img":"0","isRainFall":"","lowerestTemperature":"24","precipitation":"0","startTime":"2019-05-18 08:00:00","wd":"","weather":"晴","ws":""},{"endTime":"2019-05-18 14:00:00","highestTemperature":"27","img":"0","isRainFall":"","lowerestTemperature":"27","precipitation":"0","startTime":"2019-05-18 11:00:00","wd":"","weather":"晴","ws":""}]
@@ -373,7 +479,7 @@ public class MXWhether {
             this.weather3HoursDetailsInfos = weather3HoursDetailsInfos;
         }
 
-        public static class Weather3HoursDetailsInfosBean {
+        public static class Weather3HoursDetailsInfosBean implements Parcelable {
             /**
              * endTime : 2019-05-17 20:00:00
              * highestTemperature : 25
@@ -477,10 +583,89 @@ public class MXWhether {
             public void setWs(String ws) {
                 this.ws = ws;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.endTime);
+                dest.writeString(this.highestTemperature);
+                dest.writeString(this.img);
+                dest.writeString(this.isRainFall);
+                dest.writeString(this.lowerestTemperature);
+                dest.writeString(this.precipitation);
+                dest.writeString(this.startTime);
+                dest.writeString(this.wd);
+                dest.writeString(this.weather);
+                dest.writeString(this.ws);
+            }
+
+            public Weather3HoursDetailsInfosBean() {
+            }
+
+            protected Weather3HoursDetailsInfosBean(Parcel in) {
+                this.endTime = in.readString();
+                this.highestTemperature = in.readString();
+                this.img = in.readString();
+                this.isRainFall = in.readString();
+                this.lowerestTemperature = in.readString();
+                this.precipitation = in.readString();
+                this.startTime = in.readString();
+                this.wd = in.readString();
+                this.weather = in.readString();
+                this.ws = in.readString();
+            }
+
+            public static final Creator<Weather3HoursDetailsInfosBean> CREATOR = new Creator<Weather3HoursDetailsInfosBean>() {
+                @Override
+                public Weather3HoursDetailsInfosBean createFromParcel(Parcel source) {
+                    return new Weather3HoursDetailsInfosBean(source);
+                }
+
+                @Override
+                public Weather3HoursDetailsInfosBean[] newArray(int size) {
+                    return new Weather3HoursDetailsInfosBean[size];
+                }
+            };
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.publishTime);
+            dest.writeList(this.weather3HoursDetailsInfos);
+        }
+
+        public WeatherDetailsInfo() {
+        }
+
+        protected WeatherDetailsInfo(Parcel in) {
+            this.publishTime = in.readString();
+            this.weather3HoursDetailsInfos = new ArrayList<Weather3HoursDetailsInfosBean>();
+            in.readList(this.weather3HoursDetailsInfos, Weather3HoursDetailsInfosBean.class.getClassLoader());
+        }
+
+        public static final Creator<WeatherDetailsInfo> CREATOR = new Creator<WeatherDetailsInfo>() {
+            @Override
+            public WeatherDetailsInfo createFromParcel(Parcel source) {
+                return new WeatherDetailsInfo(source);
+            }
+
+            @Override
+            public WeatherDetailsInfo[] newArray(int size) {
+                return new WeatherDetailsInfo[size];
+            }
+        };
     }
 
-    public static class Alarms {
+    public static class Alarms implements Parcelable {
         /**
          * alarmContent : 三明市气象台2019年05月17日13时57分变更发布暴雨橙色预警信号：过去6小时明溪、将乐、沙县、三元、尤溪五个县（区）的部分乡镇出现50毫米以上的强降水，预计未来3小时宁化、清流、明溪、将乐、泰宁、永安、沙县、尤溪八个县（市、区）的部分乡镇仍有50毫米以上降水。请注意防范持续强降水可能引发的山洪、城乡渍涝和山体滑坡等次生灾害。（预警信息来源：国家预警信息发布中心）
          * alarmDesc : 福建省三明市气象台发布暴雨橙色预警
@@ -578,9 +763,54 @@ public class MXWhether {
         public void setPublishTime(String publishTime) {
             this.publishTime = publishTime;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.alarmContent);
+            dest.writeString(this.alarmDesc);
+            dest.writeString(this.alarmId);
+            dest.writeString(this.alarmLevelNo);
+            dest.writeString(this.alarmLevelNoDesc);
+            dest.writeString(this.alarmType);
+            dest.writeString(this.alarmTypeDesc);
+            dest.writeString(this.precaution);
+            dest.writeString(this.publishTime);
+        }
+
+        public Alarms() {
+        }
+
+        protected Alarms(Parcel in) {
+            this.alarmContent = in.readString();
+            this.alarmDesc = in.readString();
+            this.alarmId = in.readString();
+            this.alarmLevelNo = in.readString();
+            this.alarmLevelNoDesc = in.readString();
+            this.alarmType = in.readString();
+            this.alarmTypeDesc = in.readString();
+            this.precaution = in.readString();
+            this.publishTime = in.readString();
+        }
+
+        public static final Creator<Alarms> CREATOR = new Creator<Alarms>() {
+            @Override
+            public Alarms createFromParcel(Parcel source) {
+                return new Alarms(source);
+            }
+
+            @Override
+            public Alarms[] newArray(int size) {
+                return new Alarms[size];
+            }
+        };
     }
 
-    public static class Indexes {
+    public static class Indexes implements Parcelable {
         /**
          * abbreviation : gm
          * alias :
@@ -634,9 +864,46 @@ public class MXWhether {
         public void setName(String name) {
             this.name = name;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.abbreviation);
+            dest.writeString(this.alias);
+            dest.writeString(this.content);
+            dest.writeString(this.level);
+            dest.writeString(this.name);
+        }
+
+        public Indexes() {
+        }
+
+        protected Indexes(Parcel in) {
+            this.abbreviation = in.readString();
+            this.alias = in.readString();
+            this.content = in.readString();
+            this.level = in.readString();
+            this.name = in.readString();
+        }
+
+        public static final Creator<Indexes> CREATOR = new Creator<Indexes>() {
+            @Override
+            public Indexes createFromParcel(Parcel source) {
+                return new Indexes(source);
+            }
+
+            @Override
+            public Indexes[] newArray(int size) {
+                return new Indexes[size];
+            }
+        };
     }
 
-    public static class Forecast {
+    public static class Forecast implements Parcelable {
         /**
          * date : 2019-05-17
          * img : 9
@@ -760,5 +1027,104 @@ public class MXWhether {
         public void setWs(String ws) {
             this.ws = ws;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.date);
+            dest.writeString(this.img);
+            dest.writeString(this.sun_down_time);
+            dest.writeString(this.sun_rise_time);
+            dest.writeString(this.temp_day_c);
+            dest.writeString(this.temp_day_f);
+            dest.writeString(this.temp_night_c);
+            dest.writeString(this.temp_night_f);
+            dest.writeString(this.wd);
+            dest.writeString(this.weather);
+            dest.writeString(this.week);
+            dest.writeString(this.ws);
+        }
+
+        public Forecast() {
+        }
+
+        protected Forecast(Parcel in) {
+            this.date = in.readString();
+            this.img = in.readString();
+            this.sun_down_time = in.readString();
+            this.sun_rise_time = in.readString();
+            this.temp_day_c = in.readString();
+            this.temp_day_f = in.readString();
+            this.temp_night_c = in.readString();
+            this.temp_night_f = in.readString();
+            this.wd = in.readString();
+            this.weather = in.readString();
+            this.week = in.readString();
+            this.ws = in.readString();
+        }
+
+        public static final Creator<Forecast> CREATOR = new Creator<Forecast>() {
+            @Override
+            public Forecast createFromParcel(Parcel source) {
+                return new Forecast(source);
+            }
+
+            @Override
+            public Forecast[] newArray(int size) {
+                return new Forecast[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.city);
+        dest.writeInt(this.cityid);
+        dest.writeParcelable(this.pm25, flags);
+        dest.writeString(this.provinceName);
+        dest.writeParcelable(this.realtime, flags);
+        dest.writeParcelable(this.weatherDetailsInfo, flags);
+        dest.writeList(this.alarms);
+        dest.writeList(this.indexes);
+        dest.writeList(this.weathers);
+    }
+
+    public MXWhether() {
+    }
+
+    protected MXWhether(Parcel in) {
+        this.city = in.readString();
+        this.cityid = in.readInt();
+        this.pm25 = in.readParcelable(Pm25.class.getClassLoader());
+        this.provinceName = in.readString();
+        this.realtime = in.readParcelable(RealtimeWhether.class.getClassLoader());
+        this.weatherDetailsInfo = in.readParcelable(WeatherDetailsInfo.class.getClassLoader());
+        this.alarms = new ArrayList<Alarms>();
+        in.readList(this.alarms, Alarms.class.getClassLoader());
+        this.indexes = new ArrayList<Indexes>();
+        in.readList(this.indexes, Indexes.class.getClassLoader());
+        this.weathers = new ArrayList<Forecast>();
+        in.readList(this.weathers, Forecast.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<MXWhether> CREATOR = new Parcelable.Creator<MXWhether>() {
+        @Override
+        public MXWhether createFromParcel(Parcel source) {
+            return new MXWhether(source);
+        }
+
+        @Override
+        public MXWhether[] newArray(int size) {
+            return new MXWhether[size];
+        }
+    };
 }

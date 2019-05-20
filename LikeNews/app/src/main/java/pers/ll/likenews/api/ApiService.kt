@@ -55,14 +55,12 @@ interface ApiService {
      * 获取某一类型歌单（全部，华语，粤语...）   https://api.itooi.cn/music/netease/highQualitySongList?key=579621905&cat=全部&limit=100
      */
 
-
     /**
      * 小伟博客
      *  搜索音乐/专辑/歌词/歌单/MV/用户/歌手/电台搜索
      */
     @GET("wy")
     fun searchMusicXW(@QueryMap params : LinkedHashMap<String, Any>) : Call<XWMusicResult>
-
 
     /**
      * 小伟博客
@@ -77,13 +75,15 @@ interface ApiService {
     @GET("top250")
     fun topMovie250(@QueryMap params : LinkedHashMap<String, Any>) : Call<MovieResult>
 
-
     /**
      * 今日诗词 随机一句古诗
      */
     @GET("{url}")
     fun getRandomRecommendPoetry(@Path("url") url : String) : Call<BaseResult<Poetry>>
 
+    /**
+     * 魅族天气
+     */
     @GET("listWeather")
     fun getMXWhether(@Query("cityIds") cityIds : String) : Call<MxWhetherResult>
 }

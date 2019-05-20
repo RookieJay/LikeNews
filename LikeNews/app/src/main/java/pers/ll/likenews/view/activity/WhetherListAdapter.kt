@@ -2,6 +2,7 @@ package pers.ll.likenews.view.activity
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import pers.ll.likenews.R
+import pers.ll.likenews.base.MyApplication
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.MXWhether
 import pers.ll.likenews.utils.TimeUtils
@@ -31,21 +33,26 @@ class WhetherListAdapter(whethers : ArrayList<MXWhether>) : RecyclerView.Adapter
         val date = TimeUtils.string2Date(whether.weatherDetailsInfo.publishTime)
         holder.tvDate.text = TimeUtils.date2String(date, Const.DateFormat.CN_M_D)
         holder.tvLocation.text = whether.city
-        holder.tvRealTime.text = whether.realtime.time
+        val publishDate = TimeUtils.string2Date(whether.weatherDetailsInfo.publishTime)
+        holder.tvRealTime.text = TimeUtils.date2String(publishDate, Const.DateFormat.HHMM)
         holder.tvTempDuration.text = String.format("%s°/%s°", whether.weathers[0].temp_night_c, whether.weathers[0].temp_day_c)
         holder.tvWeekDay.text = whether.weathers[0].week
         holder.tvWhether.text = whether.weathers[0].weather
-        val imgName = "w_icon_$whether.weathers[0].img"
-        val imgId = holder.itemView.context.resources.getIdentifier(imgName, "drawable", "pers.ll.likenews.view.activity")
+        val imgName = "w_icon_"+whether.weathers[0].img+"_big"
+        val imgId = MyApplication.getInstance().resources.getIdentifier(imgName, "drawable", holder.itemView.context.packageName)
+        Log.d("packageName", holder.itemView.context.packageName)
+        Log.d("img的id", "$imgName $imgId")
         val drawable = ContextCompat.getDrawable(holder.itemView.context, imgId)
         Glide.with(holder.ivWhether).load(drawable).into(holder.ivWhether)
+//        holder.ivWhether.setImageResource(imgId)
+        holder.itemView.setOnClickListener{
+
+        }
     }
 
     fun replaceAll(list: ArrayList<MXWhether>) {
         mData = list
-        notifyDataSetChanged()
     }
-
 
     class WhetherHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
 

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
@@ -21,7 +22,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class WhetherActivity : AppCompatActivity() {
+class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var mAdapter : ForecastAdapter
     private lateinit var forecasts : ArrayList<MXWhether.Forecast>
@@ -39,7 +40,7 @@ class WhetherActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_whether)
         initView()
-        loadData()
+        initData()
         setListener()
     }
 
@@ -56,14 +57,54 @@ class WhetherActivity : AppCompatActivity() {
         Glide.with(ivBackground).load(Const.URL.BING_DAILY_PIC).into(ivBackground)
     }
 
+    private fun initData() {
+        val intent = intent
+        if (intent != null) {
+            val whether = intent.getParcelableExtra<MXWhether>(Const.Key.KEY_WHETHER)
+            if (whether != null) {
+                showData(whether)
+            }
+        }
+    }
+
+    private fun setListener() {
+        barLeft.setOnClickListener {
+            finish()
+        }
+        barTitle.setOnClickListener {
+            startActivity(Intent(this, CitySelectActivity :: class.java))
+        }
+        srlWhether.setOnRefreshListener(this)
+        srlWhether.setColorSchemeColors(
+                UIUtils.getColor(applicationContext, android.R.color.holo_blue_light), UIUtils.getColor(applicationContext,android.R.color.holo_red_light),
+                UIUtils.getColor(applicationContext,android.R.color.holo_green_light), UIUtils.getColor(applicationContext,android.R.color.holo_orange_light))
+    }
+
+    override fun onRefresh() {
+        Glide.with(ivBackground).load(Const.URL.BING_DAILY_PIC).into(ivBackground)
+        loadData()
+    }
+
+    private fun startRefresh() {
+        mMainThread.post {
+            srlWhether.isRefreshing = true
+        }
+    }
+
+    private fun stopRefresh() {
+        mMainThread.post {
+            srlWhether.isRefreshing = false
+        }
+    }
+
     private fun loadData() {
         mExecutor.execute {
             val retrofit = Retrofit.Builder()
                     .baseUrl(Const.URL.BASE_URL_MXWHETHER)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-            val apiService = retrofit.create(ApiService :: class.java)
-            apiService.getMXWhether("101270101").enqueue(object : Callback<MxWhetherResult>{
+            val apiService = retrofit.create(ApiService::class.java)
+            apiService.getMXWhether("101270101").enqueue(object : Callback<MxWhetherResult> {
                 override fun onFailure(call: Call<MxWhetherResult>, t: Throwable) {
 
                 }
@@ -77,17 +118,7 @@ class WhetherActivity : AppCompatActivity() {
                         }
                     }
                 }
-
             })
-        }
-    }
-
-    private fun setListener() {
-        barLeft.setOnClickListener {
-            finish()
-        }
-        barTitle.setOnClickListener {
-            startActivity(Intent(this, CitySelectActivity :: class.java))
         }
     }
 
@@ -105,8 +136,8 @@ class WhetherActivity : AppCompatActivity() {
                 mAdapter.replaceAll(forecasts)
                 mAdapter.notifyDataSetChanged()
             }
+            stopRefresh()
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

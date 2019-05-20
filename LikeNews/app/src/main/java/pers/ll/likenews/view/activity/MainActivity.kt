@@ -25,6 +25,8 @@ import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
 import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.consts.Const
+import pers.ll.likenews.model.MXWhether
+import pers.ll.likenews.model.MxWhetherResult
 import pers.ll.likenews.model.Whether
 import pers.ll.likenews.model.WhetherResult
 import pers.ll.likenews.ui.CircleImageView
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     private var executor = ThreadPoolManager.getInstance()
     private var imageUtil = ImageUtil.getInstance()
     private val handler = WhetherHandler(this)
-    private lateinit var mWhether: Whether
+    private lateinit var mWhether: MXWhether
     private lateinit var bgBitmap : Bitmap
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -177,39 +179,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadData() {
-            ThreadPoolManager.getInstance().execute(Runnable {
-                val retrofit = Retrofit
-                    .Builder()
-                    .baseUrl(Const.URL.BASE_URL_WHETHER)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                val apiService = retrofit.create(ApiService :: class.java)
-                val msg = handler.obtainMessage()
-                apiService.getWhether("绵阳").enqueue(object : Callback<WhetherResult> {
-                    override fun onFailure(call: Call<WhetherResult>, t: Throwable) {
-                        msg.arg1 = Const.RESULT_CODE.Args_Failure
-                        handler.sendMessage(msg)
-                    }
+        val msg = handler.obtainMessage()
+        executor.execute {
+            val retrofit = Retrofit.Builder()
+                .baseUrl(Const.URL.BASE_URL_MXWHETHER)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val apiService = retrofit.create(ApiService::class.java)
+            apiService.getMXWhether("101270101").enqueue(object : Callback<MxWhetherResult> {
+                override fun onFailure(call: Call<MxWhetherResult>, t: Throwable) {
 
-                    override fun onResponse(call: Call<WhetherResult>, response: Response<WhetherResult>) {
-                        msg.arg1 = Const.RESULT_CODE.Args_Success
-                        val body = response.body()
-                        if (null != body) {
-                            val whether = body.data
-                            if (null != whether) {
-                                val bundle = Bundle()
-                                bundle.putParcelable(Const.Key.KEY_WHETHER, whether)
-                                msg.data = bundle
-                            } else {
-                                msg.arg1 = Const.RESULT_CODE.Args_Empty
-                            }
+                }
+
+                override fun onResponse(call: Call<MxWhetherResult>, response: Response<MxWhetherResult>) {
+                    val body = response.body()
+                    if (null != body) {
+                        val whether = body.value[0]
+                        if (null != whether) {
+                            msg.arg1 = Const.RESULT_CODE.Args_Success
+                            val bundle = Bundle()
+                            bundle.putParcelable(Const.Key.KEY_WHETHER, whether)
+                            msg.data = bundle
                         } else {
                             msg.arg1 = Const.RESULT_CODE.Args_Empty
                         }
-                        handler.sendMessage(msg)
+                    } else {
+                        msg.arg1 = Const.RESULT_CODE.Args_Empty
                     }
-                })
+                    handler.sendMessage(msg)
+                }
             })
+        }
     }
 
     private fun setListener() {
@@ -261,12 +261,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_whether -> {
                     if (null != mWhether) {
-                        ToastUtils.showShort(mWhether.ganmao)
+                        ToastUtils.showShort(mWhether.indexes[0].content)
                     }
                     val intent = Intent(this, WhetherActivity :: class.java)
-//                    val bundle = Bundle()
-//                    bundle.putParcelable(Const.Key.KEY_WHETHER_BACKGROUND, bgBitmap)
-//                    intent.putExtras(bundle)
+                    val bundle = Bundle()
+                    bundle.putParcelable(Const.Key.KEY_WHETHER, mWhether)
+                    intent.putExtras(bundle)
                     startActivity(intent)
                 }
                 R.id.menu_exit -> {
@@ -282,13 +282,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showWhetherInfo(whether: Whether) {
+    private fun showWhetherInfo(whether: MXWhether) {
         if (whether != null) {
             mWhether = whether
             ivWhether.setImageResource(R.drawable.ic_wb_sunny)
-            tvWhether.text = whether.forecast[0].type
+            tvWhether.text = whether.weathers[0].weather
 //            tvTemp.text = String.format("%s-%s", Utils.get_None_CN_Str(whether.forecast[0].low), Utils.get_None_CN_Str(whether.forecast[0].high))
-            tvTemp.text = String.format("%s°C", whether.wendu)
+            tvTemp.text = String.format("%s°C", whether.realtime.temp)
         }
     }
 
@@ -320,7 +320,7 @@ class MainActivity : AppCompatActivity() {
             if (null != msg) {
                 val bundle = msg.data
                 if (null != bundle) {
-                    val whether = bundle.getParcelable<Whether>(Const.Key.KEY_WHETHER)
+                    val whether = bundle.getParcelable<MXWhether>(Const.Key.KEY_WHETHER)
                     if (whether != null) {
                         when(msg.arg1) {
                             Const.RESULT_CODE.Args_Success -> activity.showWhetherInfo(whether)
