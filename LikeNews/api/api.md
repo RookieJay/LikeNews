@@ -1,3 +1,4 @@
+
 一、豆瓣电影(key=0df993c66c0c636e29ecbb5344252a4a)
 1.正在热映
     http://api.douban.com/v2/movie/nowplaying?apikey=**********
@@ -12,7 +13,7 @@
 6. top250 榜单
     http://api.douban.com/v2/movie/top250?apikey=********&start=249&count=4
 7. 电影搜索
-    https://api.douban.com/v2/movie/search?q=keyword&tag=tag&count=20&start=1&apikey=********
+    https://api.douban.com/v2/movie/search?tag=喜剧&start=0&count=10&apikey=0df993c66c0c636e29ecbb5344252a4a
 8. 影片详情
     https://api.douban.com/v2/movie/subject/:movieId?apikey=********
 9. 影片剧照

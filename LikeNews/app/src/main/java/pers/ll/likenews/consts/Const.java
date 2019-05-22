@@ -19,6 +19,7 @@ public interface Const {
         String BING_DAILY_PIC = "https://api.mlwei.com/bing.php"; //必应每日一图
         String BASE_URL_OPEN_API = "https://api.apiopen.top/";
         String BASE_URL_MXWHETHER = "http://aider.meizu.com/app/weather/";
+        String BASE_URL_MOVIE_BACKUP = "https://douban.uieee.com/v2/movie/";
     }
 
     interface Key{

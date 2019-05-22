@@ -7,7 +7,9 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:paddingTop="15dp"
-    android:paddingStart="10dp">
+    android:background="@drawable/bg_ripple_touch"
+    android:paddingStart="10dp"
+    android:paddingLeft="10dp">
     
     <pers.ll.likenews.ui.RoundCornerImageView
         android:id="@+id/ivMovie"

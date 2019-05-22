@@ -13,29 +13,11 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
 			
-			<com.wuyr.litepager.LitePager
-					android:id="@+id/litePager"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-				android:layout_marginTop="5dp">
-				<View
-					android:layout_width="150dp"
-					android:layout_height="200dp"
-					android:background="#F00" />
-				<View
-					android:layout_width="150dp"
-					android:layout_height="200dp"
-					android:background="#0F0"/>
-				<View
-					android:layout_width="150dp"
-					android:layout_height="200dp"
-					android:background="#00F"/>
-			</com.wuyr.litepager.LitePager>
-			
 			<android.support.v7.widget.RecyclerView
 				android:id="@+id/recyclerView"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
+				android:layout_marginTop="20dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginEnd="20dp"
 				android:layout_below="@+id/litePager">

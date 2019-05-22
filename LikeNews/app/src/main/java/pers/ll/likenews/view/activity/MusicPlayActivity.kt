@@ -443,11 +443,9 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     }
 
     private fun releaseMediaPlayer() {
-        if (player != null) {
-            player.stop()
-            hadDestroy = true
-            player.release()
-        }
+        player.stop()
+        hadDestroy = true
+        player.release()
     }
 
     override fun onDestroy() {
@@ -459,6 +457,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 
         private val weakReference : WeakReference<MusicPlayActivity> = WeakReference(activity)
 
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
             val activity = weakReference.get()
@@ -467,6 +466,10 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                 val curTime = data.getString("curTime")
                 activity.seekBar.progress = msg.what
                 activity.tvCurTime.text = curTime
+                val total = activity.tvMusicDuration.text.toString()
+                if (curTime == total) {
+                    activity.switchToNext()
+                }
             }
         }
     }
@@ -476,10 +479,10 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
         override fun run() {
             if (player != null && !hadDestroy) {
                 val curTime = TimeUtils.date2String(Date(player.currentPosition.toLong()), Const.DateFormat.MMSS)
-                if (curTime == totalDur.toString()) {
-                    switchToNext()
-                    return
-                }
+//                if (curTime == totalDur.toString()) {
+//                    switchToNext()
+//                    return
+//                }
                 val bundle  = Bundle()
                 bundle.putString("curTime", curTime)
                 val msg = handler.obtainMessage()

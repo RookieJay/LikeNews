@@ -33,7 +33,6 @@ class TopMovieFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, H
     private val Args_Failure = 1
     private val Args_Empty = 2
 
-
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var ivEmpty : ImageView

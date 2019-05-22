@@ -47,6 +47,9 @@
     <string name="txt_single_poetry_sentence">
         晓看红湿处，花重锦官城。
     </string>
+    <string name="txt_chun_feng">
+        春风十里不如你
+    </string>
     
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>

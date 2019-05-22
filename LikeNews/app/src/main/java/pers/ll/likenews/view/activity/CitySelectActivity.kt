@@ -72,7 +72,6 @@ class CitySelectActivity : AppCompatActivity(), WhetherListAdapter.OnItemClickLi
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
             val apiService = retrofit.create(ApiService :: class.java)
-            //默认成都
             apiService.getMXWhether(cityId).enqueue(object : Callback<MxWhetherResult> {
                 override fun onFailure(call: Call<MxWhetherResult>, t: Throwable) {
 

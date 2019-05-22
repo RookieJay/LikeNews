@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="3dp">
+
+    <pers.ll.likenews.ui.RoundCornerImageView
+        android:id="@+id/ivSongList"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        tools:src="@color/colorPrimary"
+        android:scaleType="fitCenter"/>
+    
+    <TextView
+        android:id="@+id/tvSongListName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:gravity="left"
+        android:maxWidth="105dp"
+        tools:text="@string/txt_chun_feng"
+        android:textColor="@color/black"
+        android:textSize="11sp"/>
+    
+</LinearLayout>

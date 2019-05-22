@@ -52,10 +52,6 @@ interface ApiService {
     fun getWhether(@Query("city") city : String ) : Call<WhetherResult>
 
     /**
-     * 获取某一类型歌单（全部，华语，粤语...）   https://api.itooi.cn/music/netease/highQualitySongList?key=579621905&cat=全部&limit=100
-     */
-
-    /**
      * 小伟博客
      *  搜索音乐/专辑/歌词/歌单/MV/用户/歌手/电台搜索
      */
@@ -86,5 +82,11 @@ interface ApiService {
      */
     @GET("listWeather")
     fun getMXWhether(@Query("cityIds") cityIds : String) : Call<MxWhetherResult>
+
+    /**
+     * 热门歌单
+     */
+    @GET("songList/hot")
+    fun hotSongList(@QueryMap params : LinkedHashMap<String, Any>) : Call<MusicResult<SongList>>
 }
 
