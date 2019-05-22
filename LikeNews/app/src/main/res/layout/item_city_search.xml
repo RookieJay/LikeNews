@@ -4,14 +4,20 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/black">
+    android:background="@drawable/bg_ripple_touch_black">
 
     <TextView
         android:id="@+id/tvCity"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:layout_height="50dp"
+        android:textSize="20sp"
+        android:gravity="center"
         tools:text="成都"
         android:textColor="@color/white"/>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_dark"/>
     
 </LinearLayout>

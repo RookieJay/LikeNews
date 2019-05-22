@@ -12,12 +12,14 @@ import com.bumptech.glide.Glide
 import pers.ll.likenews.R
 import pers.ll.likenews.base.MyApplication
 import pers.ll.likenews.consts.Const
+import pers.ll.likenews.model.City
 import pers.ll.likenews.model.MXWhether
 import pers.ll.likenews.utils.TimeUtils
 
-class WhetherListAdapter(whethers : ArrayList<MXWhether>) : RecyclerView.Adapter<WhetherListAdapter.WhetherHolder>() {
+class WhetherListAdapter(onItemClickListener: OnItemClickListener, whethers : ArrayList<MXWhether>) : RecyclerView.Adapter<WhetherListAdapter.WhetherHolder>() {
 
     private var mData = whethers
+    private var mOnItemClickListener = onItemClickListener
 
     override fun onCreateViewHolder(parent : ViewGroup, position: Int): WhetherHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_whether, parent, false)
@@ -46,12 +48,35 @@ class WhetherListAdapter(whethers : ArrayList<MXWhether>) : RecyclerView.Adapter
         Glide.with(holder.ivWhether).load(drawable).into(holder.ivWhether)
 //        holder.ivWhether.setImageResource(imgId)
         holder.itemView.setOnClickListener{
-
+            mOnItemClickListener.onItemClick(whether)
         }
     }
 
     fun replaceAll(list: ArrayList<MXWhether>) {
         mData = list
+    }
+
+    fun addData(whether: MXWhether) {
+        if (mData.size > 0) {
+            for (data in mData) {
+                if (whether == data) {
+                    return
+                }
+            }
+        }
+        mData.add(whether)
+    }
+
+    fun isExist(city: City): Boolean {
+        val cityNames = ArrayList<String>()
+        return if (mData.size > 0) {
+            for (data in mData) {
+                cityNames.add(data.city)
+            }
+            cityNames.contains(city.countyname)
+        } else {
+            false
+        }
     }
 
     class WhetherHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
@@ -63,5 +88,9 @@ class WhetherListAdapter(whethers : ArrayList<MXWhether>) : RecyclerView.Adapter
         val tvWhether = itemView.findViewById(R.id.tvWhether) as TextView
         val tvTempDuration = itemView.findViewById(R.id.tvTempDuration) as TextView
         val ivWhether = itemView.findViewById(R.id.ivWhether) as ImageView
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(whether: MXWhether)
     }
 }

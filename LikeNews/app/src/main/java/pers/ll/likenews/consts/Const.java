@@ -115,6 +115,7 @@ public interface Const {
         int Args_Success = 0;
         int Args_Failure = 1;
         int Args_Empty = 2;
-        int CODE_SEARCH = 1;
+        int REQUEST_CODE_CITY = 0;
+        int REQUEST_CODE_SEARCH = 1;
     }
 }

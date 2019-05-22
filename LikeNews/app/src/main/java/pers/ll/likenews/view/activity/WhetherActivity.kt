@@ -1,5 +1,6 @@
 package pers.ll.likenews.view.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -7,7 +8,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.transition.Slide
+import android.view.Gravity
 import android.view.View
+import android.view.Window
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_whether.*
@@ -29,7 +33,7 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
     private var mExecutor = ThreadPoolManager.getInstance()
     private var mMainThread = MainHandler.getInstance()
     private var imageUtil = ImageUtil.getInstance()
-    private lateinit var whether: MXWhether
+    private lateinit var mWhether: MXWhether
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,9 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
             val decorView = window.decorView
             decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             window.statusBarColor = Color.TRANSPARENT
+            //打开FEATURE_CONTENT_TRANSITIONS开关(可选)，这个开关默认是打开的
+            requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+            window.exitTransition = Slide(Gravity.TOP)
         }
         setContentView(R.layout.activity_whether)
         initView()
@@ -60,10 +67,8 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
     private fun initData() {
         val intent = intent
         if (intent != null) {
-            val whether = intent.getParcelableExtra<MXWhether>(Const.Key.KEY_WHETHER)
-            if (whether != null) {
-                showData(whether)
-            }
+            mWhether = intent.getParcelableExtra(Const.Key.KEY_WHETHER)
+            showData(mWhether)
         }
     }
 
@@ -72,7 +77,7 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
             finish()
         }
         barTitle.setOnClickListener {
-            startActivity(Intent(this, CitySelectActivity :: class.java))
+            startActivityForResult(Intent(this, CitySelectActivity :: class.java), Const.RESULT_CODE.REQUEST_CODE_CITY)
         }
         srlWhether.setOnRefreshListener(this)
         srlWhether.setColorSchemeColors(
@@ -82,7 +87,7 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onRefresh() {
         Glide.with(ivBackground).load(Const.URL.BING_DAILY_PIC).into(ivBackground)
-        loadData()
+        loadData(mWhether.cityid)
     }
 
     private fun startRefresh() {
@@ -97,14 +102,14 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
         }
     }
 
-    private fun loadData() {
+    private fun loadData(cityId : Int) {
         mExecutor.execute {
             val retrofit = Retrofit.Builder()
                     .baseUrl(Const.URL.BASE_URL_MXWHETHER)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
             val apiService = retrofit.create(ApiService::class.java)
-            apiService.getMXWhether("101270101").enqueue(object : Callback<MxWhetherResult> {
+            apiService.getMXWhether(cityId.toString()).enqueue(object : Callback<MxWhetherResult> {
                 override fun onFailure(call: Call<MxWhetherResult>, t: Throwable) {
 
                 }
@@ -142,6 +147,11 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        if (requestCode == Const.RESULT_CODE.REQUEST_CODE_CITY && resultCode == Activity.RESULT_OK && data!= null) {
+            val whether = data.getParcelableExtra<MXWhether>(Const.Key.KEY_WHETHER)
+            startRefresh()
+            mWhether = whether
+            loadData(whether.cityid)
+        }
     }
 }

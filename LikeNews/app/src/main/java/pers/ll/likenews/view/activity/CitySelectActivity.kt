@@ -1,14 +1,13 @@
 package pers.ll.likenews.view.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -31,7 +30,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class CitySelectActivity : AppCompatActivity() {
+class CitySelectActivity : AppCompatActivity(), WhetherListAdapter.OnItemClickListener {
 
     private var mExecutor = ThreadPoolManager.getInstance()
     private var mMainThread = MainHandler.getInstance()
@@ -48,13 +47,13 @@ class CitySelectActivity : AppCompatActivity() {
         setContentView(R.layout.activity_city_select)
         initView()
         checkLoadData()
-        initData()
+        loadData("101270101")
         setListener()
     }
 
     private fun initView() {
         initToolbar()
-        mAdapter = WhetherListAdapter(ArrayList())
+        mAdapter = WhetherListAdapter(this, ArrayList<MXWhether>())
         recyclerView.layoutManager = LinearLayoutManager(this)
 //        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = mAdapter
@@ -66,7 +65,7 @@ class CitySelectActivity : AppCompatActivity() {
         barTitle.text = "选择城市"
     }
 
-    private fun initData() {
+    private fun loadData(cityId : String) {
         mExecutor.execute {
             val retrofit = Retrofit.Builder()
                     .baseUrl(Const.URL.BASE_URL_MXWHETHER)
@@ -74,7 +73,7 @@ class CitySelectActivity : AppCompatActivity() {
                     .build()
             val apiService = retrofit.create(ApiService :: class.java)
             //默认成都
-            apiService.getMXWhether("101270101").enqueue(object : Callback<MxWhetherResult> {
+            apiService.getMXWhether(cityId).enqueue(object : Callback<MxWhetherResult> {
                 override fun onFailure(call: Call<MxWhetherResult>, t: Throwable) {
 
                 }
@@ -95,10 +94,11 @@ class CitySelectActivity : AppCompatActivity() {
     }
 
     private fun showData(whether: MXWhether) {
-        val list = ArrayList<MXWhether>()
-        list.add(whether)
-        mAdapter.replaceAll(list)
-        mAdapter.notifyDataSetChanged()
+        mMainThread.post {
+            mAdapter.addData(whether)
+            mAdapter.notifyDataSetChanged()
+        }
+
     }
 
     private fun checkLoadData() {
@@ -115,8 +115,8 @@ class CitySelectActivity : AppCompatActivity() {
                 val cities : ArrayList<City> = Gson().fromJson(json, type)
                 for (city in cities) {
                     city.save()
-                    ToastUtils.showShort("城市数据自动导入成功")
                 }
+                ToastUtils.showShort("城市数据导入成功")
             }
         }
     }
@@ -126,12 +126,28 @@ class CitySelectActivity : AppCompatActivity() {
             finish()
         }
         fab.setOnClickListener {
-            startActivityForResult(Intent(this, CitySearchActivity :: class.java), Const.RESULT_CODE.CODE_SEARCH)
+            startActivityForResult(Intent(this, CitySearchActivity :: class.java), Const.RESULT_CODE.REQUEST_CODE_SEARCH)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Const.RESULT_CODE.REQUEST_CODE_SEARCH && resultCode == Activity.RESULT_OK) {
+            if (null != data) {
+                val city : City = data.getParcelableExtra(Const.Key.KEY_CITY)
+                if (mAdapter.isExist(city)) {
+                    ToastUtils.showShort("已经存在该城市天气数据，请重新选择")
+                    return
+                }
+                loadData(city.areaid)
+            }
+        }
+    }
 
+    override fun onItemClick(whether: MXWhether) {
+        val intent = Intent()
+        intent.putExtra(Const.Key.KEY_WHETHER, whether)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 }

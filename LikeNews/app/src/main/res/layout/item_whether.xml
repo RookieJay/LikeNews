@@ -10,12 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
-        android:layout_margin="10dp">
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:padding="10dp"
-            android:background="@color/blue">
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_ripple_touch_blue">
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
@@ -73,8 +76,8 @@
                 android:layout_alignParentEnd="true"/>
             <ImageView
                 android:id="@+id/ivWhether"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 tools:src="@drawable/w_icon_0"
                 android:scaleType="centerCrop"
                 android:layout_centerInParent="true" />

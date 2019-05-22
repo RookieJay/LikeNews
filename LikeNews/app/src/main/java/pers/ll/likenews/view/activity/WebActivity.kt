@@ -1,5 +1,6 @@
 package pers.ll.likenews.view.activity
 
+import android.annotation.SuppressLint
 import android.webkit.WebSettings
 import android.webkit.WebViewClient
 import pers.ll.likenews.R
@@ -78,7 +79,10 @@ class WebActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView() {
+        //设置垂直滚动条
+        webView.isVerticalScrollBarEnabled = true
         //支持javascript
         webView.settings.javaScriptEnabled = true
         // 设置可以支持缩放

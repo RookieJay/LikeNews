@@ -13,10 +13,7 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.view.Gravity
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -38,6 +35,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import java.lang.System.exit
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,6 +63,7 @@ class MainActivity : AppCompatActivity() {
     private val handler = WhetherHandler(this)
     private lateinit var mWhether: MXWhether
     private lateinit var bgBitmap : Bitmap
+    private var recordTime = 0L
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -279,6 +278,25 @@ class MainActivity : AppCompatActivity() {
             }
             bottomNavigation.menu.getItem(1).title = centerTitle
             return@setNavigationItemSelectedListener true
+        }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            checkExit()
+            return false
+        }
+        return super.onKeyDown(keyCode, event)
+
+    }
+
+    private fun checkExit() {
+        if (System.currentTimeMillis() - recordTime > 2000) {
+            ToastUtils.showShort("再按一次退出程序")
+            recordTime = System.currentTimeMillis()
+        } else {
+            finish()
+            System.exit(0)
         }
     }
 
