@@ -46,8 +46,6 @@ class SongListAdapter(context: Context) : AbsRecyclerAdapter<SongList>(context) 
         } else {
             return VIEW_TYPE_CONTENT
         }
-
-        return super.getViewType(data)
     }
 
     override fun addAll(elem: MutableList<SongList>) {

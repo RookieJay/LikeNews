@@ -9,15 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp">
-        <View
+        <ImageView
+            android:id="@+id/ivHeader1"
             android:layout_width="150dp"
             android:layout_height="160dp"
             android:background="#F00" />
-        <View
+        <ImageView
+            android:id="@+id/ivHeader2"
             android:layout_width="150dp"
             android:layout_height="160dp"
             android:background="#0F0"/>
-        <View
+        <ImageView
+            android:id="@+id/ivHeader3"
             android:layout_width="150dp"
             android:layout_height="160dp"
             android:background="#00F"/>
