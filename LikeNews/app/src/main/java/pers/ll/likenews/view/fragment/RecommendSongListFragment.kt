@@ -6,7 +6,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.wuyr.litepager.LitePager
 import kotlinx.android.synthetic.main.fragment_normal_song_list.*
 import pers.ll.likenews.R
@@ -31,6 +34,10 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
     private var mainThread = MainHandler.getInstance()
     private lateinit var mAdapter : SongListAdapter
     private lateinit var ivEmpty : ImageView
+    private var headList =  ArrayList<SongList>()
+    private lateinit var ivHeader1 : ImageView
+    private lateinit var ivHeader2 : ImageView
+    private lateinit var ivHeader3 : ImageView
 
     override fun setContentView(): Int {
         return R.layout.fragment_recommend_song_list
@@ -43,6 +50,9 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
                 UIUtils.getColor(context,android.R.color.holo_green_light), UIUtils.getColor(context,android.R.color.holo_orange_light))
         ivEmpty = findViewById(R.id.ivEmpty) as ImageView
         mRecyclerView = findViewById(R.id.recyclerView) as RecyclerView
+        ivHeader1 = findViewById(R.id.ivHeader1) as ImageView
+        ivHeader2 = findViewById(R.id.ivHeader2) as ImageView
+        ivHeader3 = findViewById(R.id.ivHeader3) as ImageView
         mAdapter = SongListAdapter(context)
         parentFrag = parentFragment as LikeMusicFragment
         litePager = findViewById(R.id.litePager) as LitePager
@@ -59,7 +69,7 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
             val apiService = retrofit.create(ApiService :: class.java)
-            val map = linkedMapOf("cat" to "全部", "pageSize" to 20, "page" to 0)
+            val map = linkedMapOf("cat" to "全部", "pageSize" to 21, "page" to 0)
             apiService.hotSongList(map).enqueue(object : Callback<MusicResult<SongList>>{
                 override fun onFailure(call: Call<MusicResult<SongList>>, t: Throwable) {
                     Log.d("连接失败", "连接失败"+t.message)
@@ -67,10 +77,9 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
                 }
 
                 override fun onResponse(call: Call<MusicResult<SongList>>, response: Response<MusicResult<SongList>>) {
-                    Log.d("1111", "1111")
                     val result = response.body()
-                    val songList = result?.data
-                    if (songList != null && songList.isNotEmpty()) {
+                    val songList = result?.data as ArrayList<SongList>
+                    if (songList.isNotEmpty()) {
                         showData(songList)
                     } else {
                         showEmpty()
@@ -108,17 +117,47 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
         finishRefresh()
     }
 
-    private fun showData(songList: List<SongList>) {
+    private fun showData(songList: ArrayList<SongList>) {
         mainThread.post {
+            headList.addAll(songList.subList(0, 3))
+            showHeader(headList)
+            songList.removeAt(0)
+            songList.removeAt(1)
+            songList.removeAt(2)
             mAdapter.addAll(songList)
             mAdapter.notifyDataSetChanged()
             finishRefresh()
         }
     }
 
+    private fun showHeader(headList: ArrayList<SongList>) {
+//        if (litePager.getChildAt(0) != null) {
+//            litePager.removeAllViews()
+//        }
+//        for ((i, songList) in headList.withIndex()) {
+//            val layout = layoutInflater.inflate(R.layout.item_song_list,  litePager, false)
+//            val iv = layout.findViewById<RoundCornerImageView>(R.id.ivSongList)
+//            val tv = layout.findViewById<TextView>(R.id.tvSongListName)
+//            Glide.with(context).load(songList.coverImgUrl).placeholder(R.mipmap.icon_placeholder).into(iv)
+//            tv.text = songList.name
+//            litePager.addViews(layout)
+////            val imageView = ImageView(context)
+////            imageView.layoutParams = ViewGroup.LayoutParams(UIUtils.dp2px(mContext, 150f), UIUtils.dp2px(mContext, 160f))
+////            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+////            Glide.with(context).load(songList.coverImgUrl).placeholder(R.mipmap.icon_placeholder).into(imageView)
+////            litePager.addView(imageView)
+//        }
+        Glide.with(mContext).load(headList[0].coverImgUrl).placeholder(R.mipmap.icon_placeholder).into(ivHeader1)
+        Glide.with(mContext).load(headList[1].coverImgUrl).placeholder(R.mipmap.icon_placeholder).into(ivHeader2)
+        Glide.with(mContext).load(headList[2].coverImgUrl).placeholder(R.mipmap.icon_placeholder).into(ivHeader3)
+    }
+
     private fun setListener() {
         //注册触摸事件
 //        parentFrag.registerMyTouchListener(this)
+        refreshLayout.setOnRefreshListener(this)
+        litePager.setOnItemSelectedListener {
+        }
     }
 //
 //    override fun onTouchEvent(event: MotionEvent): Boolean {

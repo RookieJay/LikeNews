@@ -116,9 +116,9 @@ class MainActivity : AppCompatActivity() {
             bgBitmap = imageUtil.url2BitMap(Const.URL.BING_DAILY_PIC)
             if (bgBitmap != null) {
                 //启用高斯模糊
-                val bluredBM = imageUtil.rsBlur(rlHeader.context, bgBitmap, 5, 1f / 8f)
+                val bluredBM = imageUtil.rsBlur(applicationContext, bgBitmap, 5, 1f / 8f)
                 MainHandler.getInstance().post {
-                    rlHeader.background = imageUtil.getDrawbleFormBitmap(rlHeader.context, bluredBM) }
+                    rlHeader.background = imageUtil.getDrawbleFormBitmap(applicationContext, bluredBM) }
             }
         })
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){

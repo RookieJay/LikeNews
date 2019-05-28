@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			 android:layout_width="match_parent"
 			 android:layout_height="match_parent"
-			 xmlns:tools="http://schemas.android.com/tools">
+			 xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
 	
 	<android.support.v4.widget.SwipeRefreshLayout
 		android:id="@+id/refreshLayout"
@@ -12,7 +12,28 @@
 		<RelativeLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
-			
+
+			<com.wuyr.litepager.LitePager
+					android:id="@+id/litePager"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+				<ImageView
+						android:id="@+id/ivHeader1"
+						android:layout_width="150dp"
+						android:layout_height="160dp"
+						android:background="#F00" />
+				<ImageView
+						android:id="@+id/ivHeader2"
+						android:layout_width="150dp"
+						android:layout_height="160dp"
+						android:background="#0F0"/>
+				<ImageView
+						android:id="@+id/ivHeader3"
+						android:layout_width="150dp"
+						android:layout_height="160dp"
+						android:background="#00F"/>
+			</com.wuyr.litepager.LitePager>
+
 			<android.support.v7.widget.RecyclerView
 				android:id="@+id/recyclerView"
 				android:layout_width="match_parent"

@@ -50,10 +50,12 @@ class LikeMusicFragment : BaseFragment(){
         titles = arrayOf("推荐", "华语", "民谣", "影视原声", "轻音乐", "学习", "工作")
         val fragment  = RecommendSongListFragment()
         fragments.add(fragment)
-        for ((index, title) in titles.withIndex()) {
+        for (index in 2 until titles.size) {
+            val normalFrag = NormalSongListFragment()
             val bundle = Bundle()
             bundle.putInt(Const.Key.KEY_TYPE, index)
-            fragment.arguments
+            normalFrag.arguments
+            fragments.add(normalFrag)
         }
     }
 
