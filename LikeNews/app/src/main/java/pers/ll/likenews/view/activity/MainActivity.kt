@@ -24,8 +24,6 @@ import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.MXWhether
 import pers.ll.likenews.model.MxWhetherResult
-import pers.ll.likenews.model.Whether
-import pers.ll.likenews.model.WhetherResult
 import pers.ll.likenews.ui.CircleImageView
 import pers.ll.likenews.utils.*
 import pers.ll.likenews.view.fragment.HomeFragment
@@ -35,7 +33,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import java.lang.System.exit
 
 class MainActivity : AppCompatActivity() {
 
@@ -269,11 +266,12 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 R.id.menu_exit -> {
-//                    //调用系统API结束进程
-//                    android.os.Process.killProcess(android.os.Process.myPid())
-//                    //结束整个虚拟机进程，注意如果在manifest里用android:process给app指定了不止一个进程，则只会结束当前进程
-//                    System.exit(0)
+//                   //调用系统API结束进程
+                    android.os.Process.killProcess(android.os.Process.myPid())
+                    //结束整个虚拟机进程，注意如果在manifest里用android:process给app指定了不止一个进程，则只会结束当前进程
+                    System.exit(0)
                     finish()
+//                    startActivity(Intent(this, ChooseFunctionActivity :: class.java))
                 }
             }
             bottomNavigation.menu.getItem(1).title = centerTitle

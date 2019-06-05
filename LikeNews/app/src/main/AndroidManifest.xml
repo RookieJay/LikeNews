@@ -17,8 +17,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".view.activity.CitySearchActivity"></activity>
-        <activity android:name=".view.activity.CitySelectActivity"></activity>
+        <activity android:name=".view.activity.CitySearchActivity"/>
+        <activity android:name=".view.activity.CitySelectActivity"/>
         <activity android:name=".view.activity.WhetherActivity" />
         <activity
             android:name=".view.activity.SplashActivity"
@@ -40,6 +40,7 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".view.activity.WebActivity" />
+
     </application>
 
 </manifest>

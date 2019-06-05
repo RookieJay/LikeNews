@@ -54,7 +54,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     private val STATE_STOP = 3 //停止
     private var state : Int = 0
     private var hadDestroy = false
-    private var player = MediaPlayer()
+    private var player : MediaPlayer? = MediaPlayer()
     private var isPlaying = true
     private var isRepeat = false
     private lateinit var tvMusicDuration : TextView
@@ -240,11 +240,15 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                             bundle.putString(Const.Key.KEY_MSG, "未知错误！")
                             msg.data = bundle
                             validateHandler.sendMessage(msg)
-                        } else {
-                            player.setDataSource(music.url)
-                            player.prepare()
-                            player.setAudioStreamType(AudioManager.STREAM_MUSIC)
+                            return
                         }
+                        runOnUiThread {
+                            player?.setAudioStreamType(AudioManager.STREAM_MUSIC)
+                            player?.setDataSource(music.url)
+                            player?.prepare()
+                        }
+
+
                     }
 
                 })
@@ -261,14 +265,14 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
         Log.d("-----MPA", "playMusic")
         when (state) {
             STATE_STOP -> {
-                if (!player.isPlaying) {
+                if (!player!!.isPlaying) {
                     Log.d("-----MPA", "startplayMusic")
-                    player.start()
+                    player?.start()
                     objectAnimator.start() //动画开始
                     state = STATE_PLAYING
                     Thread(SeekBarThread()).start() //线程开始
-                    seekBar.max = player.duration
-                    totalDur = player.duration.toLong()
+                    seekBar.max = player!!.duration
+                    totalDur = player!!.duration.toLong()
                     val duration = TimeUtils.date2String(Date(totalDur), Const.DateFormat.MMSS)
                     tvMusicDuration.text = duration
                 }
@@ -297,7 +301,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                     Log.d("-----MPA", "pauseplayMusic")
                     objectAnimator.pause() //动画暂停
                     state = STATE_PAUSE
-                    player.pause()
+                    player?.pause()
                 }
             } else{
                 ivPause.setImageResource(R.drawable.ic_pause_circle)
@@ -305,7 +309,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                 if (objectAnimator != null) {
                     objectAnimator.resume()
                     state = STATE_PLAYING
-                    player.start()
+                    player?.start()
                 }
             }
             isPlaying = !isPlaying
@@ -314,26 +318,26 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             if (!isRepeat) {
                 ToastUtils.showShort("开启单曲循环")
                 ivRecycle.setImageResource(R.drawable.ic_repeat_one_pink)
-                player.isLooping = true
+                player?.isLooping = true
             } else {
                 ivRecycle.setImageResource(R.drawable.ic_repeat_one)
-                player.isLooping = false
+                player?.isLooping = false
             }
             isRepeat = !isRepeat
         }
-        player.setOnErrorListener { mp, what, extra ->
+        player?.setOnErrorListener { mp, what, extra ->
             Log.d("-----MPA", "onError: what$what extra:$extra")
             false
         }
-        player.setOnBufferingUpdateListener { mp, percent ->
+        player?.setOnBufferingUpdateListener { mp, percent ->
                 Log.i("percent", percent.toString())
                 bufferPercentage = percent
         }
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    player.seekTo(progress)
-                    val curTime = TimeUtils.date2String(Date(player.currentPosition.toLong()), Const.DateFormat.MMSS)
+                    player?.seekTo(progress)
+                    val curTime = TimeUtils.date2String(Date(player!!.currentPosition.toLong()), Const.DateFormat.MMSS)
                     tvCurTime.text = curTime
                 }
             }
@@ -347,7 +351,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
             }
 
         })
-        player.setOnPreparedListener(this)
+        player?.setOnPreparedListener(this)
         rlMusicPlay.setOnClickListener {
             if (!isLrcShowing) {
                 showLrc()
@@ -417,10 +421,8 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun switchMusic() {
-        player.stop()
-        player.reset()
-//        setImgAndBackground()
-//        initToolbar()
+        player?.stop()
+        player?.reset()
         initView()
         initPlayer()
     }
@@ -443,9 +445,12 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
     }
 
     private fun releaseMediaPlayer() {
-        player.stop()
+        player?.stop()
+        player?.release()
+        if (player != null) {
+            player = null
+        }
         hadDestroy = true
-        player.release()
     }
 
     override fun onDestroy() {
@@ -478,7 +483,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun run() {
             if (player != null && !hadDestroy) {
-                val curTime = TimeUtils.date2String(Date(player.currentPosition.toLong()), Const.DateFormat.MMSS)
+                val curTime = TimeUtils.date2String(Date(player!!.currentPosition.toLong()), Const.DateFormat.MMSS)
 //                if (curTime == totalDur.toString()) {
 //                    switchToNext()
 //                    return
@@ -487,7 +492,7 @@ class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
                 bundle.putString("curTime", curTime)
                 val msg = handler.obtainMessage()
                 msg.data = bundle
-                msg.what = player.currentPosition
+                msg.what = player!!.currentPosition
                 handler.sendMessage(msg)
             }
             try {

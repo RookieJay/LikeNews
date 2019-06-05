@@ -54,8 +54,6 @@ class CitySearchActivity : AppCompatActivity(), CityListAdapter.OnItemClickListe
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 mExecutor.execute {
-                    val sql = "select * from City t where t.countyname like ?"
-//                    val operator = City_Table.countyname.like(s.toString())
                     val list = SQLite.select().from(City :: class.java).where(City_Table.countyname.like(s.toString())).queryList() as ArrayList<City>
                     if (list.size > 0) {
                         showData(list)

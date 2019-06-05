@@ -2,13 +2,10 @@ package pers.ll.likenews.view.fragment
 
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.wuyr.litepager.LitePager
 import kotlinx.android.synthetic.main.fragment_normal_song_list.*
@@ -121,9 +118,9 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
         mainThread.post {
             headList.addAll(songList.subList(0, 3))
             showHeader(headList)
-            songList.removeAt(0)
-            songList.removeAt(1)
-            songList.removeAt(2)
+            for (i in 0..2) {
+                songList.removeAt(i)
+            }
             mAdapter.addAll(songList)
             mAdapter.notifyDataSetChanged()
             finishRefresh()

@@ -1,5 +1,7 @@
 package pers.ll.likenews.view.activity
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -15,7 +17,11 @@ import pers.ll.likenews.utils.*
 import java.lang.ref.WeakReference
 import android.os.Build
 import android.view.View
+import com.tbruyelle.rxpermissions2.Permission
+import com.tbruyelle.rxpermissions2.RxPermissions
 import pers.ll.likenews.R
+import java.util.*
+import java.util.function.Consumer
 
 
 class SplashActivity : AppCompatActivity() {
@@ -30,9 +36,27 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         UIUtils.hideStatusAndNavBar(window)
         setContentView(R.layout.activity_splash)
+        requestPermission()
         initView()
         countDown()
         setListener()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun requestPermission() {
+        val rxPermission = RxPermissions(this)
+        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .subscribe {
+                when {
+                    it.granted -> Log.i(SplashActivity().javaClass.name, "WRITE_EXTERNAL_STORAGE GRANTED")
+                    it.shouldShowRequestPermissionRationale -> {
+                        // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                    }
+                    else -> // 用户拒绝了该权限，并且选中『不再询问』
+                        ToastUtils.showShort("拒绝权限")
+                }
+            }
+
     }
 
     private fun initView() {

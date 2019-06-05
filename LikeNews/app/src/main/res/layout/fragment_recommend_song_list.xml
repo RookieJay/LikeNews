@@ -18,22 +18,23 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					app:orientation="horizontal"
-					app:maxScale="1">
-				<ImageView
+					app:maxScale="1"
+					android:layout_marginTop="10dp">
+				<pers.ll.likenews.ui.RoundCornerImageView
 						android:id="@+id/ivHeader1"
 						android:layout_width="150dp"
 						android:layout_height="160dp"
-						android:background="#F00" />
-				<ImageView
+						android:scaleType="centerCrop"/>
+				<pers.ll.likenews.ui.RoundCornerImageView
 						android:id="@+id/ivHeader2"
 						android:layout_width="150dp"
 						android:layout_height="160dp"
-						android:background="#0F0"/>
-				<ImageView
+						android:scaleType="centerCrop"/>
+				<pers.ll.likenews.ui.RoundCornerImageView
 						android:id="@+id/ivHeader3"
 						android:layout_width="150dp"
 						android:layout_height="160dp"
-						android:background="#00F"/>
+						android:scaleType="centerCrop"/>
 			</com.wuyr.litepager.LitePager>
 			
 			<android.support.v7.widget.RecyclerView
