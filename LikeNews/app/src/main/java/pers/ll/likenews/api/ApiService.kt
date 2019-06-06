@@ -88,5 +88,11 @@ interface ApiService {
      */
     @GET("songList/hot")
     fun hotSongList(@QueryMap params : LinkedHashMap<String, Any>) : Call<MusicResult<SongList>>
+
+    /**
+     * 360壁纸搜索接口
+     */
+    @GET("index.php?c=WallPaper&a=search")
+    fun searchWallpaper(@QueryMap params : LinkedHashMap<String, Any>) : Call<WallpaperResult>
 }
 

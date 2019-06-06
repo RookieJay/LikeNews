@@ -13,6 +13,7 @@
     <string name="hint_news_review_count">141评论</string>
     <string name="hint_news_time">6分钟前</string>
     <string name="hint_search_tips">请输入您要搜索的关键词,如:春风十里(往下拉会有新发现哦~)</string>
+    <string name="hint_search_wallpaper">请输入您要搜索的关键词,如:风景(往下拉会有新发现哦~)</string>
     
     <!--movie-->
     <string name="txt_movie_name">复仇者联盟4</string>
@@ -38,6 +39,8 @@
     <string name="nav_movie">电影</string>
     <string name="nav_whether">天气</string>
     <string name="nav_sys">系统</string>
+    <string name="nav_application">应用管理</string>
+    <string name="nav_sys_info">系统信息</string>
     <string name="nav_exit">退出</string>
     
     <!--poetry-->

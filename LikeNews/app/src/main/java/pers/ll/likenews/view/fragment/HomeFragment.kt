@@ -28,11 +28,12 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initViewData() {
-        titles = arrayOf("新闻", "音乐", "电影")
+        titles = arrayOf("新闻", "音乐", "电影", "壁纸")
         fragments = ArrayList()
         fragments.add(HotNewsFragment())
         fragments.add(MusicListFragment())
         fragments.add(HotMovieFragment())
+        fragments.add(WallPaperFragment())
     }
 
     private fun initViewPager() {

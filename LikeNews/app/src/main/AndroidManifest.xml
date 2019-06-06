@@ -4,7 +4,9 @@
     package="pers.ll.likenews">
     
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     
     <application
         android:name=".base.MyApplication"
@@ -17,8 +19,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".view.activity.CitySearchActivity"/>
-        <activity android:name=".view.activity.CitySelectActivity"/>
+        <activity android:name=".view.activity.SysInfoActivity"/>
+        <activity android:name=".view.activity.CitySearchActivity" />
+        <activity android:name=".view.activity.CitySelectActivity" />
         <activity android:name=".view.activity.WhetherActivity" />
         <activity
             android:name=".view.activity.SplashActivity"
@@ -40,7 +43,6 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".view.activity.WebActivity" />
-
     </application>
 
 </manifest>

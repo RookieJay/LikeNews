@@ -40,7 +40,7 @@ class MusicListAdapter(musicList: ArrayList<XWMusic>) : RecyclerView.Adapter<Mus
 //        holder.tvSinger.text = music.singer
         holder.tvSinger.text = music.author
         holder.itemView.setOnClickListener(View.OnClickListener {
-            v -> onItemClickListener.onItemClick(music, data, position)
+            onItemClickListener.onItemClick(music, data, position)
         })
     }
 

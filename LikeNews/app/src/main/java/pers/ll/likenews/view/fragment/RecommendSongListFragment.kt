@@ -15,6 +15,7 @@ import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.MusicResult
 import pers.ll.likenews.model.SongList
+import pers.ll.likenews.ui.MyLitePager
 import pers.ll.likenews.utils.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,7 +26,7 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
 
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var parentFrag : LikeMusicFragment
-    private lateinit var litePager: LitePager
+    private lateinit var litePager : LitePager
     private lateinit var mRecyclerView : RecyclerView
     private var executor = ThreadPoolManager.getInstance()
     private var mainThread = MainHandler.getInstance()

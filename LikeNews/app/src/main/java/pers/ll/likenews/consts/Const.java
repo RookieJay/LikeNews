@@ -20,6 +20,7 @@ public interface Const {
         String BASE_URL_OPEN_API = "https://api.apiopen.top/";
         String BASE_URL_MXWHETHER = "http://aider.meizu.com/app/weather/";
         String BASE_URL_MOVIE_BACKUP = "https://douban.uieee.com/v2/movie/";
+        String BASE_URL_WALLPAPER = "http://wallpaper.apc.360.cn/";
     }
 
     interface Key{
@@ -44,6 +45,10 @@ public interface Const {
         int TYPE_MOVIE = 3;
         int VIEW_TYPE_CAT = 1;
         int VIEW_TYPE_SUB_CAT = 2;
+
+        String SYS_INFO_TYPE_TITLE = "SYS_INFO_TYPE_TITLE";
+        String SYS_INFO_TYPE_CONTENT = "SYS_INFO_TYPE_CONTENT";
+
     }
 
     interface Param {

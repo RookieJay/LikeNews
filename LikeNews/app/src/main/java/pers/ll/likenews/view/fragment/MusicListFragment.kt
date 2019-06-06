@@ -27,7 +27,6 @@ import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Music
-import pers.ll.likenews.model.MusicResult
 import pers.ll.likenews.model.XWMusic
 import pers.ll.likenews.model.XWMusicResult
 import pers.ll.likenews.utils.DrawableUtil
@@ -84,10 +83,15 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
         val linearLayoutManager = LinearLayoutManager(mContext)
         mRecyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = adapter
-        setLisener()
+        initData()
+        setListener()
     }
 
-    private fun setLisener() {
+    private fun initData() {
+        etSearch.hint = context.resources.getString(R.string.hint_search_tips)
+    }
+
+    private fun setListener() {
         refreshLayout.setOnRefreshListener(this)
         adapter.setOnItemClickListener(this)
         etSearch.addTextChangedListener(object : TextWatcher{
@@ -242,12 +246,16 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
                     val message = handler.obtainMessage()
                     if (response.code() == 200 && result != null) {
 //                        val list = result.data as ArrayList<Music>
-                        val list = result.body as ArrayList<XWMusic>
-                        val bundle = Bundle()
+                        if (result.body != null && result.body.size > 0) {
+                            val list = result.body as ArrayList<XWMusic>
+                            val bundle = Bundle()
 //                        bundle.putParcelableArrayList(Const.Key.KEY_MUSIC_LIST, list)
-                        bundle.putParcelableArrayList(Const.Key.KEY_MUSIC_LIST, list)
-                        message.arg1 = Args_Success
-                        message.data = bundle
+                            bundle.putParcelableArrayList(Const.Key.KEY_MUSIC_LIST, list)
+                            message.arg1 = Args_Success
+                            message.data = bundle
+                        } else {
+                            message.arg1 = Args_Empty
+                        }
                     } else {
                         message.arg1 = Args_Empty
                     }

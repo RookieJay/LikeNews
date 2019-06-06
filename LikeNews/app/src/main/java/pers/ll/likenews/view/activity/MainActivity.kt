@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         tvInstruction.text = "春风十里不如你"
         ivAvatar.setImageResource(R.mipmap.icon_avatar)
         navigationView.menu.getItem(0).isChecked = true
-        executor.execute(Runnable {
+        executor.execute {
             bgBitmap = imageUtil.url2BitMap(Const.URL.BING_DAILY_PIC)
             if (bgBitmap != null) {
                 //启用高斯模糊
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                 MainHandler.getInstance().post {
                     rlHeader.background = imageUtil.getDrawbleFormBitmap(applicationContext, bluredBM) }
             }
-        })
+        }
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
             //将侧边栏顶部延伸至status bar
             drawerLayout.fitsSystemWindows = true
@@ -265,13 +265,18 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtras(bundle)
                     startActivity(intent)
                 }
+                R.id.menu_application -> {
+
+                }
+                R.id.menu_sys_info -> {
+                    startActivity(Intent(this, SysInfoActivity :: class.java))
+                }
                 R.id.menu_exit -> {
 //                   //调用系统API结束进程
                     android.os.Process.killProcess(android.os.Process.myPid())
                     //结束整个虚拟机进程，注意如果在manifest里用android:process给app指定了不止一个进程，则只会结束当前进程
                     System.exit(0)
                     finish()
-//                    startActivity(Intent(this, ChooseFunctionActivity :: class.java))
                 }
             }
             bottomNavigation.menu.getItem(1).title = centerTitle

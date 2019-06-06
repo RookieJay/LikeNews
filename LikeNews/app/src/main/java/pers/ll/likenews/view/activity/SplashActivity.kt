@@ -45,10 +45,12 @@ class SplashActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun requestPermission() {
         val rxPermission = RxPermissions(this)
-        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE)
             .subscribe {
                 when {
-                    it.granted -> Log.i(SplashActivity().javaClass.name, "WRITE_EXTERNAL_STORAGE GRANTED")
+                    it.granted -> {
+                        Log.i(SplashActivity().javaClass.name, "WRITE_EXTERNAL_STORAGE GRANTED")
+                    }
                     it.shouldShowRequestPermissionRationale -> {
                         // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
                     }
