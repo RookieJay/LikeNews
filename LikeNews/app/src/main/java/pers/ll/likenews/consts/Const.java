@@ -2,7 +2,7 @@ package pers.ll.likenews.consts;
 
 import android.annotation.SuppressLint;
 
-
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +37,8 @@ public interface Const {
         String KEY_TYPE = "KEY_TYPE";
         String KEY_WHETHER_BACKGROUND = "KEY_WHETHER_BACKGROUND";
         String KEY_CITY = "KEY_CITY";
+        String KEY_PACKAGE_NAME = "KEY_PACKAGE_NAME";
+        String KEY_FLAG_SYS_APP = "KEY_FLAG_SYS_APP";
     }
 
     interface Type {

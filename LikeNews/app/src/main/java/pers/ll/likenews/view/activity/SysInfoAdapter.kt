@@ -35,14 +35,6 @@ class SysInfoAdapter(context: Context, list : ArrayList<SystemInfo>) : RecyclerV
 
     override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position: Int) {
         val data = mData[position]
-//            if (getItemViewType(position) == VIEW_TYPE_TITLE) {
-//                val titleHolder: TitleViewHolder = holder as TitleViewHolder
-//                titleHolder.tvTitle.text = data.title
-//            } else {
-//                val contentViewHolder: ContentViewHolder = holder as ContentViewHolder
-//                contentViewHolder.tvKey.text = data.key
-//                contentViewHolder.tvValue.text = data.value
-//            }
         if (holder is TitleViewHolder) {
             val titleHolder: TitleViewHolder = holder as TitleViewHolder
             titleHolder.tvTitle.text = data.title
@@ -59,6 +51,11 @@ class SysInfoAdapter(context: Context, list : ArrayList<SystemInfo>) : RecyclerV
         } else {
             VIEW_TYPE_TITLE
         }
+    }
+
+    fun refresh(list: ArrayList<SystemInfo>) {
+        mData = list
+        notifyDataSetChanged()
     }
 
     class TitleViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {

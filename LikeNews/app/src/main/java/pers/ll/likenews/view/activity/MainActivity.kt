@@ -266,7 +266,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 R.id.menu_application -> {
-
+                    startActivity(Intent(this, AppManagerActivity :: class.java))
                 }
                 R.id.menu_sys_info -> {
                     startActivity(Intent(this, SysInfoActivity :: class.java))
