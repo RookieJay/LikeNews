@@ -5,6 +5,7 @@
     <string name="title_music">立刻音乐</string>
     <string name="title_movie">立刻电影</string>
     <string name="title_personal">个人中心</string>
+    <string name="daily_article">每日一文</string>
     <!--tips-->
     <string name="tips_empty">哎呀，好像没有数据了</string>
     
@@ -61,4 +62,6 @@
     <string name="bt_uninstall">卸载</string>
     
     <string name="dialog_title">温馨提示</string>
+    <string name="article_title">孤独</string>
+    <string name="article_author">伊塔洛 卡尔维洛</string>
 </resources>

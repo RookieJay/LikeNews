@@ -17,4 +17,6 @@
     <color name="black_overlay">#66000000</color>
     
     <color name="layout_background">#944C7ACC</color>
+    
+    <color name="reading">#F8EFD0</color>
 </resources>

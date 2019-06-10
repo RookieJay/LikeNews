@@ -21,6 +21,7 @@ public interface Const {
         String BASE_URL_MXWHETHER = "http://aider.meizu.com/app/weather/";
         String BASE_URL_MOVIE_BACKUP = "https://douban.uieee.com/v2/movie/";
         String BASE_URL_WALLPAPER = "http://wallpaper.apc.360.cn/";
+        String BASE_URL_DAILY_ARTICLE = "https://interface.meiriyiwen.com/"; //每日一文
     }
 
     interface Key{

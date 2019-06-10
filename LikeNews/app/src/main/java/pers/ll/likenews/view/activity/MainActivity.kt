@@ -28,6 +28,7 @@ import pers.ll.likenews.ui.CircleImageView
 import pers.ll.likenews.utils.*
 import pers.ll.likenews.view.fragment.HomeFragment
 import pers.ll.likenews.view.fragment.CenterFragment
+import pers.ll.likenews.view.fragment.DailyArticleFragment
 import pers.ll.likenews.view.fragment.PersonalFragment
 import retrofit2.Call
 import retrofit2.Callback
@@ -118,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                     rlHeader.background = imageUtil.getDrawbleFormBitmap(applicationContext, bluredBM) }
             }
         }
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
             //将侧边栏顶部延伸至status bar
             drawerLayout.fitsSystemWindows = true
             //将主页面顶部延伸至status bar;虽默认为false,但经测试,DrawerLayout需显示设置
@@ -151,13 +152,15 @@ class MainActivity : AppCompatActivity() {
     private fun initData() {
         val homeFragment = HomeFragment()
         val centerFragment = CenterFragment()
-        val personalFragment = PersonalFragment()
+//        val personalFragment = PersonalFragment()
+        val dailyArticleFragment = DailyArticleFragment()
         val bundle = Bundle()
         bundle.putInt(Const.Key.START_TYPE, fragType)
         centerFragment.arguments = bundle
         fragments.add(homeFragment)
         fragments.add(centerFragment)
-        fragments.add(personalFragment)
+//        fragments.add(personalFragment)
+        fragments.add(dailyArticleFragment)
         adapter.setData(fragments, supportFragmentManager)
     }
 

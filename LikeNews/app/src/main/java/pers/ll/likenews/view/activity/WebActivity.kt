@@ -7,6 +7,7 @@ import pers.ll.likenews.R
 import pers.ll.likenews.model.News
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.webkit.WebResourceRequest
@@ -14,12 +15,12 @@ import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_news_detail.*
+import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Movie
 import pers.ll.likenews.utils.ToastUtils
 import pers.ll.likenews.utils.UIUtils
-import pers.ll.likenews.view.fragment.HotNewsFragment
-
+import android.content.Intent
 
 class WebActivity : AppCompatActivity() {
 
@@ -46,6 +47,8 @@ class WebActivity : AppCompatActivity() {
         barTitle.isFocusable = true
         barTitle.isFocusableInTouchMode = true
         ivBack.visibility = View.VISIBLE
+        barRight.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_share_white_24dp))
+        barRight.visibility = View.VISIBLE
         val intent = intent
         if (intent != null) {
             startType = intent.getIntExtra(Const.Key.START_TYPE, 0)
@@ -131,9 +134,13 @@ class WebActivity : AppCompatActivity() {
     }
 
     private fun setListener() {
-        ivBack.setOnClickListener(View.OnClickListener {
-            v -> back()
-        })
+        ivBack.setOnClickListener { back() }
+        barRight.setOnClickListener {
+            val textIntent = Intent(Intent.ACTION_SEND)
+            textIntent.type = "text/plain"
+            textIntent.putExtra(Intent.EXTRA_TEXT, url)
+            startActivity(Intent.createChooser(textIntent, "分享"))
+        }
     }
 
     override fun onDestroy() {

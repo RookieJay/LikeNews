@@ -94,5 +94,11 @@ interface ApiService {
      */
     @GET("index.php?c=WallPaper&a=search")
     fun searchWallpaper(@QueryMap params : LinkedHashMap<String, Any>) : Call<WallpaperResult>
+
+    /**
+     * 随机每日一文
+     */
+    @GET("article/random")
+    fun randomArticle(@Query("dev") dev : Int) : Call<DailyArticleResult>
 }
 
