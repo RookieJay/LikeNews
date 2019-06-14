@@ -152,15 +152,15 @@ class MainActivity : AppCompatActivity() {
     private fun initData() {
         val homeFragment = HomeFragment()
         val centerFragment = CenterFragment()
-//        val personalFragment = PersonalFragment()
-        val dailyArticleFragment = DailyArticleFragment()
+        val personalFragment = PersonalFragment()
+//        val dailyArticleFragment = DailyArticleFragment()
         val bundle = Bundle()
         bundle.putInt(Const.Key.START_TYPE, fragType)
         centerFragment.arguments = bundle
         fragments.add(homeFragment)
         fragments.add(centerFragment)
-//        fragments.add(personalFragment)
-        fragments.add(dailyArticleFragment)
+        fragments.add(personalFragment)
+//        fragments.add(dailyArticleFragment)
         adapter.setData(fragments, supportFragmentManager)
     }
 

@@ -1,17 +1,15 @@
 package pers.ll.likenews.view.fragment
 
 import android.support.v4.widget.SwipeRefreshLayout
+import android.util.Log
 import android.widget.TextView
+import okhttp3.logging.HttpLoggingInterceptor
 import pers.ll.likenews.R
 import pers.ll.likenews.api.ApiService
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
-import pers.ll.likenews.model.DailyArticle
-import pers.ll.likenews.model.DailyArticleResult
-import pers.ll.likenews.utils.GsonConverterFactory
-import pers.ll.likenews.utils.MainHandler
-import pers.ll.likenews.utils.ThreadPoolManager
-import pers.ll.likenews.utils.ToastUtils
+import pers.ll.likenews.model.*
+import pers.ll.likenews.utils.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,20 +39,26 @@ class DailyArticleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
     override fun loadData() {
         mRefreshLayout.isRefreshing = true
         mExecutor.execute {
+            val client = HttpClient.getInstance()
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BASIC
+            client.addInterceptor(interceptor)
             val retrofit = Retrofit.Builder()
                     .baseUrl(Const.URL.BASE_URL_DAILY_ARTICLE)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .client(client.build())
                     .build()
             val apiService = retrofit.create(ApiService :: class.java)
-            apiService.randomArticle(1).enqueue(object : Callback<DailyArticleResult> {
-                override fun onFailure(call: Call<DailyArticleResult>, t: Throwable) {
+            val map : LinkedHashMap<String, Any> = linkedMapOf("dev" to 1)
+            apiService.randomArticle("random").enqueue(object : Callback<Test> {
+                override fun onFailure(call: Call<Test>, t: Throwable) {
                     showFailure()
                 }
 
-                override fun onResponse(call: Call<DailyArticleResult>, response: Response<DailyArticleResult>) {
+                override fun onResponse(call: Call<Test>, response: Response<Test>) {
                     val body = response.body()
-                    val article = body?.data
-                    showData(article)
+                        val article = body?.data
+                        showData(article)
                 }
             })
         }
@@ -67,7 +71,7 @@ class DailyArticleFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListene
         }
     }
 
-    private fun showData(article: DailyArticle?) {
+    private fun showData(article: Test.DataBean?) {
         mMainThread.post {
             tvArticleTitle.text = article?.title
             tvAuthor.text = article?.author

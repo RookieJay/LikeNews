@@ -1,343 +1,82 @@
 package pers.ll.likenews.model;
 
-import java.util.List;
-
 public class Test {
 
     /**
-     * rating : {"max":10,"average":7.7,"stars":"40","min":0}
-     * reviews_count : 3938
-     * wish_count : 35349
-     * douban_site :
-     * year : 2017
-     * images : {"small":"https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2508925590.webp","large":"https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2508925590.webp","medium":"https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2508925590.webp"}
-     * alt : https://movie.douban.com/subject/26942674/
-     * id : 26942674
-     * mobile_url : https://movie.douban.com/subject/26942674/mobile
-     * title : 神秘巨星
-     * do_count : null
-     * share_url : https://m.douban.com/movie/subject/26942674
-     * seasons_count : null
-     * schedule_url :
-     * episodes_count : null
-     * countries : ["印度"]
-     * genres : ["剧情","音乐"]
-     * collect_count : 397743
-     * casts : [{"alt":"https://movie.douban.com/celebrity/1373292/","avatars":{"small":"https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.webp","large":"https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.webp","medium":"https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.webp"},"name":"塞伊拉·沃西","id":"1373292"},{"alt":"https://movie.douban.com/celebrity/1383897/","avatars":{"small":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1510229457.27.webp","large":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1510229457.27.webp","medium":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1510229457.27.webp"},"name":"梅·维贾","id":"1383897"},{"alt":"https://movie.douban.com/celebrity/1031931/","avatars":{"small":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p13628.webp","large":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p13628.webp","medium":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p13628.webp"},"name":"阿米尔·汗","id":"1031931"},{"alt":"https://movie.douban.com/celebrity/1383898/","avatars":{"small":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1510229759.29.webp","large":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1510229759.29.webp","medium":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1510229759.29.webp"},"name":"拉杰·阿晶","id":"1383898"}]
-     * current_season : null
-     * original_title : Secret Superstar
-     * summary : 少女伊西亚（塞伊拉·沃西 Zaira Wasim 饰）拥有着一副天生的好嗓子，对唱歌充满了热爱的她做梦都想成为一名歌星。然而，伊西亚生活在一个不自由的家庭之中，母亲娜吉玛（梅·维贾 Meher Vij 饰）常常遭到性格爆裂独断专横的父亲法鲁克（拉杰·阿晶 Raj Arjun 饰）的拳脚相向，伊西亚知道，想让父亲支持自己的音乐梦想是完全不可能的事情。
-     某日，母亲卖掉了金项链给伊西亚买了一台电脑，很快，伊西亚便发现，虽然无法再现实里实现梦想，但是网络中存在着更广阔的舞台。伊西亚录制了一段蒙着脸自弹自唱的视屏上传到了优兔网上，没想到收获了异常热烈的反响，著名音乐人夏克提（阿米尔·汗 Aamir Khan 饰）亦向她抛出了橄榄枝。©豆瓣
-     * subtype : movie
-     * directors : [{"alt":"https://movie.douban.com/celebrity/1379532/","avatars":{"small":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.webp","large":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.webp","medium":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.webp"},"name":"阿德瓦·香登","id":"1379532"}]
-     * comments_count : 92855
-     * ratings_count : 290519
-     * aka : ["秘密巨星","隐藏的大明星(台)","打死不离歌星梦(港)","सीक्रेट सुपरस्टार"]
+     * data : {"date":{"curr":"20150910","prev":"20150909","next":"20150911"},"author":"王小波","title":"个人尊严","digest":"在国外时看到，人们对时事做出价值评判时，总是从两个独立的方面来进行：一个方面是国家或者社会的尊严，这像是时事的经线；另一个方面是个人的尊严，","content":"<p>在国外时看到，人们对时事做出价值评判时，总是从两个独立的方面来进行：一个方面是国家或者社会的尊严，这像是时事的经线；另一个方面是个人的尊严，这像是时事的纬线。回到国内，一条纬线就像是没有，连尊严这个字眼也感到陌生了。提到尊严这个概念，我首先想到的英文词＂dignity＂，然后才想到相应的中文词。在英文中，这个词不仅有尊严之义，还有体面、身份的意思。尊严不但指人受到尊重，它还是人价值之所在。从上古到现代，数以亿万计的中国人里，没有几个人有过属于个人的尊严。举个大点的例子，中国历史上有过皇上对大臣施廷杖的事，无论是多大的官，一言不和，就可能受到如此当众羞辱，高官尚且如此，遑论百姓。除了皇上一人，没有一个人能有尊严。有一件最怪的事是，按照传统道德，挨皇帝的板子倒是一种光荣，文死谏嘛。说白了就是：无尊严就是有尊严。此话如有任何古怪之处，罪不在我。到了现代以后，人与人的关系、个人与集体的关系，仍有这种遗风──我们就不必细说文革中、文革前都发生过什么样的事情。到了现在，已经不用见官下跪，也不会在屁股上挨板子，但还是缺少个人的尊严。环境就是这样，公共场所的秩序就是这样，人对人的态度就是这样，不容你有任何自尊。<\/p><p>举个小点的例子，每到春运高潮，大家就会在传媒上看到一辆硬座车厢里挤了三四百人，厕所里也挤了十几人。谈到这件事，大家会说国家的铁路需要建设，说到铁路工人的工作难做，提到安全问题，提到所有的方面，就是不提这些民工这样挤在一起，好像一个团，完全没有了个人的尊严──仿佛这件事很不重要似的。当然，只要民工都在过年时回家，火车总是要挤的；谁也想不出好办法。但个人的尊严毕竟大受损害；这件事总该有人提一提才对。另一件事现在已是老生常谈，人走在街上感到内急，就不得不上公共厕所。一进去就觉得自己的尊严一点都没了。现在北京的公厕正在改观，这是因为外国人到了中国也会内急，所以北京的公厕已经臭名远扬。假如外国人不来，厕所就要臭下去；而且大街上改了，小胡同里还没有改。我认识的一位美国留学生说，有一次他在小胡同里内急，走进公厕撒了一泡尿，出来以后，猛然想到自己刚才满眼都对黄白之物，居然能站住了不倒，觉得自己很了不起，就急忙来告诉我。北京的某些街道很脏很乱，总要到某个国际会议时才能改观，这叫借某某会的东风。不光老百姓这样讲，领导上也这样讲。这话听起来很有点不对味。不雅的景象外人看了丢脸，没有外人时，自己住在里面也不体面──这后一点总是被人忘掉。<\/p><p>作为一个知识分子，我发现自己曾有一种特别的虚伪之处，虽然一句话说不清，但可以举些例子来说明。假如我看到火车上特别挤，就感慨一声道：这种事居然可以发生在中华人民共和国的土地上！假如我看到厕所特脏，又长叹一声：唉！北京市这是怎么搞的嘛！这其中有点幽默的成份，也有点当真。我的确觉得国家和政府的尊严受到了损失，并为此焦虑着。当然，我自己也想要点个人尊严，但以个人名义提出就过于直露，不够体面──言必称天下，不以个人面目出现，是知识分子的尊严所在。当然，现在我把这做为虚伪提出，已经自外于知识分子。但也有种好处，我找到了自己的个人面目。有关尊严问题，不必引经据典，我个人就是这么看。但中国忽视个人尊严，却不是我的新发现。从大智者到通俗作家，有不少人注意到一个有中国特色的现象：罗素说，中国文化里只重家族内的私德，不重社会的公德公益，这一点造成了很要命的景象；费孝通说，中国社会里有所谓＂差序格局＂，与己关系近的就关心，关系远的就不关心或少关心；结果有些事从来就没人关心。龙应台为这类事而愤怒过，三毛也大发过一通感慨。读者可能注意到了，所有指出这个现象的人，或则是外国人，或则曾在国外生活过，又回到了国内。没有这层关系的中国人，对此浑然不觉。笔者自己曾在外国居住四年，假如没有这种经历，恐怕也发不出这种议论──但这一点并不让我感到开心。环境脏乱的问题，火车拥挤的问题，社会秩序的问题，人们倒是看到了。但总从总体方面提出问题，讲国家的尊严、民族的尊严。其实这些事就发生在我们身边，削我们每个人的面子──对此能够浑然无觉，倒是咄咄怪事。<\/p><p>人有无尊严，有一个简单的判据，是看他被当作一个人还是一个东西来对待。这件事有点两重性，其一是别人把你当做人还是东西，是你尊严之所在。其二是你把自己看成人还是东西，也是你的尊严所在。挤火车和上公共厕所时，人只被当身体来看待。这里既有其一的成份，也有其二的成份；而且归根结蒂，和我们的文化传统有关。<\/p><p>说来也奇怪，中华礼仪之邦，一切尊严，都从整体和人与人的关系上定义，就是没有个人的位置。一个人不在单位里、不在家里，不代表国家、民族，单独存在时，居然不算一个人，就算是一块肉。这种算法当然是有问题。我的算法是：一个人独处荒岛而且谁也不代表，就像鲁滨孙那样，也有尊严，可以很好的活着。这就是说，个人是尊严的基本单位。知道了这一点，火车上太挤了之后，我就不会再挤进去而且浑然无觉。<\/p>","wc":2014}
      */
 
-    private RatingBean rating;
-    private int reviews_count;
-    private int wish_count;
-    private String douban_site;
-    private String year;
-    private ImagesBean images;
-    private String alt;
-    private String id;
-    private String mobile_url;
-    private String title;
-    private Object do_count;
-    private String share_url;
-    private Object seasons_count;
-    private String schedule_url;
-    private Object episodes_count;
-    private int collect_count;
-    private Object current_season;
-    private String original_title;
-    private String summary;
-    private String subtype;
-    private int comments_count;
-    private int ratings_count;
-    private List<String> countries;
-    private List<String> genres;
-    private List<CastsBean> casts;
-    private List<DirectorsBean> directors;
-    private List<String> aka;
+    private DataBean data;
 
-    public RatingBean getRating() { return rating;}
+    public DataBean getData() { return data;}
 
-    public void setRating(RatingBean rating) { this.rating = rating;}
+    public void setData(DataBean data) { this.data = data;}
 
-    public int getReviews_count() { return reviews_count;}
-
-    public void setReviews_count(int reviews_count) { this.reviews_count = reviews_count;}
-
-    public int getWish_count() { return wish_count;}
-
-    public void setWish_count(int wish_count) { this.wish_count = wish_count;}
-
-    public String getDouban_site() { return douban_site;}
-
-    public void setDouban_site(String douban_site) { this.douban_site = douban_site;}
-
-    public String getYear() { return year;}
-
-    public void setYear(String year) { this.year = year;}
-
-    public ImagesBean getImages() { return images;}
-
-    public void setImages(ImagesBean images) { this.images = images;}
-
-    public String getAlt() { return alt;}
-
-    public void setAlt(String alt) { this.alt = alt;}
-
-    public String getId() { return id;}
-
-    public void setId(String id) { this.id = id;}
-
-    public String getMobile_url() { return mobile_url;}
-
-    public void setMobile_url(String mobile_url) { this.mobile_url = mobile_url;}
-
-    public String getTitle() { return title;}
-
-    public void setTitle(String title) { this.title = title;}
-
-    public Object getDo_count() { return do_count;}
-
-    public void setDo_count(Object do_count) { this.do_count = do_count;}
-
-    public String getShare_url() { return share_url;}
-
-    public void setShare_url(String share_url) { this.share_url = share_url;}
-
-    public Object getSeasons_count() { return seasons_count;}
-
-    public void setSeasons_count(Object seasons_count) { this.seasons_count = seasons_count;}
-
-    public String getSchedule_url() { return schedule_url;}
-
-    public void setSchedule_url(String schedule_url) { this.schedule_url = schedule_url;}
-
-    public Object getEpisodes_count() { return episodes_count;}
-
-    public void setEpisodes_count(Object episodes_count) { this.episodes_count = episodes_count;}
-
-    public int getCollect_count() { return collect_count;}
-
-    public void setCollect_count(int collect_count) { this.collect_count = collect_count;}
-
-    public Object getCurrent_season() { return current_season;}
-
-    public void setCurrent_season(Object current_season) { this.current_season = current_season;}
-
-    public String getOriginal_title() { return original_title;}
-
-    public void setOriginal_title(String original_title) { this.original_title = original_title;}
-
-    public String getSummary() { return summary;}
-
-    public void setSummary(String summary) { this.summary = summary;}
-
-    public String getSubtype() { return subtype;}
-
-    public void setSubtype(String subtype) { this.subtype = subtype;}
-
-    public int getComments_count() { return comments_count;}
-
-    public void setComments_count(int comments_count) { this.comments_count = comments_count;}
-
-    public int getRatings_count() { return ratings_count;}
-
-    public void setRatings_count(int ratings_count) { this.ratings_count = ratings_count;}
-
-    public List<String> getCountries() { return countries;}
-
-    public void setCountries(List<String> countries) { this.countries = countries;}
-
-    public List<String> getGenres() { return genres;}
-
-    public void setGenres(List<String> genres) { this.genres = genres;}
-
-    public List<CastsBean> getCasts() { return casts;}
-
-    public void setCasts(List<CastsBean> casts) { this.casts = casts;}
-
-    public List<DirectorsBean> getDirectors() { return directors;}
-
-    public void setDirectors(List<DirectorsBean> directors) { this.directors = directors;}
-
-    public List<String> getAka() { return aka;}
-
-    public void setAka(List<String> aka) { this.aka = aka;}
-
-    public static class RatingBean {
+    public static class DataBean {
 
         /**
-         * max : 10
-         * average : 7.7
-         * stars : 40
-         * min : 0
+         * date : {"curr":"20150910","prev":"20150909","next":"20150911"}
+         * author : 王小波
+         * title : 个人尊严
+         * digest : 在国外时看到，人们对时事做出价值评判时，总是从两个独立的方面来进行：一个方面是国家或者社会的尊严，这像是时事的经线；另一个方面是个人的尊严，
+         * content : <p>在国外时看到，人们对时事做出价值评判时，总是从两个独立的方面来进行：一个方面是国家或者社会的尊严，这像是时事的经线；另一个方面是个人的尊严，这像是时事的纬线。回到国内，一条纬线就像是没有，连尊严这个字眼也感到陌生了。提到尊严这个概念，我首先想到的英文词＂dignity＂，然后才想到相应的中文词。在英文中，这个词不仅有尊严之义，还有体面、身份的意思。尊严不但指人受到尊重，它还是人价值之所在。从上古到现代，数以亿万计的中国人里，没有几个人有过属于个人的尊严。举个大点的例子，中国历史上有过皇上对大臣施廷杖的事，无论是多大的官，一言不和，就可能受到如此当众羞辱，高官尚且如此，遑论百姓。除了皇上一人，没有一个人能有尊严。有一件最怪的事是，按照传统道德，挨皇帝的板子倒是一种光荣，文死谏嘛。说白了就是：无尊严就是有尊严。此话如有任何古怪之处，罪不在我。到了现代以后，人与人的关系、个人与集体的关系，仍有这种遗风──我们就不必细说文革中、文革前都发生过什么样的事情。到了现在，已经不用见官下跪，也不会在屁股上挨板子，但还是缺少个人的尊严。环境就是这样，公共场所的秩序就是这样，人对人的态度就是这样，不容你有任何自尊。</p><p>举个小点的例子，每到春运高潮，大家就会在传媒上看到一辆硬座车厢里挤了三四百人，厕所里也挤了十几人。谈到这件事，大家会说国家的铁路需要建设，说到铁路工人的工作难做，提到安全问题，提到所有的方面，就是不提这些民工这样挤在一起，好像一个团，完全没有了个人的尊严──仿佛这件事很不重要似的。当然，只要民工都在过年时回家，火车总是要挤的；谁也想不出好办法。但个人的尊严毕竟大受损害；这件事总该有人提一提才对。另一件事现在已是老生常谈，人走在街上感到内急，就不得不上公共厕所。一进去就觉得自己的尊严一点都没了。现在北京的公厕正在改观，这是因为外国人到了中国也会内急，所以北京的公厕已经臭名远扬。假如外国人不来，厕所就要臭下去；而且大街上改了，小胡同里还没有改。我认识的一位美国留学生说，有一次他在小胡同里内急，走进公厕撒了一泡尿，出来以后，猛然想到自己刚才满眼都对黄白之物，居然能站住了不倒，觉得自己很了不起，就急忙来告诉我。北京的某些街道很脏很乱，总要到某个国际会议时才能改观，这叫借某某会的东风。不光老百姓这样讲，领导上也这样讲。这话听起来很有点不对味。不雅的景象外人看了丢脸，没有外人时，自己住在里面也不体面──这后一点总是被人忘掉。</p><p>作为一个知识分子，我发现自己曾有一种特别的虚伪之处，虽然一句话说不清，但可以举些例子来说明。假如我看到火车上特别挤，就感慨一声道：这种事居然可以发生在中华人民共和国的土地上！假如我看到厕所特脏，又长叹一声：唉！北京市这是怎么搞的嘛！这其中有点幽默的成份，也有点当真。我的确觉得国家和政府的尊严受到了损失，并为此焦虑着。当然，我自己也想要点个人尊严，但以个人名义提出就过于直露，不够体面──言必称天下，不以个人面目出现，是知识分子的尊严所在。当然，现在我把这做为虚伪提出，已经自外于知识分子。但也有种好处，我找到了自己的个人面目。有关尊严问题，不必引经据典，我个人就是这么看。但中国忽视个人尊严，却不是我的新发现。从大智者到通俗作家，有不少人注意到一个有中国特色的现象：罗素说，中国文化里只重家族内的私德，不重社会的公德公益，这一点造成了很要命的景象；费孝通说，中国社会里有所谓＂差序格局＂，与己关系近的就关心，关系远的就不关心或少关心；结果有些事从来就没人关心。龙应台为这类事而愤怒过，三毛也大发过一通感慨。读者可能注意到了，所有指出这个现象的人，或则是外国人，或则曾在国外生活过，又回到了国内。没有这层关系的中国人，对此浑然不觉。笔者自己曾在外国居住四年，假如没有这种经历，恐怕也发不出这种议论──但这一点并不让我感到开心。环境脏乱的问题，火车拥挤的问题，社会秩序的问题，人们倒是看到了。但总从总体方面提出问题，讲国家的尊严、民族的尊严。其实这些事就发生在我们身边，削我们每个人的面子──对此能够浑然无觉，倒是咄咄怪事。</p><p>人有无尊严，有一个简单的判据，是看他被当作一个人还是一个东西来对待。这件事有点两重性，其一是别人把你当做人还是东西，是你尊严之所在。其二是你把自己看成人还是东西，也是你的尊严所在。挤火车和上公共厕所时，人只被当身体来看待。这里既有其一的成份，也有其二的成份；而且归根结蒂，和我们的文化传统有关。</p><p>说来也奇怪，中华礼仪之邦，一切尊严，都从整体和人与人的关系上定义，就是没有个人的位置。一个人不在单位里、不在家里，不代表国家、民族，单独存在时，居然不算一个人，就算是一块肉。这种算法当然是有问题。我的算法是：一个人独处荒岛而且谁也不代表，就像鲁滨孙那样，也有尊严，可以很好的活着。这就是说，个人是尊严的基本单位。知道了这一点，火车上太挤了之后，我就不会再挤进去而且浑然无觉。</p>
+         * wc : 2014
          */
 
-        private int max;
-        private double average;
-        private String stars;
-        private int min;
+        private DateBean date;
+        private String author;
+        private String title;
+        private String digest;
+        private String content;
+        private int wc;
 
-        public int getMax() { return max;}
+        public DateBean getDate() { return date;}
 
-        public void setMax(int max) { this.max = max;}
+        public void setDate(DateBean date) { this.date = date;}
 
-        public double getAverage() { return average;}
+        public String getAuthor() { return author;}
 
-        public void setAverage(double average) { this.average = average;}
+        public void setAuthor(String author) { this.author = author;}
 
-        public String getStars() { return stars;}
+        public String getTitle() { return title;}
 
-        public void setStars(String stars) { this.stars = stars;}
+        public void setTitle(String title) { this.title = title;}
 
-        public int getMin() { return min;}
+        public String getDigest() { return digest;}
 
-        public void setMin(int min) { this.min = min;}
-    }
+        public void setDigest(String digest) { this.digest = digest;}
 
-    public static class ImagesBean {
+        public String getContent() { return content;}
 
-        /**
-         * small : https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2508925590.webp
-         * large : https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2508925590.webp
-         * medium : https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2508925590.webp
-         */
+        public void setContent(String content) { this.content = content;}
 
-        private String small;
-        private String large;
-        private String medium;
+        public int getWc() { return wc;}
 
-        public String getSmall() { return small;}
+        public void setWc(int wc) { this.wc = wc;}
 
-        public void setSmall(String small) { this.small = small;}
-
-        public String getLarge() { return large;}
-
-        public void setLarge(String large) { this.large = large;}
-
-        public String getMedium() { return medium;}
-
-        public void setMedium(String medium) { this.medium = medium;}
-    }
-
-    public static class CastsBean {
-
-        /**
-         * alt : https://movie.douban.com/celebrity/1373292/
-         * avatars : {"small":"https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.webp","large":"https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.webp","medium":"https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.webp"}
-         * name : 塞伊拉·沃西
-         * id : 1373292
-         */
-
-        private String alt;
-        private AvatarsBean avatars;
-        private String name;
-        private String id;
-
-        public String getAlt() { return alt;}
-
-        public void setAlt(String alt) { this.alt = alt;}
-
-        public AvatarsBean getAvatars() { return avatars;}
-
-        public void setAvatars(AvatarsBean avatars) { this.avatars = avatars;}
-
-        public String getName() { return name;}
-
-        public void setName(String name) { this.name = name;}
-
-        public String getId() { return id;}
-
-        public void setId(String id) { this.id = id;}
-
-        public static class AvatarsBean {
+        public static class DateBean {
 
             /**
-             * small : https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.webp
-             * large : https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.webp
-             * medium : https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.webp
+             * curr : 20150910
+             * prev : 20150909
+             * next : 20150911
              */
 
-            private String small;
-            private String large;
-            private String medium;
+            private String curr;
+            private String prev;
+            private String next;
 
-            public String getSmall() { return small;}
+            public String getCurr() { return curr;}
 
-            public void setSmall(String small) { this.small = small;}
+            public void setCurr(String curr) { this.curr = curr;}
 
-            public String getLarge() { return large;}
+            public String getPrev() { return prev;}
 
-            public void setLarge(String large) { this.large = large;}
+            public void setPrev(String prev) { this.prev = prev;}
 
-            public String getMedium() { return medium;}
+            public String getNext() { return next;}
 
-            public void setMedium(String medium) { this.medium = medium;}
+            public void setNext(String next) { this.next = next;}
         }
     }
-
-    public static class DirectorsBean {
-
-        /**
-         * alt : https://movie.douban.com/celebrity/1379532/
-         * avatars : {"small":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.webp","large":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.webp","medium":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.webp"}
-         * name : 阿德瓦·香登
-         * id : 1379532
-         */
-
-        private String alt;
-        private AvatarsBeanX avatars;
-        private String name;
-        private String id;
-
-        public String getAlt() { return alt;}
-
-        public void setAlt(String alt) { this.alt = alt;}
-
-        public AvatarsBeanX getAvatars() { return avatars;}
-
-        public void setAvatars(AvatarsBeanX avatars) { this.avatars = avatars;}
-
-        public String getName() { return name;}
-
-        public void setName(String name) { this.name = name;}
-
-        public String getId() { return id;}
-
-        public void setId(String id) { this.id = id;}
-
-        public static class AvatarsBeanX {
-
-            /**
-             * small : https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.webp
-             * large : https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.webp
-             * medium : https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.webp
-             */
-
-            private String small;
-            private String large;
-            private String medium;
-
-            public String getSmall() { return small;}
-
-            public void setSmall(String small) { this.small = small;}
-
-            public String getLarge() { return large;}
-
-            public void setLarge(String large) { this.large = large;}
-
-            public String getMedium() { return medium;}
-
-            public void setMedium(String medium) { this.medium = medium;}
-        }
-    }
-
-
 }

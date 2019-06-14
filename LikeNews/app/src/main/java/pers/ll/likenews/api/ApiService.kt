@@ -98,7 +98,7 @@ interface ApiService {
     /**
      * 随机每日一文
      */
-    @GET("article/random")
-    fun randomArticle(@Query("dev") dev : Int) : Call<DailyArticleResult>
+    @GET("{url}")
+    fun randomArticle(@Path("url") url : String) : Call<Test>
 }
 
