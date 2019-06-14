@@ -39,6 +39,7 @@ class HotMovieAdapter(movieList : ArrayList<Movie>, onItemClickListener: OnItemC
             holder.rbRating.visibility = View.GONE
             holder.tvScore.text = "暂无评分"
         } else {
+            holder.rbRating.visibility = View.VISIBLE
             holder.rbRating.rating = rating / 2
             holder.tvScore.text = movie.rating.average.toString()
         }
