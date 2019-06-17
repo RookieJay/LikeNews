@@ -26,6 +26,7 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.include_music_play_toolbar.*
 import okhttp3.MediaType
 import pers.ll.likenews.api.ApiService
+import pers.ll.likenews.base.BaseActivity
 import pers.ll.likenews.model.*
 import pers.ll.likenews.utils.*
 import retrofit2.Call
@@ -37,7 +38,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MusicPlayActivity : AppCompatActivity(), MediaPlayer.OnPreparedListener {
+class MusicPlayActivity : BaseActivity(), MediaPlayer.OnPreparedListener {
 
     private val Args_Success = 0
     private val Args_Failure = 1

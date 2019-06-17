@@ -14,13 +14,14 @@ import com.raizlabs.android.dbflow.sql.language.Select
 import kotlinx.android.synthetic.main.activity_city_select.*
 import kotlinx.android.synthetic.main.include_search_toolbar.*
 import pers.ll.likenews.R
+import pers.ll.likenews.base.BaseActivity
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.City
 import pers.ll.likenews.model.City_Table
 import pers.ll.likenews.utils.MainHandler
 import pers.ll.likenews.utils.ThreadPoolManager
 
-class CitySearchActivity : AppCompatActivity(), CityListAdapter.OnItemClickListener {
+class CitySearchActivity : BaseActivity(), CityListAdapter.OnItemClickListener {
 
     private lateinit var mAdapter : CityListAdapter
     private var mExecutor = ThreadPoolManager.getInstance()

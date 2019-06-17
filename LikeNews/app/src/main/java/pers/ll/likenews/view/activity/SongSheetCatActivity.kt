@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_song_sheet_cat.*
 import pers.ll.likenews.R
+import pers.ll.likenews.base.BaseActivity
 
-class SongSheetCatActivity : AppCompatActivity() {
+class SongSheetCatActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.header_layout_drawer_navigation.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
 import pers.ll.likenews.api.ApiService
+import pers.ll.likenews.base.BaseActivity
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.MXWhether
 import pers.ll.likenews.model.MxWhetherResult
@@ -35,7 +36,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     // 保存MyTouchListener接口的列表
     private  var mTouchListeners = ArrayList<MyTouchListener>()

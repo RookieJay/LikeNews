@@ -19,6 +19,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_system_info.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
+import pers.ll.likenews.base.BaseActivity
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Battery
 import pers.ll.likenews.model.SystemInfo
@@ -31,7 +32,7 @@ import pers.ll.likenews.utils.ScreenManager
 
 
 
-class SysInfoActivity : AppCompatActivity() {
+class SysInfoActivity : BaseActivity() {
 
     private var mList = ArrayList<SystemInfo>()
     private lateinit var mAdapter : SysInfoAdapter

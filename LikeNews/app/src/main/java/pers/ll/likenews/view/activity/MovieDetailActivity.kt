@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import pers.ll.likenews.R
 import pers.ll.likenews.api.ApiService
+import pers.ll.likenews.base.BaseActivity
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.Movie
 import pers.ll.likenews.utils.*
@@ -28,7 +29,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.StringBuilder
 
-class MovieDetailActivity : AppCompatActivity(), FilmerAdapter.OnItemClickListener {
+class MovieDetailActivity : BaseActivity(), FilmerAdapter.OnItemClickListener {
 
     private val Args_Success = 0
     private val Args_Failure = 1

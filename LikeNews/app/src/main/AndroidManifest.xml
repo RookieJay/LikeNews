@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".view.activity.PersonInfoActivity"></activity>
+        <activity android:name=".base.BaseActivity"></activity>
+        <activity android:name=".view.activity.PersonInfoActivity" />
         <activity android:name=".view.activity.AppInfoActivity" />
         <activity android:name=".view.activity.AppManagerActivity" />
         <activity android:name=".view.activity.SysInfoActivity" />

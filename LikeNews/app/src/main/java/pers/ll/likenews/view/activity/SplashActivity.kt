@@ -20,11 +20,12 @@ import android.view.View
 import com.tbruyelle.rxpermissions2.Permission
 import com.tbruyelle.rxpermissions2.RxPermissions
 import pers.ll.likenews.R
+import pers.ll.likenews.base.BaseActivity
 import java.util.*
 import java.util.function.Consumer
 
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
 
     private var mHandler = DelayHandler(this)
     private var executor = ThreadPoolManager.getInstance()

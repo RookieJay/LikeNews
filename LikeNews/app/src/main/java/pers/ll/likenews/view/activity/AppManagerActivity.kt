@@ -13,12 +13,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.activity_app_manager.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
+import pers.ll.likenews.base.BaseActivity
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.utils.MainHandler
 import pers.ll.likenews.utils.ThreadPoolManager
 import pers.ll.likenews.utils.ToastUtils
 
-class AppManagerActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, SwipeRefreshLayout.OnRefreshListener, AppManagerAdapter.OnItemClickListener {
+class AppManagerActivity : BaseActivity(), TabLayout.OnTabSelectedListener, SwipeRefreshLayout.OnRefreshListener, AppManagerAdapter.OnItemClickListener {
 
     private lateinit var tab: TabLayout
     private lateinit var mRecyclerView: RecyclerView

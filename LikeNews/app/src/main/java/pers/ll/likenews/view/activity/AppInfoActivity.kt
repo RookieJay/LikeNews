@@ -1,6 +1,5 @@
 package pers.ll.likenews.view.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
@@ -10,10 +9,11 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_app_info.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
+import pers.ll.likenews.base.BaseActivity
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.utils.AppManager
 
-class AppInfoActivity : AppCompatActivity() {
+class AppInfoActivity : BaseActivity() {
 
     private lateinit var appManager : AppManager
     private lateinit var mAdapter : PermissionsAdapter

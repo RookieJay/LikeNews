@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_whether.*
 import pers.ll.likenews.R
 import pers.ll.likenews.api.ApiService
+import pers.ll.likenews.base.BaseActivity
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.model.MXWhether
 import pers.ll.likenews.model.MxWhetherResult
@@ -26,7 +27,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class WhetherActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var mAdapter : ForecastAdapter
     private lateinit var forecasts : ArrayList<MXWhether.Forecast>
@@ -36,7 +37,6 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
     private lateinit var mWhether: MXWhether
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= 21) {
             val decorView = window.decorView
             decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -45,6 +45,7 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
             requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS)
             window.exitTransition = Slide(Gravity.TOP)
         }
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_whether)
         initView()
         initData()
@@ -62,6 +63,14 @@ class WhetherActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
     private fun initBackground() {
         Glide.with(ivBackground).load(Const.URL.BING_DAILY_PIC).into(ivBackground)
+//        ThreadPoolManager.getInstance().execute {
+//            val bitmap = ImageUtil.getInstance().url2BitMap(Const.URL.BING_DAILY_PIC)
+//            if (null != bitmap) {
+//                MainHandler.getInstance().post {
+//                    ivBackground.setImageBitmap(bitmap)
+//                }
+//            }
+//        }
     }
 
     private fun initData() {

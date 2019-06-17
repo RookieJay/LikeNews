@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_city_select.*
 import kotlinx.android.synthetic.main.include_base_toolbar.*
 import pers.ll.likenews.R
 import pers.ll.likenews.api.ApiService
+import pers.ll.likenews.base.BaseActivity
 import pers.ll.likenews.consts.Const
 import pers.ll.likenews.mock.MockData
 import pers.ll.likenews.model.City
@@ -30,7 +31,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class CitySelectActivity : AppCompatActivity(), WhetherListAdapter.OnItemClickListener {
+class CitySelectActivity : BaseActivity(), WhetherListAdapter.OnItemClickListener {
 
     private var mExecutor = ThreadPoolManager.getInstance()
     private var mMainThread = MainHandler.getInstance()
