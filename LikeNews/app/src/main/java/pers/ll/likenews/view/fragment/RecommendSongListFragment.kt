@@ -1,9 +1,12 @@
 package pers.ll.likenews.view.fragment
 
+import android.app.Activity
+import android.content.Context
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -17,12 +20,13 @@ import pers.ll.likenews.model.MusicResult
 import pers.ll.likenews.model.SongList
 import pers.ll.likenews.ui.MyLitePager
 import pers.ll.likenews.utils.*
+import pers.ll.likenews.view.activity.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener  {
+class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, MainActivity.MyTouchListener {
 
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var parentFrag : LikeMusicFragment
@@ -36,9 +40,15 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
     private lateinit var ivHeader1 : ImageView
     private lateinit var ivHeader2 : ImageView
     private lateinit var ivHeader3 : ImageView
+    private lateinit var curActivity: MainActivity
 
     override fun setContentView(): Int {
         return R.layout.fragment_recommend_song_list
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        curActivity = context as MainActivity
     }
 
     override fun initView() {
@@ -56,6 +66,7 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
         litePager = findViewById(R.id.litePager) as LitePager
         recyclerView.layoutManager = GridLayoutManager(context, 3)
         mRecyclerView.adapter = mAdapter
+        mRecyclerView.isNestedScrollingEnabled = false
         setListener()
     }
 
@@ -117,12 +128,11 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
 
     private fun showData(songList: ArrayList<SongList>) {
         mainThread.post {
-            headList.addAll(songList.subList(0, 3))
+            headList.clear()
+            headList.addAll(songList.subList(0, 3)) //subList是左闭右开区间
             showHeader(headList)
-            for (i in 0..2) {
-                songList.removeAt(i)
-            }
-            mAdapter.addAll(songList)
+            val list = songList.subList(3, songList.size)
+            mAdapter.replaceAll(list)
             mAdapter.notifyDataSetChanged()
             finishRefresh()
         }
@@ -151,20 +161,27 @@ class RecommendSongListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshLi
     }
 
     private fun setListener() {
-        //注册触摸事件
-//        parentFrag.registerMyTouchListener(this)
+        curActivity.registerMyTouchListener(this)   //注册触摸事件
         refreshLayout.setOnRefreshListener(this)
-        litePager.setOnItemSelectedListener {
-        }
+//        litePager.setOnItemSelectedListener {
+//            ToastUtils.showShort("点击了item")
+//        }
     }
-//
-//    override fun onTouchEvent(event: MotionEvent): Boolean {
-//        //在litePager范围类
-//        return UIUtils.inRangeOfView(litePager, event)
-//    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        parentFrag.unRegisterMyTouchListener(this)
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        //在litePager范围类
+        val isIntercept = UIUtils.inRangeOfView(litePager, event)
+         if(isIntercept) {
+             parentFrag.setCanScroll(false)
+        } else {
+             parentFrag.setCanScroll(true)
+         }
+        return isIntercept
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d(TAG, "onDestroyView")
+        curActivity.unRegisterMyTouchListener(this)
     }
 }

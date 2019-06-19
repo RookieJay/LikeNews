@@ -130,7 +130,7 @@ class PersonalFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun showData(poetry: Poetry) {
         tvTitle.text = poetry.title
         tvAuthor.text = poetry.authors
-        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT) //match和wrap
+        LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT) //match和wrap
 //        layoutParams.setMargins(0, UIUtils.dp2px(context, 10f), 0, 0)
         sentences = poetry.content.split("|") as ArrayList<String>
 //        for ((index, sentence) in list.withIndex()) {

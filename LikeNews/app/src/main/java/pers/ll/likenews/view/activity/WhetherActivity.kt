@@ -146,7 +146,7 @@ class WhetherActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             tvAQI.text = whether.pm25.aqi
             tvPM25.text = whether.pm25.pm25
             forecasts = whether.weathers as ArrayList<MXWhether.Forecast>
-            if (null != forecasts && forecasts.size > 0) {
+            if (forecasts.size > 0) {
                 mAdapter.replaceAll(forecasts)
                 mAdapter.notifyDataSetChanged()
             }

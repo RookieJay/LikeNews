@@ -1,6 +1,5 @@
 package pers.ll.likenews.view.activity
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import pers.ll.likenews.R
 
-class PermissionsAdapter(context : Context, list : Array<String>) : RecyclerView.Adapter<PermissionsAdapter.PermissionsHolder>() {
+class PermissionsAdapter(list: Array<String>) : RecyclerView.Adapter<PermissionsAdapter.PermissionsHolder>() {
 
     private var mList = list
 

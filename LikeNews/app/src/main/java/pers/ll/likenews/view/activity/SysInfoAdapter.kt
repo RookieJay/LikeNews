@@ -36,7 +36,7 @@ class SysInfoAdapter(context: Context, list : ArrayList<SystemInfo>) : RecyclerV
     override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position: Int) {
         val data = mData[position]
         if (holder is TitleViewHolder) {
-            val titleHolder: TitleViewHolder = holder as TitleViewHolder
+            val titleHolder: TitleViewHolder = holder
             titleHolder.tvTitle.text = data.title
         } else {
             val contentViewHolder: ContentViewHolder = holder as ContentViewHolder

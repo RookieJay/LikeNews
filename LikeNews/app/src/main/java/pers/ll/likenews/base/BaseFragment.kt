@@ -14,7 +14,7 @@ import java.lang.Exception
 
 abstract class BaseFragment : Fragment() {
 
-    private var TAG = this.javaClass.simpleName
+    protected var TAG = this.javaClass.simpleName
     private var mHaveLoadData = false   //  是否请求过数据
     private var isInitView = false
     protected var mRootView : View? = null

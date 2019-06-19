@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
@@ -14,6 +13,7 @@ import kotlinx.android.synthetic.main.fragment_like_music.*
 import pers.ll.likenews.R
 import pers.ll.likenews.base.BaseFragment
 import pers.ll.likenews.consts.Const
+import pers.ll.likenews.ui.NoScrollViewPager
 import pers.ll.likenews.view.activity.MainActivity
 import pers.ll.likenews.view.activity.SongSheetCatActivity
 
@@ -21,11 +21,10 @@ class LikeMusicFragment : BaseFragment(){
 
     private var mSongSheetListeners = ArrayList<SongSheetTouchListener>()
     private lateinit var childListener : SongSheetTouchListener
-
     private lateinit var titles : Array<String>
     private lateinit var fragments : ArrayList<Fragment>
     private lateinit var tabLayout : TabLayout
-    private lateinit var viewPager : ViewPager
+    private lateinit var viewPager : NoScrollViewPager
     private lateinit var adapter : HotNewsPagerAdapter
     private lateinit var curActivity : MainActivity
 
@@ -60,7 +59,7 @@ class LikeMusicFragment : BaseFragment(){
     }
 
     private fun initViewPager() {
-        viewPager = findViewById(R.id.viewPager) as ViewPager
+        viewPager = findViewById(R.id.viewPager) as NoScrollViewPager
         viewPager.offscreenPageLimit = 3
         adapter = HotNewsPagerAdapter(childFragmentManager, titles)
         adapter.setData(fragments)
@@ -97,7 +96,7 @@ class LikeMusicFragment : BaseFragment(){
 //                childListener =  listener
 //            }
 //        }
-//        //        viewPager.setNoScroll(isCanScroll)
+//        //        viewPager.setCanScroll(isCanScroll)
 //        return !childListener.onTouchEvent(event)
 //    }
 
@@ -116,6 +115,11 @@ class LikeMusicFragment : BaseFragment(){
 
     fun unRegisterMyTouchListener(listener: SongSheetTouchListener) {
         this.mSongSheetListeners.remove(listener)
+    }
+
+    fun setCanScroll(canScroll: Boolean) {
+        viewPager.setCanScroll(canScroll)
+        curActivity.setCanScroll(canScroll)
     }
 
     interface SongSheetTouchListener {

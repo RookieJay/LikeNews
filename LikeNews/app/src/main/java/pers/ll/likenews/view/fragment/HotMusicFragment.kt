@@ -40,7 +40,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, MusicListAdapter.OnItemClickListener {
+class HotMusicFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, MusicListAdapter.OnItemClickListener {
 
     private val Args_Success = 0
     private val Args_Failure = 1
@@ -127,7 +127,7 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
                 return false
             }
         })
-        val drawableUtil = DrawableUtil(etSearch, object : DrawableUtil.OnDrawableListener{
+        DrawableUtil(etSearch, object : DrawableUtil.OnDrawableListener{
             override fun onLeft(v: View?, left: Drawable?) {
 
             }
@@ -310,7 +310,7 @@ class MusicListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
         startActivity(intent)
     }
 
-    class MusicHandler(musicListFragment: MusicListFragment) : Handler() {
+    class MusicHandler(musicListFragment: HotMusicFragment) : Handler() {
 
         private var fragment = musicListFragment
 

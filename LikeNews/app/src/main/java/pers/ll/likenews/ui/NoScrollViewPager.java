@@ -1,15 +1,13 @@
 package pers.ll.likenews.ui;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 public class NoScrollViewPager extends ViewPager {
 
-    private boolean noScroll = false;
+    private boolean canScroll = false;
 
     public NoScrollViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -19,8 +17,8 @@ public class NoScrollViewPager extends ViewPager {
         super(context);
     }
 
-    public void setNoScroll(boolean noScroll) {
-        this.noScroll = noScroll;
+    public void setCanScroll(boolean noScroll) {
+        this.canScroll = noScroll;
     }
 
     @Override
@@ -30,7 +28,7 @@ public class NoScrollViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent arg0) {
-        if (noScroll)
+        if (!canScroll)
             return false;
         else
             return super.onTouchEvent(arg0);
@@ -38,7 +36,7 @@ public class NoScrollViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent arg0) {
-        if (noScroll)
+        if (!canScroll)
             return false;
         else
             return super.onInterceptTouchEvent(arg0);

@@ -32,7 +32,7 @@ class AppInfoActivity : BaseActivity() {
         barLeft.visibility = View.VISIBLE
         barTitle.visibility = View.VISIBLE
         barLeft.setOnClickListener { finish() }
-        mAdapter = PermissionsAdapter(this, emptyArray())
+        mAdapter = PermissionsAdapter(emptyArray())
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         mRecyclerView.adapter = mAdapter

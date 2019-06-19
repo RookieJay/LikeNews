@@ -29,7 +29,6 @@ import pers.ll.likenews.ui.CircleImageView
 import pers.ll.likenews.utils.*
 import pers.ll.likenews.view.fragment.HomeFragment
 import pers.ll.likenews.view.fragment.CenterFragment
-import pers.ll.likenews.view.fragment.DailyArticleFragment
 import pers.ll.likenews.view.fragment.PersonalFragment
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,7 +60,7 @@ class MainActivity : BaseActivity() {
     private var imageUtil = ImageUtil.getInstance()
     private val handler = WhetherHandler(this)
     private lateinit var mWhether: MXWhether
-    private lateinit var bgBitmap : Bitmap
+    private var bgBitmap : Bitmap? = null
     private var recordTime = 0L
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -134,7 +133,7 @@ class MainActivity : BaseActivity() {
         initBottomNavigation()
         viewPager.setCurrentItem(0, true)
         viewPager.offscreenPageLimit = 3
-        viewPager.setNoScroll(true)
+        viewPager.setCanScroll(true)
         adapter = MainPagerAdapter(supportFragmentManager)
         initData()
         viewPager.adapter = adapter
@@ -260,9 +259,7 @@ class MainActivity : BaseActivity() {
                     refreshCenterFragment(TYPE_MOVIE, it)
                 }
                 R.id.menu_whether -> {
-                    if (null != mWhether) {
-                        ToastUtils.showShort(mWhether.indexes[0].content)
-                    }
+                    ToastUtils.showShort(mWhether.indexes[0].content)
                     val intent = Intent(this, WhetherActivity :: class.java)
                     val bundle = Bundle()
                     bundle.putParcelable(Const.Key.KEY_WHETHER, mWhether)
@@ -308,13 +305,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showWhetherInfo(whether: MXWhether) {
-        if (whether != null) {
-            mWhether = whether
-            ivWhether.setImageResource(R.drawable.ic_wb_sunny)
-            tvWhether.text = whether.weathers[0].weather
+        mWhether = whether
+        ivWhether.setImageResource(R.drawable.ic_wb_sunny)
+        tvWhether.text = whether.weathers[0].weather
 //            tvTemp.text = String.format("%s-%s", Utils.get_None_CN_Str(whether.forecast[0].low), Utils.get_None_CN_Str(whether.forecast[0].high))
-            tvTemp.text = String.format("%s°C", whether.realtime.temp)
-        }
+        tvTemp.text = String.format("%s°C", whether.realtime.temp)
     }
 
     private fun onFailure() {
@@ -388,6 +383,10 @@ class MainActivity : BaseActivity() {
             }
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    fun setCanScroll(canScroll: Boolean) {
+        viewPager.setCanScroll(canScroll)
     }
 
     interface MyTouchListener {

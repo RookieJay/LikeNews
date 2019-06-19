@@ -35,7 +35,7 @@ class LikeNewsFragment : BaseFragment() {
         titles = arrayOf("社会", "娱乐", "科技", "汽车", "运动", "金融", "军事", "问答")
         tabs = ArrayList()
         fragments = ArrayList()
-        for ((i, title) in titles.withIndex()) {
+        for (title in titles) {
             val fragment = NewsFragment()
             val bundle = Bundle()
             bundle.putString(Const.Key.KEY_TYPE, title)

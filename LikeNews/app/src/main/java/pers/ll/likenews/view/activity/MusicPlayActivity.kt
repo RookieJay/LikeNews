@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -298,20 +297,16 @@ class MusicPlayActivity : BaseActivity(), MediaPlayer.OnPreparedListener {
         ivPause.setOnClickListener{
             if (isPlaying) {
                 ivPause.setImageResource(R.drawable.ic_play_circle)
-                if (objectAnimator != null) {
-                    Log.d("-----MPA", "pauseplayMusic")
-                    objectAnimator.pause() //动画暂停
-                    state = STATE_PAUSE
-                    player?.pause()
-                }
+                Log.d("-----MPA", "pauseplayMusic")
+                objectAnimator.pause() //动画暂停
+                state = STATE_PAUSE
+                player?.pause()
             } else{
                 ivPause.setImageResource(R.drawable.ic_pause_circle)
                 Log.d("-----MPA", "resumeplayMusic")
-                if (objectAnimator != null) {
-                    objectAnimator.resume()
-                    state = STATE_PLAYING
-                    player?.start()
-                }
+                objectAnimator.resume()
+                state = STATE_PLAYING
+                player?.start()
             }
             isPlaying = !isPlaying
         }
@@ -330,7 +325,7 @@ class MusicPlayActivity : BaseActivity(), MediaPlayer.OnPreparedListener {
             Log.d("-----MPA", "onError: what$what extra:$extra")
             false
         }
-        player?.setOnBufferingUpdateListener { mp, percent ->
+        player?.setOnBufferingUpdateListener { _, percent ->
                 Log.i("percent", percent.toString())
                 bufferPercentage = percent
         }

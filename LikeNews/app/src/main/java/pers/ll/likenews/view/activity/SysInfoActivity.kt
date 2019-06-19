@@ -59,7 +59,7 @@ class SysInfoActivity : BaseActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission", "HardwareIds")
     private fun initData() {
         addTitle("基本信息")
         addContentText("品牌:", Build.MANUFACTURER)

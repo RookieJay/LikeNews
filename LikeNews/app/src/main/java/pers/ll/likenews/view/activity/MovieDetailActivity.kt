@@ -141,7 +141,7 @@ class MovieDetailActivity : BaseActivity(), FilmerAdapter.OnItemClickListener {
         toolBar.setNavigationOnClickListener{
             onBackPressed()
         }
-        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
             if (verticalOffset <= -headLayout.height / 2) {
                 collapsingToolbarLayout.title = movie.title
                 //使用下面两个CollapsingToolbarLayout的方法设置展开透明->折叠时你想要的颜色 设置收缩展开toolbar字体颜色
